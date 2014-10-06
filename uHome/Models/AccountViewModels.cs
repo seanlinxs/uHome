@@ -50,7 +50,7 @@ namespace uHome.Models
     {
         [Required(ErrorMessageResourceType = typeof(Resources.Resources),
             ErrorMessageResourceName = "EmailRequired")]
-        [Display(Name = "Email", ResourceType = typeof(Resources.Resources)))]
+        [Display(Name = "Email", ResourceType = typeof(Resources.Resources))]
         [EmailAddress]
         public string Email { get; set; }
 
