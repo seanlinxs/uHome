@@ -48,8 +48,9 @@ namespace uHome.Models
 
     public class LoginViewModel
     {
-        [Required]
-        [Display(Name = "Email")]
+        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
+            ErrorMessageResourceName = "EmailRequired")]
+        [Display(Name = "Email", ResourceType = typeof(Resources.Resources)))]
         [EmailAddress]
         public string Email { get; set; }
 
