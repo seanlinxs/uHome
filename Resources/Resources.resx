@@ -117,10 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ChooseYourLanguage" xml:space="preserve">
+    <value>Choose your language</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
   <data name="EmailRequired" xml:space="preserve">
     <value>Email is required</value>
+  </data>
+  <data name="HomePage" xml:space="preserve">
+    <value>Home Page</value>
+  </data>
+  <data name="LearnMore" xml:space="preserve">
+    <value>Learn More</value>
+  </data>
+  <data name="LogOff" xml:space="preserve">
+    <value>Log Off</value>
+  </data>
+  <data name="LogOn" xml:space="preserve">
+    <value>Log In</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="uHome" xml:space="preserve">
+    <value>uHome</value>
+  </data>
+  <data name="uHomeOverview" xml:space="preserve">
+    <value>uHome Overview</value>
   </data>
 </root>
