@@ -37,7 +37,7 @@ namespace uHome.Helpers
         // Include ONLY cultures you are implementing
         private static readonly List<string> _cultures = new List<string> {
             "zh-CN",  // Chinese culture is the DEFAULT
-            "en"      // English NEUTRAL culture
+            "en-AU"   // Australian English culture
         };
 
         /// <summary>
