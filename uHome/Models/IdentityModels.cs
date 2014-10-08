@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 
 namespace uHome.Models
 {
@@ -40,6 +41,8 @@ namespace uHome.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public ICollection<ApplicationUserRole> UserRoles { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
