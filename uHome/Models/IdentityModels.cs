@@ -6,6 +6,21 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace uHome.Models
 {
+    public class ApplicationRole : IdentityRole
+    {
+        public virtual string Description { get; set; }
+
+        public ApplicationRole() : base()
+        {
+        }
+
+        public ApplicationRole(string Name, string Description)
+            : base(Name)
+        {
+            this.Description = Description;
+        }
+    }
+
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
