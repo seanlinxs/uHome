@@ -117,14 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>关于</value>
+  </data>
   <data name="ChooseYourLanguage" xml:space="preserve">
     <value>选择语言</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>联系我们</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>电子邮件</value>
   </data>
   <data name="EmailRequired" xml:space="preserve">
     <value>电子邮件是必须的信息</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>主页</value>
   </data>
   <data name="HomePage" xml:space="preserve">
     <value>主页</value>
