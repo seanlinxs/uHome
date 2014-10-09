@@ -10,9 +10,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using uHome.Models;
 
-namespace uHome
+namespace uHome.Models
 {
     public class EmailService : IIdentityMessageService
     {
