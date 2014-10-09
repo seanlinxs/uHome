@@ -10,7 +10,7 @@ using uHome.Models;
 
 namespace uHome.Controllers
 {
-    public class RolesController : Controller
+    public class RolesController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
