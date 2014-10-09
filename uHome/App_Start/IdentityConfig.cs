@@ -32,7 +32,8 @@ namespace uHome
         }
     }
 
-    // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
+    // Configure the application user manager used in this application.
+    // UserManager is defined in ASP.NET Identity and is used by the application.
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
@@ -40,9 +41,14 @@ namespace uHome
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(
+            IdentityFactoryOptions<ApplicationUserManager> options,
+            IOwinContext context) 
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+            var manager = new ApplicationUserManager(
+                new UserStore<ApplicationUser>(
+                    context.Get<ApplicationDbContext>()));
+
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
@@ -65,33 +71,104 @@ namespace uHome
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
             manager.MaxFailedAccessAttemptsBeforeLockout = 5;
 
-            // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
+            // Register two factor authentication providers. This application uses
+            // Phone and Emails as a step of receiving a code for verifying the user
             // You can write your own provider and plug it in here.
-            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
+            manager.RegisterTwoFactorProvider("Phone Code",
+                new PhoneNumberTokenProvider<ApplicationUser>
             {
                 MessageFormat = "Your security code is {0}"
             });
-            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
+
+            manager.RegisterTwoFactorProvider("Email Code",
+                new EmailTokenProvider<ApplicationUser>
             {
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
             });
+
             manager.EmailService = new EmailService();
             manager.SmsService = new SmsService();
+
             var dataProtectionProvider = options.DataProtectionProvider;
+            
             if (dataProtectionProvider != null)
             {
                 manager.UserTokenProvider = 
-                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                    new DataProtectorTokenProvider<ApplicationUser>(
+                        dataProtectionProvider.Create("ASP.NET Identity"));
             }
+
             return manager;
+        }
+
+        public virtual async Task<IdentityResult> AddUserToRolesAsync(
+            string userId, IList<string> roles)
+        {
+            var userRoleStore = (IUserRoleStore<ApplicationUser, string>)Store;
+            var user = await FindByIdAsync(userId).ConfigureAwait(false);
+
+            if (user == null)
+            {
+                throw new InvalidOperationException("Invalid user Id");
+            }
+
+            var userRoles = await userRoleStore.GetRolesAsync(user).ConfigureAwait(false);
+
+            // Add user to each role using UserRoleStore
+            foreach (var role in roles.Where(role => !userRoles.Contains(role)))
+            {
+                await userRoleStore.AddToRoleAsync(user, role).ConfigureAwait(false);
+            }
+
+            // Call update once when all roles are added
+            return await UpdateAsync(user).ConfigureAwait(false);
+        }
+
+        public virtual async Task<IdentityResult> RemoveUserFromRolesAsync(
+            string userId, IList<string> roles)
+        {
+            var userRoleStore = (IUserRoleStore<ApplicationUser, string>)Store;
+            var user = await FindByIdAsync(userId).ConfigureAwait(false);
+
+            if (user == null)
+            {
+                throw new InvalidOperationException("Invalid user Id");
+            }
+
+            var userRoles = await userRoleStore.GetRolesAsync(user).ConfigureAwait(false);
+
+            // Remove user to each role using UserRoleStore
+            foreach (var role in roles.Where(userRoles.Contains))
+            {
+                await userRoleStore.RemoveFromRoleAsync(user, role).ConfigureAwait(false);
+            }
+
+            // Call update once when all roles are removed
+            return await UpdateAsync(user).ConfigureAwait(false);
+        }
+    }
+
+    public class ApplicationRoleManager : RoleManager<ApplicationRole>
+    {
+        public ApplicationRoleManager(IRoleStore<ApplicationRole, string> roleStore)
+            : base(roleStore)
+        {
+        }
+
+        public static ApplicationRoleManager Create(
+            IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+        {
+            return new ApplicationRoleManager(
+                new RoleStore<ApplicationRole>(context.Get<ApplicationDbContext>()));
         }
     }
 
     // Configure the application sign-in manager which is used in this application.
     public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
     {
-        public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
+        public ApplicationSignInManager(ApplicationUserManager userManager,
+            IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager)
         {
         }
@@ -101,9 +178,58 @@ namespace uHome
             return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
         }
 
-        public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
+        public static ApplicationSignInManager Create(
+            IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
         {
-            return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
+            return new ApplicationSignInManager(
+                context.GetUserManager<ApplicationUserManager>(), context.Authentication);
+        }
+    }
+
+    // This is useful if you do not want to tear down the database each time you run the application.
+    // public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    // This example shows you how to create a new database if the Model changes
+    // public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    {
+        protected override void Seed(ApplicationDbContext context)
+        {
+            InitializeIdentityForEF(context);
+            base.Seed(context);
+        }
+
+        //Create User=admin@example.com with password=Admin@123456 in the Admin role        
+        public static void InitializeIdentityForEF(ApplicationDbContext db)
+        {
+            var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+            const string name = "admin@example.com";
+            const string password = "Admin@123456";
+            const string roleName = "Admin";
+            const string roleDescription = "Global access";
+
+            //Create Role Admin if it does not exist
+            var role = roleManager.FindByName(roleName);
+            if (role == null)
+            {
+                role = new ApplicationRole(roleName, roleDescription);
+                var roleresult = roleManager.Create(role);
+            }
+
+            var user = userManager.FindByName(name);
+            if (user == null)
+            {
+                user = new ApplicationUser { UserName = name, Email = name };
+                var result = userManager.Create(user, password);
+                result = userManager.SetLockoutEnabled(user.Id, false);
+            }
+
+            // Add user admin to Role Admin if not already added
+            var rolesForUser = userManager.GetRoles(user.Id);
+            if (!rolesForUser.Contains(role.Name))
+            {
+                var result = userManager.AddToRole(user.Id, role.Name);
+            }
         }
     }
 }

@@ -9,8 +9,7 @@ namespace uHome.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
-            ContextKey = "uHome.Models.ApplicationDbContext";
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(uHome.Models.ApplicationDbContext context)
