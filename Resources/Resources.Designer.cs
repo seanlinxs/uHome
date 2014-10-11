@@ -196,7 +196,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to uHome Overview.
+        ///   Looks up a localized string similar to What is uHome?.
         /// </summary>
         public static string uHomeOverview {
             get {
