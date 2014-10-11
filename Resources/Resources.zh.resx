@@ -132,6 +132,9 @@
   <data name="EmailRequired" xml:space="preserve">
     <value>电子邮件是必须的信息</value>
   </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>忘记密码？</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>主页</value>
   </data>
@@ -147,8 +150,14 @@
   <data name="LogOn" xml:space="preserve">
     <value>登录</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>密码</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>注册</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>自动登录</value>
   </data>
   <data name="uHome" xml:space="preserve">
     <value>uHome</value>

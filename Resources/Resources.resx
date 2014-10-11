@@ -132,6 +132,9 @@
   <data name="EmailRequired" xml:space="preserve">
     <value>Email is required</value>
   </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot your password?</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
@@ -147,8 +150,14 @@
   <data name="LogOn" xml:space="preserve">
     <value>Log In</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Remember me?</value>
   </data>
   <data name="uHome" xml:space="preserve">
     <value>uHome</value>
