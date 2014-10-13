@@ -6,13 +6,32 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Security.Claims;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using uHome.Models;
+using System.Threading.Tasks;
 
 namespace uHome.Controllers
 {
     public class RolesController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+        }
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Get<ApplicationUserManager>();
+            }
+        }
 
         public ActionResult Index()
         {
@@ -36,20 +55,21 @@ namespace uHome.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult Create([Bind(Include = "RoleName, Description")]RoleViewModel model)
+        public async Task<ActionResult> Create([Bind(Include = "RoleName, Description")]RoleViewModel model)
         {
             string message = "That role name has already been used";
 
             if (ModelState.IsValid)
             {
-                ApplicationRole role = new ApplicationRole(model.RoleName, model.Description);
-                ApplicationRoleManager roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(db));
-
-                if (db.RoleExists(roleManager, model.RoleName))
+                var result = await RoleManager.RoleExistsAsync(model.RoleName);
+                
+                if (result)
                     return View(message);
                 else
                 {
-                    db.CreateRole(roleManager, model.RoleName, model.Description);
+                    ApplicationRole role = new ApplicationRole(model.RoleName, model.Description);
+                    await RoleManager.CreateAsync(role);
+
                     return RedirectToAction("Index", "Roles");
                 }
             }
@@ -108,12 +128,9 @@ namespace uHome.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(string id)
+        public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            ApplicationRole role = db.Roles.First(r => r.Name == id) as ApplicationRole;
-            ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
-            db.DeleteRole(db, userManager, role.Id);
-
+            var result = await RoleManager.DeleteRoleAsync(UserManager, id);
             return RedirectToAction("Index");
         }
     }

@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
+using System.Web.Mvc;
 
 namespace uHome.Models
 {
@@ -160,6 +161,19 @@ namespace uHome.Models
         {
             return new ApplicationRoleManager(
                 new RoleStore<ApplicationRole>(context.Get<ApplicationDbContext>()));
+        }
+
+        public virtual async Task<IdentityResult> DeleteRoleAsync(
+            ApplicationUserManager userManager, string roleName)
+        {
+            var role = await FindByNameAsync(roleName);
+
+            foreach (var user in role.Users)
+            {
+                await userManager.RemoveFromRoleAsync(user.UserId, roleName);
+            }
+
+            return await DeleteAsync(role);
         }
     }
 

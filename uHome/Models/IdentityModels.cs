@@ -89,54 +89,5 @@ namespace uHome.Models
                 .HasKey(r => new { UserId = r.UserId, RoleId = r.RoleId })
                 .ToTable("AspNetUserRoles");
         }
-
-        public bool RoleExists(ApplicationRoleManager roleManager, string name)
-        {
-            return roleManager.RoleExists(name);
-        }
-
-        public bool CreateRole(ApplicationRoleManager roleManager, string name, string description = "")
-        {
-            IdentityResult identityResult = roleManager
-                .Create<ApplicationRole, string>(new ApplicationRole(name, description));
-            return identityResult.Succeeded;
-        }
-
-        public bool AddUserToRole(ApplicationUserManager userManager, string userId, string roleName)
-        {
-            IdentityResult identityResult = userManager.AddToRole(userId, roleName);
-            return identityResult.Succeeded;
-        }
-
-        public void ClearUserRoles(ApplicationUserManager userManager, string userId)
-        {
-            ApplicationUser user = userManager.FindById(userId);
-            List<ApplicationUserRole> currentRoles = new List<ApplicationUserRole>();
-
-            currentRoles.AddRange(user.UserRoles);
-
-            foreach (ApplicationUserRole role in currentRoles)
-            {
-                userManager.RemoveFromRole(userId, role.Role.Name);
-            }
-        }
-
-        public void RemoveFromRole(ApplicationUserManager userManager, string userId, string roleName)
-        {
-            userManager.RemoveFromRole(userId, roleName);
-        }
-
-        public void DeleteRole(ApplicationDbContext context, ApplicationUserManager userManager, string roleId)
-        {
-            var roleUsers = context.Users.Where(u => u.UserRoles.Any(r => r.RoleId == roleId));
-            var role = context.Roles.Find(roleId);
-
-            foreach (var user in roleUsers)
-            {
-                RemoveFromRole(userManager, user.Id, role.Name);
-            }
-            context.Roles.Remove(role);
-            context.SaveChanges();
-        }
     }
 }

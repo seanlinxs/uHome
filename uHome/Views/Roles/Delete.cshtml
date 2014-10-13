@@ -1,4 +1,4 @@
-﻿@model uHome.Models.ApplicationRole
+﻿@model uHome.Models.RoleViewModel
 
 @{
     ViewBag.Title = "Delete";
@@ -12,11 +12,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.RoleName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.RoleName)
         </dd>
 
         <dt>
