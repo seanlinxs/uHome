@@ -211,13 +211,13 @@ namespace uHome.Models
             base.Seed(context);
         }
 
-        //Create User=admin@example.com with password=Admin@123456 in the Admin role        
+        //Create User=admin@uhome.com with password=Pass.123 in the Admin role        
         public static void InitializeIdentityForEF(ApplicationDbContext db)
         {
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
-            const string name = "admin@example.com";
-            const string password = "Admin@123456";
+            const string name = "admin@uhome.com";
+            const string password = "Pass.123";
             const string roleName = "Admin";
             const string roleDescription = "Global access";
 
