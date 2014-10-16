@@ -14,5 +14,8 @@ namespace uHome.Models
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual ICollection<InterestMessage> InterestMessages { get; set; }
     }
 }

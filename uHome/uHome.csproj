@@ -167,20 +167,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CultureHelper.cs" />
-    <Compile Include="Migrations\201410091357208_InitDB.cs" />
-    <Compile Include="Migrations\201410091357208_InitDB.Designer.cs">
-      <DependentUpon>201410091357208_InitDB.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201410161446104_CreateInterest.cs" />
-    <Compile Include="Migrations\201410161446104_CreateInterest.Designer.cs">
-      <DependentUpon>201410161446104_CreateInterest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Attachment.cs" />
+    <Compile Include="Models\Case.cs" />
+    <Compile Include="Models\CaseAssignment.cs" />
+    <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\InterestMessage.cs" />
     <Compile Include="Models\Interest.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RoleViewModels.cs" />
+    <Compile Include="Models\VideoClip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -267,14 +264,6 @@
       <Project>{331e4f2a-cd49-46ab-8f7d-4d7cf6b22217}</Project>
       <Name>Resources</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201410091357208_InitDB.resx">
-      <DependentUpon>201410091357208_InitDB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201410161446104_CreateInterest.resx">
-      <DependentUpon>201410161446104_CreateInterest.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
