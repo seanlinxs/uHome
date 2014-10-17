@@ -171,6 +171,7 @@
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\Case.cs" />
     <Compile Include="Models\CaseAssignment.cs" />
+    <Compile Include="Models\DatabaseContext.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InterestMessage.cs" />
