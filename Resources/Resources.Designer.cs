@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please check your email and confirm your email address.
+        /// </summary>
+        public static string CheckEmailToConfirm {
+            get {
+                return ResourceManager.GetString("CheckEmailToConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose your language.
         /// </summary>
         public static string ChooseYourLanguage {
@@ -79,11 +88,38 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please click on this link to confirm your account.
+        /// </summary>
+        public static string ConfirmAccountPrompt {
+            get {
+                return ResourceManager.GetString("ConfirmAccountPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm your account.
+        /// </summary>
+        public static string ConfirmAccountSubject {
+            get {
+                return ResourceManager.GetString("ConfirmAccountSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contact.
         /// </summary>
         public static string Contact {
             get {
                 return ResourceManager.GetString("Contact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirmation email sent.
+        /// </summary>
+        public static string DisplayEmail {
+            get {
+                return ResourceManager.GetString("DisplayEmail", resourceCulture);
             }
         }
         
@@ -138,6 +174,15 @@ namespace Resources {
         public static string LearnMore {
             get {
                 return ResourceManager.GetString("LearnMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Link.
+        /// </summary>
+        public static string Link {
+            get {
+                return ResourceManager.GetString("Link", resourceCulture);
             }
         }
         

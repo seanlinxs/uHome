@@ -11,6 +11,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using System.Web.Mvc;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Configuration;
 
 namespace uHome.Models
 {
@@ -18,8 +21,33 @@ namespace uHome.Models
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            // Credentials:
+            var credentialUserName = ConfigurationManager.AppSettings["MailAccount"];
+            var sentFrom = ConfigurationManager.AppSettings["MailSentFrom"];
+            var pwd = ConfigurationManager.AppSettings["MailPassword"]; ;
+
+            // Configure the client:
+            System.Net.Mail.SmtpClient client =
+                new System.Net.Mail.SmtpClient("smtp-mail.outlook.com");
+            client.Port = 587;
+            client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+
+            // Create the credentials:
+            System.Net.NetworkCredential credentials =
+                new System.Net.NetworkCredential(credentialUserName, pwd);
+            client.EnableSsl = true;
+            client.Credentials = credentials;
+
+            // Create the message:
+            var mail =
+                new System.Net.Mail.MailMessage(sentFrom, message.Destination);
+            mail.Subject = message.Subject;
+            mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(
+                message.Body, null, MediaTypeNames.Text.Html));
+
+            // Send:
+            return client.SendMailAsync(mail);
         }
     }
 
@@ -211,12 +239,11 @@ namespace uHome.Models
             base.Seed(context);
         }
 
-        //Create User=admin@uhome.com with password=Pass.123 in the Admin role        
         public static void InitializeIdentityForEF(ApplicationDbContext db)
         {
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
-            const string name = "admin@uhome.com";
+            const string name = "uhome_test@outlook.com";
             const string password = "Pass.123";
             const string roleName = "Admin";
             const string roleDescription = "Global access";

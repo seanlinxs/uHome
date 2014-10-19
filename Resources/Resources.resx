@@ -120,11 +120,23 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="CheckEmailToConfirm" xml:space="preserve">
+    <value>Please check your email and confirm your email address</value>
+  </data>
   <data name="ChooseYourLanguage" xml:space="preserve">
     <value>Choose your language</value>
   </data>
+  <data name="ConfirmAccountPrompt" xml:space="preserve">
+    <value>Please click on this link to confirm your account</value>
+  </data>
+  <data name="ConfirmAccountSubject" xml:space="preserve">
+    <value>Confirm your account</value>
+  </data>
   <data name="Contact" xml:space="preserve">
     <value>Contact</value>
+  </data>
+  <data name="DisplayEmail" xml:space="preserve">
+    <value>Confirmation email sent</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
@@ -143,6 +155,9 @@
   </data>
   <data name="LearnMore" xml:space="preserve">
     <value>Learn More</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Link</value>
   </data>
   <data name="LogOff" xml:space="preserve">
     <value>Log Off</value>
