@@ -157,7 +157,34 @@ namespace uHome.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult RegisterPortal()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Account/RegisterFreeAccount
+        [AllowAnonymous]
+        public ActionResult RegisterFreeAccount()
+        {
+            ApplicationRole FreeAccount = null;
+            RegisterViewModel model = new RegisterViewModel(FreeAccount);
+            
+            return View();
+        }
+
+        //
+        // GET: /Account/RegisterSilverAccount
+        [AllowAnonymous]
+        public ActionResult RegisterSilverAccount()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Account/RegisterGoldAccount
+        [AllowAnonymous]
+        public ActionResult RegisterGoldAccount()
         {
             return View();
         }
