@@ -254,6 +254,8 @@
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Account\RegisterFreeAccount.cshtml" />
+    <Content Include="Views\Account\RegisterSilverAccount.cshtml" />
+    <Content Include="Views\Account\RegisterGoldAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

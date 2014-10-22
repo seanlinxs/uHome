@@ -241,8 +241,9 @@ namespace uHome.Models
 
         public static void InitializeIdentityForEF(ApplicationDbContext db)
         {
-            var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+            var context = HttpContext.Current.GetOwinContext();
+            var userManager = context.GetUserManager<ApplicationUserManager>();
+            var roleManager = context.Get<ApplicationRoleManager>();
             const string name = "uhome_test@outlook.com";
             const string password = "Pass.123";
 
@@ -263,7 +264,7 @@ namespace uHome.Models
                 
                 if (role == null)
                 {
-                    roleManager.Create(role);
+                    roleManager.Create(r);
                 }
             }
 

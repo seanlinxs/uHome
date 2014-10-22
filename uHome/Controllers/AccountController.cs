@@ -22,10 +22,12 @@ namespace uHome.Controllers
         }
 
         public AccountController(ApplicationUserManager userManager,
-            ApplicationSignInManager signInManager )
+            ApplicationSignInManager signInManager,
+            ApplicationRoleManager roleManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            RoleManager = roleManager;
         }
 
         public ApplicationUserManager UserManager
@@ -38,6 +40,21 @@ namespace uHome.Controllers
             private set
             {
                 _userManager = value;
+            }
+        }
+
+        private ApplicationRoleManager _roleManager;
+
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext()
+                    .Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
             }
         }
 
@@ -155,7 +172,7 @@ namespace uHome.Controllers
         }
 
         //
-        // GET: /Account/Register
+        // GET: /Account/RegisterPortal
         [AllowAnonymous]
         public ActionResult RegisterPortal()
         {
@@ -167,10 +184,9 @@ namespace uHome.Controllers
         [AllowAnonymous]
         public ActionResult RegisterFreeAccount()
         {
-            ApplicationRole FreeAccount = null;
-            RegisterViewModel model = new RegisterViewModel(FreeAccount);
-            
-            return View();
+            RegisterViewModel model = new RegisterViewModel("FreeAccount");
+ 
+            return View(model);
         }
 
         //
@@ -178,7 +194,9 @@ namespace uHome.Controllers
         [AllowAnonymous]
         public ActionResult RegisterSilverAccount()
         {
-            return View();
+            RegisterViewModel model = new RegisterViewModel("SilverAccount");
+
+            return View(model);
         }
 
         //
@@ -186,7 +204,9 @@ namespace uHome.Controllers
         [AllowAnonymous]
         public ActionResult RegisterGoldAccount()
         {
-            return View();
+            RegisterViewModel model = new RegisterViewModel("GoldAccount");
+
+            return View(model);
         }
 
         //
@@ -202,6 +222,9 @@ namespace uHome.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    // Assign user role
+                    UserManager.AddToRole(user.Id, model.RoleName);
+
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation
@@ -224,7 +247,7 @@ namespace uHome.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View(string.Format("Register{0}", model.RoleName), model);
         }
 
         //

@@ -91,11 +91,15 @@ namespace uHome.Models
             ErrorMessageResourceName = "PasswordNotMatch")]
         public string ConfirmPassword { get; set; }
 
-        public ApplicationRole Role { get; set; }
+        public string RoleName { get; set; }
 
-        public RegisterViewModel(ApplicationRole Role)
+        public RegisterViewModel()
         {
-            this.Role = Role;
+        }
+
+        public RegisterViewModel(string RoleName)
+        {
+            this.RoleName = RoleName;
         }
     }
 
