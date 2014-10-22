@@ -245,18 +245,30 @@ namespace uHome.Models
             var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
             const string name = "uhome_test@outlook.com";
             const string password = "Pass.123";
-            const string roleName = "Admin";
-            const string roleDescription = "Global access";
 
-            //Create Role Admin if it does not exist
-            var role = roleManager.FindByName(roleName);
-            if (role == null)
+            // Create system predefined roles
+            ApplicationRole[] roles = 
             {
-                role = new ApplicationRole(roleName, roleDescription);
-                var roleresult = roleManager.Create(role);
+                new ApplicationRole("Admin", "Global access"),
+                new ApplicationRole("Manager", "Internal manager, can manage staff and cases"),
+                new ApplicationRole("Staff", "Internal staff, can process cases"),
+                new ApplicationRole("FreeAccount", "Free account"),
+                new ApplicationRole("SilverAccount", "Silver account"),
+                new ApplicationRole("GoldAccount", "Gold account")
+            };
+
+            foreach (var r in roles)
+            {
+                var role = roleManager.FindByName(r.Name);
+                
+                if (role == null)
+                {
+                    roleManager.Create(role);
+                }
             }
 
             var user = userManager.FindByName(name);
+            
             if (user == null)
             {
                 user = new ApplicationUser { UserName = name, Email = name };
@@ -266,9 +278,10 @@ namespace uHome.Models
 
             // Add user admin to Role Admin if not already added
             var rolesForUser = userManager.GetRoles(user.Id);
-            if (!rolesForUser.Contains(role.Name))
+            
+            if (!rolesForUser.Contains("Admin"))
             {
-                var result = userManager.AddToRole(user.Id, role.Name);
+                var result = userManager.AddToRole(user.Id, "Admin");
             }
         }
     }
