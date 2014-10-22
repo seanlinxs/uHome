@@ -132,6 +132,9 @@
   <data name="ConfirmAccountSubject" xml:space="preserve">
     <value>验证帐号</value>
   </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>确认密码</value>
+  </data>
   <data name="Contact" xml:space="preserve">
     <value>联系我们</value>
   </data>
@@ -153,6 +156,9 @@
   <data name="HomePage" xml:space="preserve">
     <value>主页</value>
   </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>电子邮件地址无效</value>
+  </data>
   <data name="LearnMore" xml:space="preserve">
     <value>详情</value>
   </data>
@@ -168,11 +174,20 @@
   <data name="Password" xml:space="preserve">
     <value>密码</value>
   </data>
+  <data name="PasswordMinimumLength" xml:space="preserve">
+    <value>{0}必须包含至少{2}个字符</value>
+  </data>
+  <data name="PasswordNotMatch" xml:space="preserve">
+    <value>密码不匹配</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>注册</value>
   </data>
   <data name="RememberMe" xml:space="preserve">
     <value>自动登录</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>{0}是必须的信息</value>
   </data>
   <data name="uHome" xml:space="preserve">
     <value>uHome</value>
