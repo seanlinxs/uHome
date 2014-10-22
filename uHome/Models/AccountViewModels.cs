@@ -49,12 +49,13 @@ namespace uHome.Models
     public class LoginViewModel
     {
         [Required(ErrorMessageResourceType = typeof(Resources.Resources),
-            ErrorMessageResourceName = "EmailRequired")]
+            ErrorMessageResourceName = "Required")]
         [Display(Name = "Email", ResourceType = typeof(Resources.Resources))]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
+            ErrorMessageResourceName = "Required")]
         [DataType(DataType.Password)]
         [Display(Name = "Password", ResourceType = typeof(Resources.Resources))]
         public string Password { get; set; }
@@ -65,21 +66,37 @@ namespace uHome.Models
 
     public class RegisterViewModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
+        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
+            ErrorMessageResourceName = "Required")]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources),
+            ErrorMessageResourceName = "InvalidEmail",
+            ErrorMessage = null)]
+        [Display(Name = "Email", ResourceType = typeof(Resources.Resources))]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
+            ErrorMessageResourceName = "Required")]
+        [StringLength(100,
+            ErrorMessageResourceType = typeof(Resources.Resources),
+            ErrorMessageResourceName = "PasswordMinimumLength",
+            MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Password", ResourceType = typeof(Resources.Resources))]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "ConfirmPassword", ResourceType = typeof(Resources.Resources))]
+        [Compare("Password",
+            ErrorMessageResourceType = typeof(Resources.Resources),
+            ErrorMessageResourceName = "PasswordNotMatch")]
         public string ConfirmPassword { get; set; }
+
+        public ApplicationRole Role { get; set; }
+
+        public RegisterViewModel(ApplicationRole Role)
+        {
+            this.Role = Role;
+        }
     }
 
     public class ResetPasswordViewModel
