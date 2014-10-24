@@ -1,0 +1,54 @@
+﻿@model uHome.Models.RegisterViewModel
+@{
+    ViewBag.Title = Resources.Register;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<hr />
+
+<div class="row well well-lg">
+    <div class="col-md-4">
+        <p>
+            Free account
+        </p>
+        <ul>
+            <li>Manage cases</li>
+            <li>See full vedios</li>
+            <li>No subscription fee</li>
+            <li>3 working days response</li>
+            <li>Live chat channel</li>
+        </ul>
+        <p>@Html.ActionLink("Get start", "RegisterFreeAccount", new { area = "" }, new { @class = "btn btn-primary", @role="button" })</p>
+    </div>
+    <div class="col-md-4">
+        <p>
+            Silver account
+        </p>
+        <ul>
+            <li>Manage cases</li>
+            <li>See full vedios</li>
+            <li>$20.00/year</li>
+            <li>1 working days response</li>
+            <li>Live chat channel</li>
+        </ul>
+        <p>@Html.ActionLink("Get start", "RegisterSilverAccount", new { area = "" }, new { @class = "btn btn-primary", @role = "button" })</p>
+    </div>
+    <div class="col-md-4">
+        <p>
+            Gold account
+        </p>
+        <ul>
+            <li>Manage cases</li>
+            <li>See full vedios</li>
+            <li>$50.00/year</li>
+            <li>1 hours response</li>
+            <li>Live chat channel</li>
+        </ul>
+        <p>@Html.ActionLink("Get start", "RegisterGoldAccount", new { area = "" }, new { @class = "btn btn-primary", @role="button" })</p>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
