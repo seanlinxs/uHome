@@ -167,9 +167,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CultureHelper.cs" />
-    <Compile Include="Migrations\201410190343077_InitialCreate.cs" />
-    <Compile Include="Migrations\201410190343077_InitialCreate.Designer.cs">
-      <DependentUpon>201410190343077_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201410251252365_Init.cs" />
+    <Compile Include="Migrations\201410251252365_Init.Designer.cs">
+      <DependentUpon>201410251252365_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -183,6 +183,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RoleViewModels.cs" />
     <Compile Include="Models\VideoClip.cs" />
+    <Compile Include="Models\VideoClipViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\VideoClipsController.cs" />
@@ -282,8 +283,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201410190343077_InitialCreate.resx">
-      <DependentUpon>201410190343077_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201410251252365_Init.resx">
+      <DependentUpon>201410251252365_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -231,7 +231,7 @@ namespace uHome.Models
     // public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     // This example shows you how to create a new database if the Model changes
     // public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
-    public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    public class ApplicationDbInitializer : CreateDatabaseIfNotExists<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
@@ -241,9 +241,8 @@ namespace uHome.Models
 
         public static void InitializeIdentityForEF(ApplicationDbContext db)
         {
-            var context = HttpContext.Current.GetOwinContext();
-            var userManager = context.GetUserManager<ApplicationUserManager>();
-            var roleManager = context.Get<ApplicationRoleManager>();
+            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+            var roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(db));
             const string name = "uhome_test@outlook.com";
             const string password = "Pass.123";
 
