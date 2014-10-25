@@ -24,6 +24,16 @@
                     <li>@Html.ActionLink(Resources.Home, "Index", "Home")</li>
                     <li>@Html.ActionLink(Resources.About, "About", "Home")</li>
                     <li>@Html.ActionLink(Resources.Contact, "Contact", "Home")</li>
+                    <li>@Html.ActionLink(Resources.Video, "Index", "VideoClips")</li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">@Resources.Admin <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink(Resources.RoleAdmin, "Index", "Roles")</li>
+                            </ul>
+                        </li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

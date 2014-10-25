@@ -120,6 +120,9 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
   <data name="CheckEmailToConfirm" xml:space="preserve">
     <value>Please check your email and confirm your email address</value>
   </data>
@@ -189,10 +192,19 @@
   <data name="Required" xml:space="preserve">
     <value>The {0} is required</value>
   </data>
+  <data name="RoleAdmin" xml:space="preserve">
+    <value>Roles</value>
+  </data>
   <data name="uHome" xml:space="preserve">
     <value>uHome</value>
   </data>
   <data name="uHomeOverview" xml:space="preserve">
     <value>What is uHome?</value>
+  </data>
+  <data name="UserAdmin" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>Video</value>
   </data>
 </root>

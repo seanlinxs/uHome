@@ -120,6 +120,9 @@
   <data name="About" xml:space="preserve">
     <value>关于</value>
   </data>
+  <data name="Admin" xml:space="preserve">
+    <value>系统管理</value>
+  </data>
   <data name="CheckEmailToConfirm" xml:space="preserve">
     <value>请检查您的邮箱以便验证您的邮件地址</value>
   </data>
@@ -189,10 +192,19 @@
   <data name="Required" xml:space="preserve">
     <value>{0}是必须的信息</value>
   </data>
+  <data name="RoleAdmin" xml:space="preserve">
+    <value>角色管理</value>
+  </data>
   <data name="uHome" xml:space="preserve">
     <value>uHome</value>
   </data>
   <data name="uHomeOverview" xml:space="preserve">
     <value>uHome是什么？</value>
+  </data>
+  <data name="UserAdmin" xml:space="preserve">
+    <value>用户管理</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>视频</value>
   </data>
 </root>

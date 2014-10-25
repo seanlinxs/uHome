@@ -231,7 +231,7 @@ namespace uHome.Models
     // public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     // This example shows you how to create a new database if the Model changes
     // public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
-    public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {

@@ -185,6 +185,7 @@
     <Compile Include="Models\VideoClip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Controllers\VideoClipsController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -256,6 +257,11 @@
     <Content Include="Views\Account\RegisterFreeAccount.cshtml" />
     <Content Include="Views\Account\RegisterSilverAccount.cshtml" />
     <Content Include="Views\Account\RegisterGoldAccount.cshtml" />
+    <Content Include="Views\VideoClips\Create.cshtml" />
+    <Content Include="Views\VideoClips\Delete.cshtml" />
+    <Content Include="Views\VideoClips\Details.cshtml" />
+    <Content Include="Views\VideoClips\Edit.cshtml" />
+    <Content Include="Views\VideoClips\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
