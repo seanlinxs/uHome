@@ -8,12 +8,21 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using uHome.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace uHome
 {
     public class VideoClipsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        private ApplicationUserManager userManager;
+        
+        public VideoClipsController()
+        {
+           userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+        }
 
         // GET: VideoClips
         public async Task<ActionResult> Index()
@@ -41,7 +50,6 @@ namespace uHome
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email");
             return View();
         }
 
@@ -51,17 +59,18 @@ namespace uHome
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Name,Path,UploadedAt,ApplicationUserId")] VideoClip videoClip)
+        public async Task<ActionResult> Create(CreateVideoClipViewModel model)
         {
             if (ModelState.IsValid)
             {
+                VideoClip videoClip = new VideoClip(model);
+                videoClip.UploadedBy = userManager.FindById(User.Identity.GetUserId());
                 db.VideoClips.Add(videoClip);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", videoClip.ApplicationUserId);
-            return View(videoClip);
+            return View(model);
         }
 
         // GET: VideoClips/Edit/5

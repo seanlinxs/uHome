@@ -20,5 +20,17 @@ namespace uHome.Models
         public string ApplicationUserId { get; set; }
 
         public virtual ApplicationUser UploadedBy { get; set; }
+
+        public VideoClip()
+        {
+        }
+
+        public VideoClip(CreateVideoClipViewModel createVideoClipViewModel)
+        {
+            this.Name = createVideoClipViewModel.Name;
+            this.Description = createVideoClipViewModel.Description;
+            this.Path = createVideoClipViewModel.Path;
+            this.UploadedAt = DateTime.Now;
+        }
     }
 }
