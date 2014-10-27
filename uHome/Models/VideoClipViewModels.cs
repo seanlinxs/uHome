@@ -6,8 +6,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace uHome.Models
 {
-    public class CreateVideoClipViewModel
+    public class VideoClipViewModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessageResourceType = typeof(Resources.Resources),
             ErrorMessageResourceName = "Required")]
         [StringLength(50)]

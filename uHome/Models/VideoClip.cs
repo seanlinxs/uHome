@@ -25,11 +25,11 @@ namespace uHome.Models
         {
         }
 
-        public VideoClip(CreateVideoClipViewModel createVideoClipViewModel)
+        public VideoClip(VideoClipViewModel videoClipViewModel)
         {
-            this.Name = createVideoClipViewModel.Name;
-            this.Description = createVideoClipViewModel.Description;
-            this.Path = createVideoClipViewModel.Path;
+            this.Name = videoClipViewModel.Name;
+            this.Description = videoClipViewModel.Description;
+            this.Path = videoClipViewModel.Path;
             this.UploadedAt = DateTime.Now;
         }
     }

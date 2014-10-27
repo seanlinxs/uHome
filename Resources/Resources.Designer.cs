@@ -313,6 +313,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By.
+        /// </summary>
+        public static string UploadedBy {
+            get {
+                return ResourceManager.GetString("UploadedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Users.
         /// </summary>
         public static string UserAdmin {

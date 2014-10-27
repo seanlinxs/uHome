@@ -11,9 +11,9 @@ using uHome.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace uHome
+namespace uHome.Controllers
 {
-    public class VideoClipsController : Controller
+    public class VideoClipsController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
@@ -32,17 +32,21 @@ namespace uHome
         }
 
         // GET: VideoClips/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             VideoClip videoClip = await db.VideoClips.FindAsync(id);
+
             if (videoClip == null)
             {
                 return HttpNotFound();
             }
+
             return View(videoClip);
         }
 
@@ -59,7 +63,7 @@ namespace uHome
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Create(CreateVideoClipViewModel model)
+        public async Task<ActionResult> Create([Bind(Include = "Name, Description, Path")]VideoClipViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -81,13 +85,23 @@ namespace uHome
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             VideoClip videoClip = await db.VideoClips.FindAsync(id);
+            
             if (videoClip == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", videoClip.ApplicationUserId);
-            return View(videoClip);
+
+
+            VideoClipViewModel videoClipViewModel = new VideoClipViewModel {
+                Id = videoClip.ID,
+                Name = videoClip.Name,
+                Description = videoClip.Description,
+                Path = videoClip.Path
+            };
+
+            return View(videoClipViewModel);
         }
 
         // POST: VideoClips/Edit/5
@@ -96,16 +110,26 @@ namespace uHome
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Name,Path,UploadedAt,ApplicationUserId")] VideoClip videoClip)
+        public async Task<ActionResult> Edit([Bind(Include = "Id, Name, Description, Path")]VideoClipViewModel model)
         {
             if (ModelState.IsValid)
             {
+                VideoClip videoClip = await db.VideoClips.FindAsync(model.Id);
+
+                if (videoClip == null)
+                {
+                    return HttpNotFound();
+                }
+
                 db.Entry(videoClip).State = EntityState.Modified;
+                videoClip.Name = model.Name;
+                videoClip.Description = model.Description;
+                videoClip.Path = model.Path;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", videoClip.ApplicationUserId);
-            return View(videoClip);
+
+            return View(model);
         }
 
         // GET: VideoClips/Delete/5
@@ -116,11 +140,14 @@ namespace uHome
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             VideoClip videoClip = await db.VideoClips.FindAsync(id);
+            
             if (videoClip == null)
             {
                 return HttpNotFound();
             }
+
             return View(videoClip);
         }
 

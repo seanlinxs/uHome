@@ -207,4 +207,7 @@
   <data name="Video" xml:space="preserve">
     <value>视频</value>
   </data>
+  <data name="UploadedBy" xml:space="preserve">
+    <value>上传者</value>
+  </data>
 </root>
