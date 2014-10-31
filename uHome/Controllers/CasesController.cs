@@ -11,14 +11,14 @@ using uHome.Models;
 
 namespace uHome.Controllers
 {
-    public class CasesController : Controller
+    public class CasesController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Cases
         public async Task<ActionResult> Index()
         {
-            var cases = db.Cases.Include(@ => @.CaseAssignment).Include(@ => @.CreatedBy);
+            var cases = db.Cases.Include(c => c.CaseAssignment).Include(c => c.CreatedBy);
             return View(await cases.ToListAsync());
         }
 
@@ -41,7 +41,7 @@ namespace uHome.Controllers
         public ActionResult Create()
         {
             ViewBag.ID = new SelectList(db.CaseAssignments, "CaseID", "ApplicationUserId");
-            ViewBag.ApplicationUserId = new SelectList(db.ApplicationUsers, "Id", "Email");
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email");
             return View();
         }
 
@@ -60,7 +60,7 @@ namespace uHome.Controllers
             }
 
             ViewBag.ID = new SelectList(db.CaseAssignments, "CaseID", "ApplicationUserId", @case.ID);
-            ViewBag.ApplicationUserId = new SelectList(db.ApplicationUsers, "Id", "Email", @case.ApplicationUserId);
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", @case.ApplicationUserId);
             return View(@case);
         }
 
@@ -77,7 +77,7 @@ namespace uHome.Controllers
                 return HttpNotFound();
             }
             ViewBag.ID = new SelectList(db.CaseAssignments, "CaseID", "ApplicationUserId", @case.ID);
-            ViewBag.ApplicationUserId = new SelectList(db.ApplicationUsers, "Id", "Email", @case.ApplicationUserId);
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", @case.ApplicationUserId);
             return View(@case);
         }
 
@@ -95,7 +95,7 @@ namespace uHome.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.ID = new SelectList(db.CaseAssignments, "CaseID", "ApplicationUserId", @case.ID);
-            ViewBag.ApplicationUserId = new SelectList(db.ApplicationUsers, "Id", "Email", @case.ApplicationUserId);
+            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", @case.ApplicationUserId);
             return View(@case);
         }
 
