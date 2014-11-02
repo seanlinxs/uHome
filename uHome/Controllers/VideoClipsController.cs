@@ -15,7 +15,6 @@ using uHome.Authorization;
 
 namespace uHome.Controllers
 {
-    [ResourceAuthorize(UhomeResources.VideoClipActions.View, UhomeResources.VideoClip)]
     public class VideoClipsController : BaseController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -28,13 +27,23 @@ namespace uHome.Controllers
         }
 
         // GET: VideoClips
+        [ResourceAuthorize(UhomeResources.VideoClipActions.View, UhomeResources.VideoClip)]
         public async Task<ActionResult> Index()
         {
             var videoClips = db.VideoClips.Include(v => v.UploadedBy);
             return View(await videoClips.ToListAsync());
         }
 
+        // GET: VideoClips/List
+        [ResourceAuthorize(UhomeResources.VideoClipActions.Edit, UhomeResources.VideoClip)]
+        public async Task<ActionResult> List()
+        {
+            var videoClips = db.VideoClips.Include(v => v.UploadedBy);
+            return View(await videoClips.ToListAsync());
+        }
+
         // GET: VideoClips/Details/5
+        [ResourceAuthorize(UhomeResources.VideoClipActions.Edit, UhomeResources.VideoClip)]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -53,6 +62,7 @@ namespace uHome.Controllers
         }
 
         // GET: VideoClips/Create
+        [ResourceAuthorize(UhomeResources.VideoClipActions.Edit, UhomeResources.VideoClip)]
         public ActionResult Create()
         {
             return View();
@@ -63,7 +73,7 @@ namespace uHome.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [ResourceAuthorize(UhomeResources.VideoClipActions.Edit, UhomeResources.VideoClip)]
         public async Task<ActionResult> Create([Bind(Include = "Name, Description, Path")]VideoClipViewModel model)
         {
             if (ModelState.IsValid)
@@ -79,6 +89,7 @@ namespace uHome.Controllers
         }
 
         // GET: VideoClips/Edit/5
+        [ResourceAuthorize(UhomeResources.VideoClipActions.Edit, UhomeResources.VideoClip)]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -109,6 +120,7 @@ namespace uHome.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ResourceAuthorize(UhomeResources.VideoClipActions.Edit, UhomeResources.VideoClip)]
         public async Task<ActionResult> Edit([Bind(Include = "Id, Name, Description, Path")]VideoClipViewModel model)
         {
             if (ModelState.IsValid)
@@ -132,6 +144,7 @@ namespace uHome.Controllers
         }
 
         // GET: VideoClips/Delete/5
+        [ResourceAuthorize(UhomeResources.VideoClipActions.Edit, UhomeResources.VideoClip)]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -152,6 +165,7 @@ namespace uHome.Controllers
         // POST: VideoClips/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [ResourceAuthorize(UhomeResources.VideoClipActions.Edit, UhomeResources.VideoClip)]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             VideoClip videoClip = await db.VideoClips.FindAsync(id);

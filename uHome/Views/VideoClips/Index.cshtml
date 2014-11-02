@@ -6,12 +6,6 @@
 
 <h2>Index</h2>
 
-@if (User.IsInRole("Admin"))
-{
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-}
 <table class="table">
 @foreach (var item in Model) {
     <tr>
@@ -25,16 +19,6 @@
             <p>@item.Description</p>
             <p><small>by @item.UploadedBy.Email<br />@item.UploadedAt</small></p>
         </td>
-        @if (User.IsInRole("Admin"))
-        {
-            <td class ="col-md2">
-                <div class="btn-group-xs">
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
-                </div>
-            </td>
-        }
     </tr>
 }
 
