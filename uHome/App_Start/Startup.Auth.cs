@@ -70,6 +70,9 @@ namespace uHome
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+
+            // AuthorizationManager
+            app.UseResourceAuthorization(new uHome.Authorization.UhomeResourceAuthorizationManager());
         }
     }
 }

@@ -46,7 +46,6 @@ namespace uHome.Controllers
             return View(rolesList);
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult Create(string message = "")
         {
             ViewBag.Message = message;
@@ -77,7 +76,6 @@ namespace uHome.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
             // It's actually the Role.Name tucked into the id param:
@@ -88,7 +86,6 @@ namespace uHome.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "RoleName, OriginalRoleName, Description")]EditRoleViewModel model)
         {
             if (ModelState.IsValid)
@@ -106,7 +103,6 @@ namespace uHome.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -126,7 +122,6 @@ namespace uHome.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {

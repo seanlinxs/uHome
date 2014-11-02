@@ -30,6 +30,21 @@ namespace uHome.Authorization
                 return Nok();
             }
 
+            var action = ctx.Action.First().Value;
+
+            if ( action == UhomeResources.VideoClipActions.View)
+            {
+                return Ok();
+            }
+
+            if ( action == UhomeResources.VideoClipActions.Edit)
+            {
+                if (ctx.Principal.IsInRole("Admin"))
+                {
+                    return Ok();
+                }
+            }
+
             return Nok();
         }
     }
