@@ -12,7 +12,7 @@ namespace uHome.Models
         public int Id { get; set; }
 
         [LocalizedRequired]
-        [StringLength(50)]
+        [LocalizedStringLength(50)]
         public string Name { get; set; }
 
         [DataType(DataType.MultilineText)]

@@ -73,10 +73,7 @@ namespace uHome.Models
         public string Email { get; set; }
 
         [LocalizedRequired]
-        [StringLength(100,
-            ErrorMessageResourceType = typeof(Resources.Resources),
-            ErrorMessageResourceName = "PasswordMinimumLength",
-            MinimumLength = 6)]
+        [LocalizedStringLength(100, 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password", ResourceType = typeof(Resources.Resources))]
         public string Password { get; set; }

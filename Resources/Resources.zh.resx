@@ -177,9 +177,6 @@
   <data name="Password" xml:space="preserve">
     <value>密码</value>
   </data>
-  <data name="PasswordMinimumLength" xml:space="preserve">
-    <value>{0}必须包含至少{2}个字符</value>
-  </data>
   <data name="PasswordNotMatch" xml:space="preserve">
     <value>密码不匹配</value>
   </data>
@@ -209,5 +206,11 @@
   </data>
   <data name="UploadedBy" xml:space="preserve">
     <value>上传者</value>
+  </data>
+  <data name="StringLengthMustBetween" xml:space="preserve">
+    <value>长度必须介于{2}和{1}之间</value>
+  </data>
+  <data name="StringLengthMustLessThan" xml:space="preserve">
+    <value>长度必须小于{1}</value>
   </data>
 </root>

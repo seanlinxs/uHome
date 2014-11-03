@@ -177,9 +177,6 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
-  <data name="PasswordMinimumLength" xml:space="preserve">
-    <value>The {0} must be at least {2} characters long</value>
-  </data>
   <data name="PasswordNotMatch" xml:space="preserve">
     <value>The Password and Confirm Password do not match</value>
   </data>
@@ -209,5 +206,11 @@
   </data>
   <data name="UploadedBy" xml:space="preserve">
     <value>By</value>
+  </data>
+  <data name="StringLengthMustBetween" xml:space="preserve">
+    <value>Must be a string with a minimum length of {2} and a maximum length of {1}</value>
+  </data>
+  <data name="StringLengthMustLessThan" xml:space="preserve">
+    <value>Must be a string with a maximum length of {1}</value>
   </data>
 </root>

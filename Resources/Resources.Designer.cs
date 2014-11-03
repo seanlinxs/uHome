@@ -241,15 +241,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The {0} must be at least {2} characters long.
-        /// </summary>
-        public static string PasswordMinimumLength {
-            get {
-                return ResourceManager.GetString("PasswordMinimumLength", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The Password and Confirm Password do not match.
         /// </summary>
         public static string PasswordNotMatch {
@@ -291,6 +282,24 @@ namespace Resources {
         public static string RoleAdmin {
             get {
                 return ResourceManager.GetString("RoleAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Must be a string with a minimum length of {2} and a maximum length of {1}.
+        /// </summary>
+        public static string StringLengthMustBetween {
+            get {
+                return ResourceManager.GetString("StringLengthMustBetween", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Must be a string with a maximum length of {1}.
+        /// </summary>
+        public static string StringLengthMustLessThan {
+            get {
+                return ResourceManager.GetString("StringLengthMustLessThan", resourceCulture);
             }
         }
         
