@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using uHome.Annotations;
 using System.ComponentModel.DataAnnotations;
 
 namespace uHome.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
-        [Required]
+        [LocalizedRequired]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
@@ -25,10 +26,10 @@ namespace uHome.Models
 
     public class VerifyCodeViewModel
     {
-        [Required]
+        [LocalizedRequired]
         public string Provider { get; set; }
 
-        [Required]
+        [LocalizedRequired]
         [Display(Name = "Code")]
         public string Code { get; set; }
         public string ReturnUrl { get; set; }
@@ -41,21 +42,19 @@ namespace uHome.Models
 
     public class ForgotViewModel
     {
-        [Required]
+        [LocalizedRequired]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
-        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
-            ErrorMessageResourceName = "Required")]
+        [LocalizedRequired]
         [Display(Name = "Email", ResourceType = typeof(Resources.Resources))]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
-            ErrorMessageResourceName = "Required")]
+        [LocalizedRequired]
         [DataType(DataType.Password)]
         [Display(Name = "Password", ResourceType = typeof(Resources.Resources))]
         public string Password { get; set; }
@@ -66,16 +65,14 @@ namespace uHome.Models
 
     public class RegisterViewModel
     {
-        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
-            ErrorMessageResourceName = "Required")]
+        [LocalizedRequired]
         [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources),
             ErrorMessageResourceName = "InvalidEmail",
             ErrorMessage = null)]
         [Display(Name = "Email", ResourceType = typeof(Resources.Resources))]
         public string Email { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
-            ErrorMessageResourceName = "Required")]
+        [LocalizedRequired]
         [StringLength(100,
             ErrorMessageResourceType = typeof(Resources.Resources),
             ErrorMessageResourceName = "PasswordMinimumLength",
@@ -105,12 +102,12 @@ namespace uHome.Models
 
     public class ResetPasswordViewModel
     {
-        [Required]
+        [LocalizedRequired]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [LocalizedRequired]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -126,7 +123,7 @@ namespace uHome.Models
 
     public class ForgotPasswordViewModel
     {
-        [Required]
+        [LocalizedRequired]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

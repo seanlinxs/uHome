@@ -277,7 +277,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The {0} is required.
+        ///   Looks up a localized string similar to This information is required.
         /// </summary>
         public static string Required {
             get {

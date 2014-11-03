@@ -190,7 +190,7 @@
     <value>自动登录</value>
   </data>
   <data name="Required" xml:space="preserve">
-    <value>{0}是必须的信息</value>
+    <value>必须的信息</value>
   </data>
   <data name="RoleAdmin" xml:space="preserve">
     <value>角色管理</value>

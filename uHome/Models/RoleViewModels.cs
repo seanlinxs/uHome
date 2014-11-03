@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using uHome.Annotations;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -34,7 +35,7 @@ namespace uHome.Models
 
         public bool Selected { get; set; }
 
-        [Required]
+        [LocalizedRequired]
         public string RoleName { get; set; }
 
         // Add the new Description property:

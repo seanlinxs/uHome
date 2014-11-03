@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using uHome.Annotations;
 using System.ComponentModel.DataAnnotations;
 
 namespace uHome.Models
@@ -10,16 +11,14 @@ namespace uHome.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
-            ErrorMessageResourceName = "Required")]
+        [LocalizedRequired]
         [StringLength(50)]
         public string Name { get; set; }
 
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
-            ErrorMessageResourceName = "Required")]
+        [LocalizedRequired]
         public string Path { get; set; }
     }
 }

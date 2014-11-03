@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using uHome.Annotations;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
@@ -27,7 +28,7 @@ namespace uHome.Models
 
     public class SetPasswordViewModel
     {
-        [Required]
+        [LocalizedRequired]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "New password")]
@@ -41,12 +42,12 @@ namespace uHome.Models
 
     public class ChangePasswordViewModel
     {
-        [Required]
+        [LocalizedRequired]
         [DataType(DataType.Password)]
         [Display(Name = "Current password")]
         public string OldPassword { get; set; }
 
-        [Required]
+        [LocalizedRequired]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "New password")]
@@ -60,7 +61,7 @@ namespace uHome.Models
 
     public class AddPhoneNumberViewModel
     {
-        [Required]
+        [LocalizedRequired]
         [Phone]
         [Display(Name = "Phone Number")]
         public string Number { get; set; }
@@ -68,11 +69,11 @@ namespace uHome.Models
 
     public class VerifyPhoneNumberViewModel
     {
-        [Required]
+        [LocalizedRequired]
         [Display(Name = "Code")]
         public string Code { get; set; }
 
-        [Required]
+        [LocalizedRequired]
         [Phone]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
