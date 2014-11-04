@@ -100,19 +100,23 @@ namespace uHome.Models
     public class ResetPasswordViewModel
     {
         [LocalizedRequired]
-        [EmailAddress]
-        [Display(Name = "Email")]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources),
+             ErrorMessageResourceName = "InvalidEmail",
+             ErrorMessage = null)]
+        [Display(Name = "Email", ResourceType = typeof(Resources.Resources))]
         public string Email { get; set; }
 
         [LocalizedRequired]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [LocalizedStringLength(100, 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Password", ResourceType = typeof(Resources.Resources))]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "ConfirmPassword", ResourceType = typeof(Resources.Resources))]
+        [Compare("Password",
+            ErrorMessageResourceType = typeof(Resources.Resources),
+            ErrorMessageResourceName = "PasswordNotMatch")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
@@ -121,8 +125,10 @@ namespace uHome.Models
     public class ForgotPasswordViewModel
     {
         [LocalizedRequired]
-        [EmailAddress]
-        [Display(Name = "Email")]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources),
+            ErrorMessageResourceName = "InvalidEmail",
+            ErrorMessage = null)]
+        [Display(Name = "Email", ResourceType = typeof(Resources.Resources))]
         public string Email { get; set; }
     }
 }
