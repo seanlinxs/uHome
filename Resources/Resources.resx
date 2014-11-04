@@ -213,4 +213,7 @@
   <data name="StringLengthMustLessThan" xml:space="preserve">
     <value>Must be a string with a maximum length of {1}</value>
   </data>
+  <data name="Case" xml:space="preserve">
+    <value>Case</value>
+  </data>
 </root>

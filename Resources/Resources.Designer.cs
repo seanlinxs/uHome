@@ -79,6 +79,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Case.
+        /// </summary>
+        public static string Case {
+            get {
+                return ResourceManager.GetString("Case", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please check your email and confirm your email address.
         /// </summary>
         public static string CheckEmailToConfirm {

@@ -213,4 +213,7 @@
   <data name="StringLengthMustLessThan" xml:space="preserve">
     <value>长度必须小于{1}</value>
   </data>
+  <data name="Case" xml:space="preserve">
+    <value>案子</value>
+  </data>
 </root>
