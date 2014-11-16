@@ -8,11 +8,18 @@ namespace uHome.Authorization
     public class UhomeResources
     {
         public const string VideoClip = "VideoClip";
-        public class VideoClipActions
+        public const string Case = "Case";
+
+        public class Actions
         {
             public const string View = "View";
             public const string Edit = "Edit";
         }
-
+        public class VideoClipActions : Actions
+        {
+        }
+        public class CaseActions : Actions
+        {
+        }
     }
 }
