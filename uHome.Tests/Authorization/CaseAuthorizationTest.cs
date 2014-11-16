@@ -71,6 +71,26 @@ namespace uHome.Tests.Authorization
         }
 
         [TestMethod]
+        public void AuthenticatedCannotViewothersCase()
+        {
+            var user = User("John");
+            var applicationUser1 = db.Users.Create();
+            applicationUser1.UserName = user.Identity.Name;
+            db.Users.Add(applicationUser1);
+            var applicationUser2 = db.Users.Create();
+            applicationUser2.UserName = "Other";
+            db.Users.Add(applicationUser2);
+            var @case = CreateCase();
+            @case.CreatedBy = applicationUser2;
+            db.Cases.Add(@case);
+            db.SaveChanges();
+
+            var ctx = new ResourceAuthorizationContext(user,
+                UhomeResources.CaseActions.View, UhomeResources.Case, @case.ID.ToString());
+            Assert.IsFalse(subject.CheckAccessAsync(ctx).Result);
+        }
+
+        [TestMethod]
         public void AuthenticatedCanEditOwnedCase()
         {
             var user = User("John");
@@ -86,5 +106,25 @@ namespace uHome.Tests.Authorization
                 UhomeResources.CaseActions.Edit, UhomeResources.Case, @case.ID.ToString());
             Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
         }
+
+        public void AuthenticatedCannotEditothersCase()
+        {
+            var user = User("John");
+            var applicationUser1 = db.Users.Create();
+            applicationUser1.UserName = user.Identity.Name;
+            db.Users.Add(applicationUser1);
+            var applicationUser2 = db.Users.Create();
+            applicationUser2.UserName = "Other";
+            db.Users.Add(applicationUser2);
+            var @case = CreateCase();
+            @case.CreatedBy = applicationUser2;
+            db.Cases.Add(@case);
+            db.SaveChanges();
+
+            var ctx = new ResourceAuthorizationContext(user,
+                UhomeResources.CaseActions.Edit, UhomeResources.Case, @case.ID.ToString());
+            Assert.IsFalse(subject.CheckAccessAsync(ctx).Result);
+        }
+
     }
 }
