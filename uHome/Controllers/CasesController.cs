@@ -4,12 +4,15 @@ using System.Net;
 using System.Web.Mvc;
 using uHome.Models;
 using System.Linq;
+using uHome.Authorization;
+using Thinktecture.IdentityModel.Mvc;
 
 namespace uHome.Controllers
 {
     public class CasesController : BaseController
     {
         // GET: Cases
+        [ResourceAuthorize(UhomeResources.CaseActions.View, UhomeResources.Case)]
         public ActionResult Index()
         {
             var cases = from c in currentUser.Cases
