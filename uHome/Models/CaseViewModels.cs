@@ -23,6 +23,7 @@ namespace uHome.Models
         public string Description { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public CaseState State { get; private set; }
+        public string Assignee { get; private set; }
 
         public ListCaseViewModel(Case @case)
         {
@@ -33,6 +34,7 @@ namespace uHome.Models
             Description = desc.Length > len ? desc.Substring(0, len) : desc;
             CreatedAt = @case.CreatedAt;
             State = @case.State;
+            Assignee = @case.CreatedBy.UserName;
         }
     }
 }

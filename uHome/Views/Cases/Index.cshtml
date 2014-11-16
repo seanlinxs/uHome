@@ -23,6 +23,9 @@
         <th>
             @Html.DisplayNameFor(model => model.State)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignee)
+        </th>
         <th></th>
     </tr>
 
@@ -39,6 +42,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.State)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Assignee)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" })
