@@ -243,7 +243,8 @@ namespace uHome.Models
         {
             var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
             var roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(db));
-            const string name = "uhome_test@outlook.com";
+            const string email = "uhome_test@outlook.com";
+            const string name = "Administrator";
             const string password = "Pass.123";
 
             // Create system predefined roles
@@ -267,11 +268,11 @@ namespace uHome.Models
                 }
             }
 
-            var user = userManager.FindByName(name);
+            var user = userManager.FindByEmail(email);
             
             if (user == null)
             {
-                user = new ApplicationUser { UserName = name, Email = name };
+                user = new ApplicationUser { UserName = name, Email = email };
                 var result = userManager.Create(user, password);
                 result = userManager.SetLockoutEnabled(user.Id, false);
             }

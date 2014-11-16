@@ -72,6 +72,9 @@ namespace uHome.Models
         [Display(Name = "Email", ResourceType = typeof(Resources.Resources))]
         public string Email { get; set; }
 
+        [Display(Name = "DisplayName", ResourceType = typeof(Resources.Resources))]
+        public string DisplayName { get; set; }
+
         [LocalizedRequired]
         [LocalizedStringLength(100, 6)]
         [DataType(DataType.Password)]
