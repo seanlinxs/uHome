@@ -15,7 +15,7 @@ namespace uHome.Controllers
         [ResourceAuthorize(UhomeResources.CaseActions.View, UhomeResources.Case)]
         public ActionResult Index()
         {
-            var cases = from c in currentUser.Cases
+            var cases = from c in CurrentUser.Cases
                         select new ListCaseViewModel(c);
             return View(cases);
         }
@@ -27,7 +27,7 @@ namespace uHome.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Case @case = await db.Cases.FindAsync(id);
+            Case @case = await Database.Cases.FindAsync(id);
             if (@case == null)
             {
                 return HttpNotFound();
@@ -55,10 +55,10 @@ namespace uHome.Controllers
                     Title = createCaseViewModel.Title,
                     Description = createCaseViewModel.Description,
                     CreatedAt = System.DateTime.Now,
-                    CreatedBy = currentUser
+                    CreatedBy = CurrentUser
                 };
-                db.Cases.Add(@case);
-                await db.SaveChangesAsync();
+                Database.Cases.Add(@case);
+                await Database.SaveChangesAsync();
 
                 return RedirectToAction("Index");
             }
@@ -73,13 +73,13 @@ namespace uHome.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Case @case = await db.Cases.FindAsync(id);
+            Case @case = await Database.Cases.FindAsync(id);
             if (@case == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ID = new SelectList(db.CaseAssignments, "CaseID", "ApplicationUserId", @case.ID);
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", @case.ApplicationUserId);
+            ViewBag.ID = new SelectList(Database.CaseAssignments, "CaseID", "ApplicationUserId", @case.ID);
+            ViewBag.ApplicationUserId = new SelectList(Database.Users, "Id", "Email", @case.ApplicationUserId);
             return View(@case);
         }
 
@@ -92,12 +92,12 @@ namespace uHome.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(@case).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Database.Entry(@case).State = EntityState.Modified;
+                await Database.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.ID = new SelectList(db.CaseAssignments, "CaseID", "ApplicationUserId", @case.ID);
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", @case.ApplicationUserId);
+            ViewBag.ID = new SelectList(Database.CaseAssignments, "CaseID", "ApplicationUserId", @case.ID);
+            ViewBag.ApplicationUserId = new SelectList(Database.Users, "Id", "Email", @case.ApplicationUserId);
             return View(@case);
         }
 
@@ -108,7 +108,7 @@ namespace uHome.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Case @case = await db.Cases.FindAsync(id);
+            Case @case = await Database.Cases.FindAsync(id);
             if (@case == null)
             {
                 return HttpNotFound();
@@ -121,9 +121,9 @@ namespace uHome.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Case @case = await db.Cases.FindAsync(id);
-            db.Cases.Remove(@case);
-            await db.SaveChangesAsync();
+            Case @case = await Database.Cases.FindAsync(id);
+            Database.Cases.Remove(@case);
+            await Database.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -131,7 +131,7 @@ namespace uHome.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Database.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -11,14 +11,14 @@ namespace uHome.Controllers
 {
     public class BaseController : Controller
     {
-        protected ApplicationDbContext db
+        public ApplicationDbContext Database
         {
             get
             {
                 return HttpContext.GetOwinContext().Get<ApplicationDbContext>();
             }
         }
-        protected ApplicationUserManager userManager
+        public ApplicationUserManager UserManager
         {
             get
             {
@@ -26,7 +26,7 @@ namespace uHome.Controllers
             }
         }
 
-        protected ApplicationRoleManager roleManager
+        public ApplicationRoleManager RoleManager
         {
             get
             {
@@ -34,7 +34,7 @@ namespace uHome.Controllers
             }
         }
 
-        protected ApplicationSignInManager signInManager
+        public ApplicationSignInManager SignInManager
         {
             get
             {
@@ -42,11 +42,11 @@ namespace uHome.Controllers
             }
         }
 
-        protected ApplicationUser currentUser
+        public ApplicationUser CurrentUser
         {
             get
             {
-                return userManager.FindById(User.Identity.GetUserId());
+                return UserManager.FindById(User.Identity.GetUserId());
             }
         }
 

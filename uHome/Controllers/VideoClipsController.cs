@@ -14,7 +14,7 @@ namespace uHome.Controllers
         [ResourceAuthorize(UhomeResources.VideoClipActions.View, UhomeResources.VideoClip)]
         public async Task<ActionResult> Index()
         {
-            var videoClips = db.VideoClips.Include(v => v.UploadedBy);
+            var videoClips = Database.VideoClips.Include(v => v.UploadedBy);
             return View(await videoClips.ToListAsync());
         }
 
@@ -22,7 +22,7 @@ namespace uHome.Controllers
         [ResourceAuthorize(UhomeResources.VideoClipActions.Edit, UhomeResources.VideoClip)]
         public async Task<ActionResult> List()
         {
-            var videoClips = db.VideoClips.Include(v => v.UploadedBy);
+            var videoClips = Database.VideoClips.Include(v => v.UploadedBy);
             return View(await videoClips.ToListAsync());
         }
 
@@ -35,7 +35,7 @@ namespace uHome.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            VideoClip videoClip = await db.VideoClips.FindAsync(id);
+            VideoClip videoClip = await Database.VideoClips.FindAsync(id);
 
             if (videoClip == null)
             {
@@ -63,9 +63,9 @@ namespace uHome.Controllers
             if (ModelState.IsValid)
             {
                 VideoClip videoClip = new VideoClip(model);
-                videoClip.UploadedBy = currentUser;
-                db.VideoClips.Add(videoClip);
-                await db.SaveChangesAsync();
+                videoClip.UploadedBy = CurrentUser;
+                Database.VideoClips.Add(videoClip);
+                await Database.SaveChangesAsync();
 
                 return RedirectToAction("Index");
             }
@@ -82,7 +82,7 @@ namespace uHome.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            VideoClip videoClip = await db.VideoClips.FindAsync(id);
+            VideoClip videoClip = await Database.VideoClips.FindAsync(id);
             
             if (videoClip == null)
             {
@@ -110,18 +110,18 @@ namespace uHome.Controllers
         {
             if (ModelState.IsValid)
             {
-                VideoClip videoClip = await db.VideoClips.FindAsync(model.Id);
+                VideoClip videoClip = await Database.VideoClips.FindAsync(model.Id);
 
                 if (videoClip == null)
                 {
                     return HttpNotFound();
                 }
 
-                db.Entry(videoClip).State = EntityState.Modified;
+                Database.Entry(videoClip).State = EntityState.Modified;
                 videoClip.Name = model.Name;
                 videoClip.Description = model.Description;
                 videoClip.Path = model.Path;
-                await db.SaveChangesAsync();
+                await Database.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -137,7 +137,7 @@ namespace uHome.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            VideoClip videoClip = await db.VideoClips.FindAsync(id);
+            VideoClip videoClip = await Database.VideoClips.FindAsync(id);
             
             if (videoClip == null)
             {
@@ -153,9 +153,9 @@ namespace uHome.Controllers
         [ResourceAuthorize(UhomeResources.VideoClipActions.Edit, UhomeResources.VideoClip)]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            VideoClip videoClip = await db.VideoClips.FindAsync(id);
-            db.VideoClips.Remove(videoClip);
-            await db.SaveChangesAsync();
+            VideoClip videoClip = await Database.VideoClips.FindAsync(id);
+            Database.VideoClips.Remove(videoClip);
+            await Database.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -163,7 +163,7 @@ namespace uHome.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Database.Dispose();
             }
             base.Dispose(disposing);
         }

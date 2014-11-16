@@ -14,7 +14,7 @@ namespace uHome.Controllers
         {
             List<RoleViewModel> rolesList = new List<RoleViewModel>();
 
-            foreach (ApplicationRole role in db.Roles)
+            foreach (ApplicationRole role in Database.Roles)
             {
                 var roleModel = new RoleViewModel(role);
                 rolesList.Add(roleModel);
@@ -37,14 +37,14 @@ namespace uHome.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await roleManager.RoleExistsAsync(model.RoleName);
+                var result = await RoleManager.RoleExistsAsync(model.RoleName);
                 
                 if (result)
                     return View(message);
                 else
                 {
                     ApplicationRole role = new ApplicationRole(model.RoleName, model.Description);
-                    await roleManager.CreateAsync(role);
+                    await RoleManager.CreateAsync(role);
 
                     return RedirectToAction("Index", "Roles");
                 }
@@ -56,7 +56,7 @@ namespace uHome.Controllers
         public ActionResult Edit(string id)
         {
             // It's actually the Role.Name tucked into the id param:
-            ApplicationRole role = db.Roles.First(r => r.Name == id) as ApplicationRole;
+            ApplicationRole role = Database.Roles.First(r => r.Name == id) as ApplicationRole;
             EditRoleViewModel editRoleModel = new EditRoleViewModel(role);
 
             return View(editRoleModel);
@@ -67,11 +67,11 @@ namespace uHome.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationRole role = db.Roles.First(r => r.Name == model.OriginalRoleName) as ApplicationRole;
+                ApplicationRole role = Database.Roles.First(r => r.Name == model.OriginalRoleName) as ApplicationRole;
                 role.Name = model.RoleName;
                 role.Description = model.Description;
-                db.Entry(role).State = EntityState.Modified;
-                db.SaveChanges();
+                Database.Entry(role).State = EntityState.Modified;
+                Database.SaveChanges();
 
                 return RedirectToAction("Index");
             }
@@ -87,7 +87,7 @@ namespace uHome.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ApplicationRole role = db.Roles.First(r => r.Name == id) as ApplicationRole;
+            ApplicationRole role = Database.Roles.First(r => r.Name == id) as ApplicationRole;
             RoleViewModel model = new RoleViewModel(role);
 
             if (role == null)
@@ -102,7 +102,7 @@ namespace uHome.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            var result = await roleManager.DeleteRoleAsync(userManager, id);
+            var result = await RoleManager.DeleteRoleAsync(UserManager, id);
             return RedirectToAction("Index");
         }
     }

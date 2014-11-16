@@ -37,7 +37,7 @@ namespace uHome.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to
             // shouldLockout: true
-            var result = await signInManager.PasswordSignInAsync(model.Email,
+            var result = await SignInManager.PasswordSignInAsync(model.Email,
                 model.Password, model.RememberMe, shouldLockout: false);
 
             switch (result)
@@ -64,15 +64,15 @@ namespace uHome.Controllers
         {
             // Require that the user has already logged in via username/password
             // or external login
-            if (!await signInManager.HasBeenVerifiedAsync())
+            if (!await SignInManager.HasBeenVerifiedAsync())
             {
                 return View("Error");
             }
-            var user = await userManager.FindByIdAsync(await signInManager
+            var user = await UserManager.FindByIdAsync(await SignInManager
                 .GetVerifiedUserIdAsync());
             if (user != null)
             {
-                var code = await userManager.GenerateTwoFactorTokenAsync(
+                var code = await UserManager.GenerateTwoFactorTokenAsync(
                     user.Id, provider);
             }
             return View(new VerifyCodeViewModel { Provider = provider,
@@ -95,7 +95,7 @@ namespace uHome.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await signInManager.TwoFactorSignInAsync(
+            var result = await SignInManager.TwoFactorSignInAsync(
                 model.Provider,
                 model.Code,
                 isPersistent: model.RememberMe,
@@ -162,18 +162,18 @@ namespace uHome.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.DisplayName, Email = model.Email };
-                var result = await userManager.CreateAsync(user, model.Password);
+                var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     // Assign user role
-                    userManager.AddToRole(user.Id, model.RoleName);
+                    UserManager.AddToRole(user.Id, model.RoleName);
 
-                    //await signInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation
                     // and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    string code = await userManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account",
                         new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     var msgSubject = Resources.Resources.ConfirmAccountSubject;
@@ -182,7 +182,7 @@ namespace uHome.Controllers
                         Resources.Resources.ConfirmAccountPrompt,
                         callbackUrl,
                         Resources.Resources.Link);
-                    await userManager.SendEmailAsync(user.Id, msgSubject, msgBody);
+                    await UserManager.SendEmailAsync(user.Id, msgSubject, msgBody);
 
                     return View("DisplayEmail");
                 }
@@ -202,7 +202,7 @@ namespace uHome.Controllers
             {
                 return View("Error");
             }
-            var result = await userManager.ConfirmEmailAsync(userId, code);
+            var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
@@ -223,8 +223,8 @@ namespace uHome.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByNameAsync(model.Email);
-                if (user == null || !(await userManager.IsEmailConfirmedAsync(user.Id)))
+                var user = await UserManager.FindByNameAsync(model.Email);
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -233,10 +233,10 @@ namespace uHome.Controllers
                 // For more information on how to enable account confirmation
                 // and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await userManager.GeneratePasswordResetTokenAsync(user.Id);
+                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 // var callbackUrl = Url.Action("ResetPassword", "Account", new {
                 //     userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await userManager.SendEmailAsync(user.Id, "Reset Password",
+                // await UserManager.SendEmailAsync(user.Id, "Reset Password",
                 //     "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 // return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
@@ -272,13 +272,13 @@ namespace uHome.Controllers
             {
                 return View(model);
             }
-            var user = await userManager.FindByNameAsync(model.Email);
+            var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
-            var result = await userManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
@@ -312,12 +312,12 @@ namespace uHome.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
-            var userId = await signInManager.GetVerifiedUserIdAsync();
+            var userId = await SignInManager.GetVerifiedUserIdAsync();
             if (userId == null)
             {
                 return View("Error");
             }
-            var userFactors = await userManager.GetValidTwoFactorProvidersAsync(userId);
+            var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
             var factorOptions = userFactors.Select(purpose =>
                 new SelectListItem { Text = purpose, Value = purpose }).ToList();
             return View(new SendCodeViewModel {
@@ -337,7 +337,7 @@ namespace uHome.Controllers
             }
 
             // Generate the token and send it
-            if (!await signInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
+            if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
                 return View("Error");
             }
@@ -358,7 +358,7 @@ namespace uHome.Controllers
             }
 
             // Sign in the user with this external login provider if the user already has a login
-            var result = await signInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -399,13 +399,13 @@ namespace uHome.Controllers
                     return View("ExternalLoginFailure");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await userManager.CreateAsync(user);
+                var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    result = await userManager.AddLoginAsync(user.Id, info.Login);
+                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {
-                        await signInManager.SignInAsync(user, isPersistent: false,
+                        await SignInManager.SignInAsync(user, isPersistent: false,
                             rememberBrowser: false);
                         return RedirectToLocal(returnUrl);
                     }
