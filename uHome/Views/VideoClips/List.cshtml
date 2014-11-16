@@ -24,11 +24,9 @@
             <p><small>by @item.UploadedBy.Email<br />@item.UploadedAt</small></p>
         </td>
         <td class ="col-md2">
-            <div class="btn-group-xs">
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" })
-                @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-primary" })
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
-            </div>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
         </td>
     </tr>
 }

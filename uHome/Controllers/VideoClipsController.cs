@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using uHome.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Thinktecture.IdentityModel.Mvc;
 using uHome.Authorization;
 
@@ -17,15 +10,6 @@ namespace uHome.Controllers
 {
     public class VideoClipsController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
-        private ApplicationUserManager userManager;
-        
-        public VideoClipsController()
-        {
-           userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
-        }
-
         // GET: VideoClips
         [ResourceAuthorize(UhomeResources.VideoClipActions.View, UhomeResources.VideoClip)]
         public async Task<ActionResult> Index()
@@ -79,9 +63,10 @@ namespace uHome.Controllers
             if (ModelState.IsValid)
             {
                 VideoClip videoClip = new VideoClip(model);
-                videoClip.UploadedBy = userManager.FindById(User.Identity.GetUserId());
+                videoClip.UploadedBy = currentUser;
                 db.VideoClips.Add(videoClip);
                 await db.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
 

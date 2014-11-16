@@ -1,22 +1,16 @@
-﻿@model IEnumerable<uHome.Models.Case>
+﻿@model IEnumerable<uHome.Models.ListCaseViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "My Cases";
 }
 
-<h2>Index</h2>
+<h2>My Cases</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CaseAssignment.ApplicationUserId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedBy.Email)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
@@ -35,12 +29,6 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.CaseAssignment.ApplicationUserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedBy.Email)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
@@ -53,9 +41,9 @@
             @Html.DisplayFor(modelItem => item.State)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
         </td>
     </tr>
 }

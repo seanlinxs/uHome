@@ -24,7 +24,7 @@ namespace uHome.Models
             // Credentials:
             var credentialUserName = ConfigurationManager.AppSettings["MailAccount"];
             var sentFrom = ConfigurationManager.AppSettings["MailSentFrom"];
-            var pwd = ConfigurationManager.AppSettings["MailPassword"]; ;
+            var pwd = ConfigurationManager.AppSettings["MailPassword"];
 
             // Configure the client:
             System.Net.Mail.SmtpClient client =

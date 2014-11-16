@@ -1,15 +1,8 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using System.Security.Claims;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using uHome.Models;
 using System.Threading.Tasks;
 
@@ -17,22 +10,6 @@ namespace uHome.Controllers
 {
     public class RolesController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-        public ApplicationRoleManager RoleManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
-            }
-        }
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Get<ApplicationUserManager>();
-            }
-        }
-
         public ActionResult Index()
         {
             List<RoleViewModel> rolesList = new List<RoleViewModel>();
@@ -60,14 +37,14 @@ namespace uHome.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await RoleManager.RoleExistsAsync(model.RoleName);
+                var result = await roleManager.RoleExistsAsync(model.RoleName);
                 
                 if (result)
                     return View(message);
                 else
                 {
                     ApplicationRole role = new ApplicationRole(model.RoleName, model.Description);
-                    await RoleManager.CreateAsync(role);
+                    await roleManager.CreateAsync(role);
 
                     return RedirectToAction("Index", "Roles");
                 }
@@ -125,7 +102,7 @@ namespace uHome.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            var result = await RoleManager.DeleteRoleAsync(UserManager, id);
+            var result = await roleManager.DeleteRoleAsync(userManager, id);
             return RedirectToAction("Index");
         }
     }

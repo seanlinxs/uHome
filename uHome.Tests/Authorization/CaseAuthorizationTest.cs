@@ -57,7 +57,7 @@ namespace uHome.Tests.Authorization
         public void AuthenticatedCanViewOwnedCase()
         {
             var user = User("John");
-            var applicationUser = db.Users.Create();
+            var applicationUser = new ApplicationUser();
             applicationUser.UserName = user.Identity.Name;
             db.Users.Add(applicationUser);
             var @case = CreateCase();
@@ -74,7 +74,7 @@ namespace uHome.Tests.Authorization
         public void AuthenticatedCannotViewothersCase()
         {
             var user = User("John");
-            var applicationUser1 = db.Users.Create();
+            var applicationUser1 = new ApplicationUser();
             applicationUser1.UserName = user.Identity.Name;
             db.Users.Add(applicationUser1);
             var applicationUser2 = db.Users.Create();
@@ -94,7 +94,7 @@ namespace uHome.Tests.Authorization
         public void AuthenticatedCanEditOwnedCase()
         {
             var user = User("John");
-            var applicationUser = db.Users.Create();
+            var applicationUser = new ApplicationUser();
             applicationUser.UserName = user.Identity.Name;
             db.Users.Add(applicationUser);
             var @case = CreateCase();
@@ -110,7 +110,7 @@ namespace uHome.Tests.Authorization
         public void AuthenticatedCannotEditothersCase()
         {
             var user = User("John");
-            var applicationUser1 = db.Users.Create();
+            var applicationUser1 = new ApplicationUser();
             applicationUser1.UserName = user.Identity.Name;
             db.Users.Add(applicationUser1);
             var applicationUser2 = db.Users.Create();

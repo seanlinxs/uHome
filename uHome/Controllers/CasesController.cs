@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using uHome.Models;
+using System.Linq;
 
 namespace uHome.Controllers
 {
     public class CasesController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: Cases
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var cases = db.Cases.Include(c => c.CaseAssignment).Include(c => c.CreatedBy);
-            return View(await cases.ToListAsync());
+            var cases = from c in currentUser.Cases
+                        select new ListCaseViewModel(c);
+            return View(cases);
         }
 
         // GET: Cases/Details/5
@@ -40,8 +35,6 @@ namespace uHome.Controllers
         // GET: Cases/Create
         public ActionResult Create()
         {
-            ViewBag.ID = new SelectList(db.CaseAssignments, "CaseID", "ApplicationUserId");
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email");
             return View();
         }
 
@@ -50,18 +43,24 @@ namespace uHome.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Title,Description,CreatedAt,State,ApplicationUserId")] Case @case)
+        public async Task<ActionResult> Create([Bind(Include = "Title,Description")] CreateCaseViewModel createCaseViewModel)
         {
             if (ModelState.IsValid)
             {
+                var @case = new Case
+                {
+                    Title = createCaseViewModel.Title,
+                    Description = createCaseViewModel.Description,
+                    CreatedAt = System.DateTime.Now,
+                    CreatedBy = currentUser
+                };
                 db.Cases.Add(@case);
                 await db.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ID = new SelectList(db.CaseAssignments, "CaseID", "ApplicationUserId", @case.ID);
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", @case.ApplicationUserId);
-            return View(@case);
+            return View();
         }
 
         // GET: Cases/Edit/5
