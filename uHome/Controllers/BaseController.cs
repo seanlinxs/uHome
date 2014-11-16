@@ -33,6 +33,15 @@ namespace uHome.Controllers
                 return HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
             }
         }
+
+        protected ApplicationSignInManager signInManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+        }
+
         protected ApplicationUser currentUser
         {
             get
