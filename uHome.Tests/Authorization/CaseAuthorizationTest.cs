@@ -45,12 +45,26 @@ namespace uHome.Tests.Authorization
         public void AnonymousCannotAccessCase()
         {
             var ctx1 = new ResourceAuthorizationContext(Anonymous,
-                UhomeResources.CaseActions.View, UhomeResources.Case);
+                UhomeResources.Actions.View, UhomeResources.Case);
             Assert.IsFalse(subject.CheckAccessAsync(ctx1).Result);
 
             var ctx2 = new ResourceAuthorizationContext(Anonymous,
-                UhomeResources.CaseActions.Edit, UhomeResources.Case);
+                UhomeResources.Actions.Edit, UhomeResources.Case);
             Assert.IsFalse(subject.CheckAccessAsync(ctx2).Result);
+
+            var ctx3 = new ResourceAuthorizationContext(Anonymous,
+                UhomeResources.Actions.List, UhomeResources.Case);
+            Assert.IsFalse(subject.CheckAccessAsync(ctx3).Result);
+        }
+
+        [TestMethod]
+        public void AuthenticatedCanListCase()
+        {
+            var user = User("John");
+            var ctx = new ResourceAuthorizationContext(user,
+                UhomeResources.Actions.List, UhomeResources.Case);
+            Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
+
         }
 
         [TestMethod]
@@ -66,7 +80,7 @@ namespace uHome.Tests.Authorization
             db.SaveChanges();
 
             var ctx = new ResourceAuthorizationContext(user,
-                UhomeResources.CaseActions.View, UhomeResources.Case, @case.ID.ToString());
+                UhomeResources.Actions.View, UhomeResources.Case, @case.ID.ToString());
             Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
         }
 
@@ -86,7 +100,7 @@ namespace uHome.Tests.Authorization
             db.SaveChanges();
 
             var ctx = new ResourceAuthorizationContext(user,
-                UhomeResources.CaseActions.View, UhomeResources.Case, @case.ID.ToString());
+                UhomeResources.Actions.View, UhomeResources.Case, @case.ID.ToString());
             Assert.IsFalse(subject.CheckAccessAsync(ctx).Result);
         }
 
@@ -103,7 +117,7 @@ namespace uHome.Tests.Authorization
             db.SaveChanges();
 
             var ctx = new ResourceAuthorizationContext(user,
-                UhomeResources.CaseActions.Edit, UhomeResources.Case, @case.ID.ToString());
+                UhomeResources.Actions.Edit, UhomeResources.Case, @case.ID.ToString());
             Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
         }
 
@@ -123,7 +137,7 @@ namespace uHome.Tests.Authorization
             db.SaveChanges();
 
             var ctx = new ResourceAuthorizationContext(user,
-                UhomeResources.CaseActions.Edit, UhomeResources.Case, @case.ID.ToString());
+                UhomeResources.Actions.Edit, UhomeResources.Case, @case.ID.ToString());
             Assert.IsFalse(subject.CheckAccessAsync(ctx).Result);
         }
 
@@ -143,7 +157,7 @@ namespace uHome.Tests.Authorization
             db.SaveChanges();
 
             var ctx = new ResourceAuthorizationContext(admin,
-                UhomeResources.CaseActions.View, UhomeResources.Case, @case.ID.ToString());
+                UhomeResources.Actions.View, UhomeResources.Case, @case.ID.ToString());
             Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
         }
 
@@ -163,7 +177,7 @@ namespace uHome.Tests.Authorization
             db.SaveChanges();
 
             var ctx = new ResourceAuthorizationContext(admin,
-                UhomeResources.CaseActions.Edit, UhomeResources.Case, @case.ID.ToString());
+                UhomeResources.Actions.Edit, UhomeResources.Case, @case.ID.ToString());
             Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
         }
 
@@ -183,7 +197,7 @@ namespace uHome.Tests.Authorization
             db.SaveChanges();
 
             var ctx = new ResourceAuthorizationContext(manager,
-                UhomeResources.CaseActions.View, UhomeResources.Case, @case.ID.ToString());
+                UhomeResources.Actions.View, UhomeResources.Case, @case.ID.ToString());
             Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
         }
 
@@ -203,7 +217,7 @@ namespace uHome.Tests.Authorization
             db.SaveChanges();
 
             var ctx = new ResourceAuthorizationContext(manager,
-                UhomeResources.CaseActions.Edit, UhomeResources.Case, @case.ID.ToString());
+                UhomeResources.Actions.Edit, UhomeResources.Case, @case.ID.ToString());
             Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
         }
     }

@@ -301,6 +301,7 @@
     <Content Include="Views\Cases\Edit.cshtml" />
     <Content Include="Views\Cases\Index.cshtml" />
     <Content Include="Views\VideoClips\List.cshtml" />
+    <Content Include="Views\Cases\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

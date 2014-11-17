@@ -13,6 +13,7 @@ namespace uHome.Controllers
     public class CasesController : BaseController
     {
         // GET: Cases
+        [ResourceAuthorize(UhomeResources.Actions.List, UhomeResources.Case)]
         public ActionResult Index()
         {
             var cases = from c in CurrentUser.Cases
@@ -20,8 +21,16 @@ namespace uHome.Controllers
             return View(cases);
         }
 
+        // GET: Cases
+        [ResourceAuthorize(UhomeResources.Actions.List, UhomeResources.Case)]
+        public ActionResult List()
+        {
+            var cases = from c in Database.Cases.ToList()
+                        select new ListCaseViewModel(c);
+            return View(cases);
+        }
+
         // GET: Cases/Details/5
-        [ResourceAuthorize(UhomeResources.Actions.View, UhomeResources.Case)]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)

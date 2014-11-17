@@ -70,6 +70,11 @@ namespace uHome.Authorization
                 return Ok();
             }
 
+            if (ctx.Action.First().Value == UhomeResources.Actions.List)
+            {
+                return Ok();
+            }
+
             if (ctx.Resource.Count() == 2)
             {
                 var caseId = int.Parse(ctx.Resource.Skip(1).Take(1).First().Value);
