@@ -115,10 +115,6 @@
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
-    <Reference Include="Thinktecture.IdentityModel.Core, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityModel.Core.1.2.0\lib\net45\Thinktecture.IdentityModel.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Thinktecture.IdentityModel.Owin.ResourceAuthorization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Thinktecture.IdentityModel.Owin.ResourceAuthorization.1.1.0\lib\net45\Thinktecture.IdentityModel.Owin.ResourceAuthorization.dll</HintPath>

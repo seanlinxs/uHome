@@ -65,6 +65,11 @@ namespace uHome.Authorization
                 return Nok();
             }
 
+            if (ctx.Principal.IsInRole("Admin") || ctx.Principal.IsInRole("Manager"))
+            {
+                return Ok();
+            }
+
             if (ctx.Resource.Count() == 2)
             {
                 var caseId = int.Parse(ctx.Resource.Skip(1).Take(1).First().Value);

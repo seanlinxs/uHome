@@ -107,6 +107,7 @@ namespace uHome.Tests.Authorization
             Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
         }
 
+        [TestMethod]
         public void AuthenticatedCannotEditothersCase()
         {
             var user = User("John");
@@ -126,5 +127,84 @@ namespace uHome.Tests.Authorization
             Assert.IsFalse(subject.CheckAccessAsync(ctx).Result);
         }
 
+        [TestMethod]
+        public void AuthenticatedAdminCanViewOthersCase()
+        {
+            var admin = User("AdminUser", new string[] { "Admin" });
+            var applicationUser1 = new ApplicationUser();
+            applicationUser1.UserName = admin.Identity.Name;
+            db.Users.Add(applicationUser1);
+            var applicationUser2 = db.Users.Create();
+            applicationUser2.UserName = "Other";
+            db.Users.Add(applicationUser2);
+            var @case = CreateCase();
+            @case.CreatedBy = applicationUser2;
+            db.Cases.Add(@case);
+            db.SaveChanges();
+
+            var ctx = new ResourceAuthorizationContext(admin,
+                UhomeResources.CaseActions.View, UhomeResources.Case, @case.ID.ToString());
+            Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
+        }
+
+        [TestMethod]
+        public void AuthenticatedAdminCanEditOthersCase()
+        {
+            var admin = User("AdminUser", new string[] { "Admin" });
+            var applicationUser1 = new ApplicationUser();
+            applicationUser1.UserName = admin.Identity.Name;
+            db.Users.Add(applicationUser1);
+            var applicationUser2 = db.Users.Create();
+            applicationUser2.UserName = "Other";
+            db.Users.Add(applicationUser2);
+            var @case = CreateCase();
+            @case.CreatedBy = applicationUser2;
+            db.Cases.Add(@case);
+            db.SaveChanges();
+
+            var ctx = new ResourceAuthorizationContext(admin,
+                UhomeResources.CaseActions.Edit, UhomeResources.Case, @case.ID.ToString());
+            Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
+        }
+
+        [TestMethod]
+        public void AuthenticatedManagerCanViewOthersCase()
+        {
+            var manager = User("ManagerUser", new string[] { "Manager" });
+            var applicationUser1 = new ApplicationUser();
+            applicationUser1.UserName = manager.Identity.Name;
+            db.Users.Add(applicationUser1);
+            var applicationUser2 = db.Users.Create();
+            applicationUser2.UserName = "Other";
+            db.Users.Add(applicationUser2);
+            var @case = CreateCase();
+            @case.CreatedBy = applicationUser2;
+            db.Cases.Add(@case);
+            db.SaveChanges();
+
+            var ctx = new ResourceAuthorizationContext(manager,
+                UhomeResources.CaseActions.View, UhomeResources.Case, @case.ID.ToString());
+            Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
+        }
+
+        [TestMethod]
+        public void AuthenticatedManagerCanEditOthersCase()
+        {
+            var manager = User("ManagerUser", new string[] { "Manager" });
+            var applicationUser1 = new ApplicationUser();
+            applicationUser1.UserName = manager.Identity.Name;
+            db.Users.Add(applicationUser1);
+            var applicationUser2 = db.Users.Create();
+            applicationUser2.UserName = "Other";
+            db.Users.Add(applicationUser2);
+            var @case = CreateCase();
+            @case.CreatedBy = applicationUser2;
+            db.Cases.Add(@case);
+            db.SaveChanges();
+
+            var ctx = new ResourceAuthorizationContext(manager,
+                UhomeResources.CaseActions.Edit, UhomeResources.Case, @case.ID.ToString());
+            Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
+        }
     }
 }

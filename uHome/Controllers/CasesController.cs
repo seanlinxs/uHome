@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using uHome.Models;
 using System.Linq;
@@ -12,7 +13,6 @@ namespace uHome.Controllers
     public class CasesController : BaseController
     {
         // GET: Cases
-        [ResourceAuthorize(UhomeResources.CaseActions.View, UhomeResources.Case)]
         public ActionResult Index()
         {
             var cases = from c in CurrentUser.Cases
@@ -21,17 +21,26 @@ namespace uHome.Controllers
         }
 
         // GET: Cases/Details/5
+        [ResourceAuthorize(UhomeResources.Actions.View, UhomeResources.Case)]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Case @case = await Database.Cases.FindAsync(id);
+
             if (@case == null)
             {
                 return HttpNotFound();
             }
+
+            if (!HttpContext.CheckAccess(UhomeResources.Actions.View, UhomeResources.Case, id.ToString()))
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             return View(@case);
         }
 
@@ -73,13 +82,22 @@ namespace uHome.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Case @case = await Database.Cases.FindAsync(id);
+
             if (@case == null)
             {
                 return HttpNotFound();
             }
+
+            if (!HttpContext.CheckAccess(UhomeResources.Actions.Edit, UhomeResources.Case, id.ToString()))
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             ViewBag.ID = new SelectList(Database.CaseAssignments, "CaseID", "ApplicationUserId", @case.ID);
             ViewBag.ApplicationUserId = new SelectList(Database.Users, "Id", "Email", @case.ApplicationUserId);
+            
             return View(@case);
         }
 
@@ -96,35 +114,11 @@ namespace uHome.Controllers
                 await Database.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+
             ViewBag.ID = new SelectList(Database.CaseAssignments, "CaseID", "ApplicationUserId", @case.ID);
             ViewBag.ApplicationUserId = new SelectList(Database.Users, "Id", "Email", @case.ApplicationUserId);
+            
             return View(@case);
-        }
-
-        // GET: Cases/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Case @case = await Database.Cases.FindAsync(id);
-            if (@case == null)
-            {
-                return HttpNotFound();
-            }
-            return View(@case);
-        }
-
-        // POST: Cases/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            Case @case = await Database.Cases.FindAsync(id);
-            Database.Cases.Remove(@case);
-            await Database.SaveChangesAsync();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
@@ -133,6 +127,7 @@ namespace uHome.Controllers
             {
                 Database.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }
