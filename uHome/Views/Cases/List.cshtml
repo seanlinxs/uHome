@@ -1,14 +1,11 @@
 ﻿@model IEnumerable<uHome.Models.ListCaseViewModel>
 
 @{
-    ViewBag.Title = "My Cases";
+    ViewBag.Title = "All Cases";
 }
 
-<h2>My Cases</h2>
+<h2>All Cases</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
-</p>
 <table class="table table-bordered table-hover">
     <tr>
         <th>
@@ -50,6 +47,7 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" })
                 @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Assign To", "AssignTo", new { id = item.ID }, new { @class = "btn btn-primary" })
             </td>
         </tr>
     }

@@ -67,7 +67,7 @@ namespace uHome.Controllers
                 Database.VideoClips.Add(videoClip);
                 await Database.SaveChangesAsync();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
 
             return View(model);
