@@ -10,25 +10,26 @@
     @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
 </p>
 
-<table class="table">
-@foreach (var item in Model) {
-    <tr>
-        <td class="col-md-2">
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" src="@item.Path"></iframe>
-            </div>
-        </td>
-        <td class="col-md4">
-            <p><strong>@item.Name</strong></p>
-            <p>@item.Description</p>
-            <p><small>by @item.UploadedBy.Email<br />@item.UploadedAt</small></p>
-        </td>
-        <td class ="col-md2">
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" })
-            @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-primary" })
-            @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
-        </td>
-    </tr>
-}
+<table class="table table-bordered table-hover">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="col-md-2">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="@item.Path"></iframe>
+                </div>
+            </td>
+            <td class="col-md4">
+                <p><strong>@item.Name</strong></p>
+                <p>@item.Description</p>
+                <p><small>by @item.UploadedBy.Email<br />@item.UploadedAt</small></p>
+            </td>
+            <td class="col-md2">
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
 
 </table>
