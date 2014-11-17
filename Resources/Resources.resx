@@ -216,4 +216,7 @@
   <data name="Case" xml:space="preserve">
     <value>Case</value>
   </data>
+  <data name="DisplayName" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
 </root>

@@ -22,7 +22,7 @@ namespace uHome.Controllers
         {
             get
             {
-                return HttpContext.GetOwinContext().Get<ApplicationUserManager>();
+                return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
         }
 

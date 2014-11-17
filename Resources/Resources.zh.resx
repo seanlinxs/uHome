@@ -216,4 +216,7 @@
   <data name="Case" xml:space="preserve">
     <value>案子</value>
   </data>
+  <data name="DisplayName" xml:space="preserve">
+    <value>全名</value>
+  </data>
 </root>
