@@ -21,6 +21,7 @@ namespace uHome.Models
         public int ID { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
+        public string CreatedBy { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public CaseState State { get; private set; }
         public string Assignee { get; private set; }
@@ -32,6 +33,7 @@ namespace uHome.Models
             var desc = @case.Description;
             var len = int.Parse(ConfigurationManager.AppSettings["MaxDisplayedChars"]);
             Description = desc.Length > len ? desc.Substring(0, len) : desc;
+            CreatedBy = @case.CreatedBy.UserName;
             CreatedAt = @case.CreatedAt;
             State = @case.State;
 

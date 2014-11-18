@@ -15,6 +15,9 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.CreatedAt)
         </th>
         <th>
@@ -36,6 +39,9 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.CreatedAt)
             </td>
             <td>
@@ -45,7 +51,6 @@
                 @Html.DisplayFor(modelItem => item.Assignee)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-primary" })
                 @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-primary" })
                 @Html.ActionLink("Assign To", "AssignTo", new { id = item.ID }, new { @class = "btn btn-primary" })
             </td>
