@@ -219,4 +219,10 @@
   <data name="DisplayName" xml:space="preserve">
     <value>Full Name</value>
   </data>
+  <data name="RegisterManager" xml:space="preserve">
+    <value>Add manager user</value>
+  </data>
+  <data name="RegisterStaff" xml:space="preserve">
+    <value>Add staff user</value>
+  </data>
 </root>

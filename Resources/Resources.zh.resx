@@ -219,4 +219,10 @@
   <data name="DisplayName" xml:space="preserve">
     <value>全名</value>
   </data>
+  <data name="RegisterManager" xml:space="preserve">
+    <value>添加经理帐号</value>
+  </data>
+  <data name="RegisterStaff" xml:space="preserve">
+    <value>添加员工帐号</value>
+  </data>
 </root>

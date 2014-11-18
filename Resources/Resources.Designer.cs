@@ -277,6 +277,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add manager user.
+        /// </summary>
+        public static string RegisterManager {
+            get {
+                return ResourceManager.GetString("RegisterManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add staff user.
+        /// </summary>
+        public static string RegisterStaff {
+            get {
+                return ResourceManager.GetString("RegisterStaff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remember me?.
         /// </summary>
         public static string RememberMe {

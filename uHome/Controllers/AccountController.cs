@@ -153,6 +153,16 @@ namespace uHome.Controllers
         }
 
         //
+        // GET: /Account/RegisterManager
+        [AllowAnonymous]
+        public ActionResult RegisterManager()
+        {
+            RegisterViewModel model = new RegisterViewModel("Manager");
+
+            return View(model);
+        }
+
+        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
