@@ -303,6 +303,7 @@
     <Content Include="Views\VideoClips\List.cshtml" />
     <Content Include="Views\Cases\List.cshtml" />
     <Content Include="Views\Account\RegisterManager.cshtml" />
+    <Content Include="Views\Account\RegisterStaff.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -163,6 +163,16 @@ namespace uHome.Controllers
         }
 
         //
+        // GET: /Account/RegisterStaff
+        [AllowAnonymous]
+        public ActionResult RegisterStaff()
+        {
+            RegisterViewModel model = new RegisterViewModel("Staff");
+
+            return View(model);
+        }
+
+        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
