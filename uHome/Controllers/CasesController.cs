@@ -66,14 +66,22 @@ namespace uHome.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Title,Description")] CreateCaseViewModel createCaseViewModel)
         {
+            var now = System.DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 var @case = new Case
                 {
                     Title = createCaseViewModel.Title,
                     Description = createCaseViewModel.Description,
-                    CreatedAt = System.DateTime.Now,
-                    CreatedBy = CurrentUser
+                    CreatedAt = now,
+                    CreatedBy = CurrentUser,
+                    CaseAssignment = new CaseAssignment
+                    {
+                        // Default assign to system admin or manager
+                        Assignee = await UserManager.FindByNameAsync("Administrator"),
+                        AssignmentDate = now
+                    }
                 };
                 Database.Cases.Add(@case);
                 await Database.SaveChangesAsync();

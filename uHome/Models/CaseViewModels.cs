@@ -34,7 +34,15 @@ namespace uHome.Models
             Description = desc.Length > len ? desc.Substring(0, len) : desc;
             CreatedAt = @case.CreatedAt;
             State = @case.State;
-            Assignee = @case.CreatedBy.UserName;
+
+            if (@case.CaseAssignment == null)
+            {
+                Assignee = "Unassigned";
+            }
+            else
+            {
+                Assignee = @case.CaseAssignment.Assignee.UserName;
+            }            
         }
     }
 }
