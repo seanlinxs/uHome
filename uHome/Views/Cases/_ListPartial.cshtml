@@ -1,0 +1,18 @@
+﻿<div class="row">
+    @foreach (var caseGroup in Model)
+    {
+        <div class="col-md-4 panel panel-primary">
+            <div class="panel-body">
+                <p><h3>@caseGroup.State</h3></p>
+                @foreach (var caseItem in caseGroup.Cases)
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-heading">@Html.ActionLink((string)caseItem.Title, (string)ViewData["ActionName"], new { id = caseItem.ID })</div>
+                        <div class="panel-body" title="@caseItem.Description">@caseItem.DescriptionThumb</div>
+                        <div class="panel-footer panel-info">By: @caseItem.CreatedBy | Assignee: @caseItem.Assignee | At: @caseItem.CreatedAt</div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

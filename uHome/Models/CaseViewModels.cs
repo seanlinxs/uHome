@@ -12,39 +12,30 @@ namespace uHome.Models
     {
         [LocalizedRequired]
         [LocalizedStringLength(50)]
-        public string Title { get; set; }
-        public string Description { get; set; }
-    }
-
-    public class ListCaseViewModel
-    {
-        public int ID { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
-        public string CreatedBy { get; private set; }
-        public DateTime CreatedAt { get; private set; }
+    }
+
+    public class CaseListViewModel
+    {
+        public int ID { get; set; }
+        public string Title { get; set; }
+        public string CreatedBy { get; set; }
+        public string Description { get; set; }
+        public string DescriptionThumb { get; set; }
+        public string Assignee { get; set; }
+        public DateTime CreatedAt { get; set; }
+    }
+
+    public class CaseGroupViewModel
+    {
         public CaseState State { get; private set; }
-        public string Assignee { get; private set; }
+        public IEnumerable<CaseListViewModel> Cases { get; private set; }
 
-        public ListCaseViewModel(Case @case)
+        public CaseGroupViewModel(CaseState s, IQueryable<CaseListViewModel> cases)
         {
-            ID = @case.ID;
-            Title = @case.Title;
-            var desc = @case.Description;
-            var len = int.Parse(ConfigurationManager.AppSettings["MaxDisplayedChars"]);
-            Description = desc.Length > len ? desc.Substring(0, len) : desc;
-            CreatedBy = @case.CreatedBy.UserName;
-            CreatedAt = @case.CreatedAt;
-            State = @case.State;
-
-            if (@case.CaseAssignment == null)
-            {
-                Assignee = "Unassigned";
-            }
-            else
-            {
-                Assignee = @case.CaseAssignment.Assignee.UserName;
-            }            
+            State = s;
+            Cases = cases;
         }
     }
 }

@@ -7,31 +7,92 @@ using uHome.Models;
 using System.Linq;
 using uHome.Authorization;
 using Thinktecture.IdentityModel.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
 
 namespace uHome.Controllers
 {
     public class CasesController : BaseController
     {
+        private int maxDisplayChars = int.Parse(ConfigurationManager.AppSettings["MaxDisplayChars"]);
         // GET: Cases
         [ResourceAuthorize(UhomeResources.Actions.List, UhomeResources.Case)]
         public ActionResult Index()
         {
-            var cases = from c in CurrentUser.Cases
-                        select new ListCaseViewModel(c);
-            return View(cases);
+            var caseGroups = new List<CaseGroupViewModel>();
+
+            foreach (CaseState s in Enum.GetValues(typeof(CaseState)))
+            {
+                var cases = from c in Database.Cases
+                            where c.State == s && c.ApplicationUserId == CurrentUser.Id
+                            select new CaseListViewModel
+                            {
+                                ID = c.ID,
+                                Title = c.Title,
+                                CreatedBy = c.CreatedBy.UserName,
+                                Description = c.Description,
+                                DescriptionThumb = c.Description.Substring(0, maxDisplayChars),
+                                Assignee = c.CaseAssignment == null ? "Unassigned" : c.CaseAssignment.Assignee.UserName,
+                                CreatedAt = c.CreatedAt
+                            };
+                caseGroups.Add(new CaseGroupViewModel(s, cases));
+            }
+
+            return View(caseGroups);
         }
 
         // GET: Cases
         [ResourceAuthorize(UhomeResources.Actions.List, UhomeResources.Case)]
         public ActionResult List()
         {
-            var cases = from c in Database.Cases.ToList()
-                        select new ListCaseViewModel(c);
-            return View(cases);
+            var caseGroups = new List<CaseGroupViewModel>();
+
+            foreach (CaseState s in Enum.GetValues(typeof(CaseState)))
+            {
+                var cases = from c in Database.Cases
+                            where c.State == s
+                            select new CaseListViewModel
+                            {
+                                ID = c.ID,
+                                Title = c.Title,
+                                CreatedBy = c.CreatedBy.UserName,
+                                Description = c.Description,
+                                DescriptionThumb = c.Description.Substring(0, maxDisplayChars),
+                                Assignee = c.CaseAssignment == null ? "Unassigned" : c.CaseAssignment.Assignee.UserName,
+                                CreatedAt = c.CreatedAt
+                            };
+                caseGroups.Add(new CaseGroupViewModel(s, cases));
+            }
+
+            return View(caseGroups);
         }
 
         // GET: Cases/Details/5
         public async Task<ActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Case @case = await Database.Cases.FindAsync(id);
+
+            if (@case == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (!HttpContext.CheckAccess(UhomeResources.Actions.View, UhomeResources.Case, id.ToString()))
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            return View(@case);
+        }
+
+        // GET: Cases/AdminDetails/5
+        public async Task<ActionResult> AdminDetails(int? id)
         {
             if (id == null)
             {
