@@ -203,8 +203,10 @@ namespace uHome.Controllers
                         callbackUrl,
                         Resources.Resources.Link);
                     await UserManager.SendEmailAsync(user.Id, msgSubject, msgBody);
+                    await SignInManager.PasswordSignInAsync(model.Email,
+                        model.Password, isPersistent: false, shouldLockout: false);
 
-                    return View("DisplayEmail");
+                    return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
