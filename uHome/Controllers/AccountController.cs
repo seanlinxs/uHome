@@ -269,7 +269,7 @@ namespace uHome.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(string.Format("Register{0}", model.RoleName), model);
+            return View(string.Format("Add{0}", model.RoleName), model);
         }
 
         //
