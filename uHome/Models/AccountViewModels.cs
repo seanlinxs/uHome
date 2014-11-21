@@ -100,6 +100,30 @@ namespace uHome.Models
         }
     }
 
+    public class AddAccountViewModel
+    {
+        [LocalizedRequired]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources),
+            ErrorMessageResourceName = "InvalidEmail",
+            ErrorMessage = null)]
+        [Display(Name = "Email", ResourceType = typeof(Resources.Resources))]
+        public string Email { get; set; }
+
+        [Display(Name = "DisplayName", ResourceType = typeof(Resources.Resources))]
+        public string DisplayName { get; set; }
+
+        public string RoleName { get; set; }
+
+        public AddAccountViewModel()
+        {
+        }
+
+        public AddAccountViewModel(string RoleName)
+        {
+            this.RoleName = RoleName;
+        }
+    }
+
     public class ResetPasswordViewModel
     {
         [LocalizedRequired]

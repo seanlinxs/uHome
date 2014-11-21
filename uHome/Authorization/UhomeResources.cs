@@ -9,6 +9,7 @@ namespace uHome.Authorization
     {
         public const string VideoClip = "VideoClip";
         public const string Case = "Case";
+        public const string User = "User";
 
         public class Actions
         {
@@ -20,6 +21,10 @@ namespace uHome.Authorization
         {
         }
         public class CaseActions : Actions
+        {
+        }
+
+        public class UserActions : Actions
         {
         }
     }

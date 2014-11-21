@@ -1,14 +1,15 @@
 ﻿@model IEnumerable<uHome.Models.RoleViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Resources.RoleAdmin;
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create", null,  new { @class = "btn btn-primary" })
 </p>
+
 <table class="table table-bordered table-hover">
     <tr>
         <th>

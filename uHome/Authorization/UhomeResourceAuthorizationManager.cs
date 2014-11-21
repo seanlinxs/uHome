@@ -26,6 +26,11 @@ namespace uHome.Authorization
                 return CheckAccessCaseAsync(ctx);
             }
 
+            if (resource == UhomeResources.User)
+            {
+                return CheckAccessUserAsync(ctx);
+            }
+
             return Nok();
         }
 
@@ -96,5 +101,17 @@ namespace uHome.Authorization
 
             return Nok();
        }
+
+        public Task<bool> CheckAccessUserAsync(ResourceAuthorizationContext ctx)
+        {
+            var user = ctx.Principal.Identity;
+
+            if (ctx.Principal.IsInRole("Admin"))
+            {
+                return Ok();
+            }
+
+            return Nok();
+        }
     }
 }

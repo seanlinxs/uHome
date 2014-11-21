@@ -219,10 +219,16 @@
   <data name="DisplayName" xml:space="preserve">
     <value>全名</value>
   </data>
-  <data name="RegisterManager" xml:space="preserve">
+  <data name="AddManager" xml:space="preserve">
     <value>添加经理帐号</value>
   </data>
-  <data name="RegisterStaff" xml:space="preserve">
-    <value>添加员工帐号</value>
+  <data name="AddStaff" xml:space="preserve">
+    <value>添加雇员帐号</value>
+  </data>
+  <data name="AddAccount" xml:space="preserve">
+    <value>添加帐号</value>
+  </data>
+  <data name="InitialPassword" xml:space="preserve">
+    <value>您的初始密码为： </value>
   </data>
 </root>

@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using uHome.Models;
+using System.Web.Security;
+using Thinktecture.IdentityModel.Mvc;
+using uHome.Authorization;
 
 namespace uHome.Controllers
 {
@@ -153,26 +156,6 @@ namespace uHome.Controllers
         }
 
         //
-        // GET: /Account/RegisterManager
-        [AllowAnonymous]
-        public ActionResult RegisterManager()
-        {
-            RegisterViewModel model = new RegisterViewModel("Manager");
-
-            return View(model);
-        }
-
-        //
-        // GET: /Account/RegisterStaff
-        [AllowAnonymous]
-        public ActionResult RegisterStaff()
-        {
-            RegisterViewModel model = new RegisterViewModel("Staff");
-
-            return View(model);
-        }
-
-        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
@@ -207,6 +190,80 @@ namespace uHome.Controllers
                         model.Password, isPersistent: false, shouldLockout: false);
 
                     return RedirectToAction("Index", "Home");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(string.Format("Register{0}", model.RoleName), model);
+        }
+
+        //
+        // GET: /Account/Index
+        [ResourceAuthorize(UhomeResources.Actions.List, UhomeResources.User)]
+        public ActionResult Index()
+        {
+            var model = from u in Database.Users
+                        select u;
+
+            return View(model);
+        }
+
+        //
+        // GET: /Account/AddManager
+        [ResourceAuthorize(UhomeResources.Actions.List, UhomeResources.User)]
+        public ActionResult AddManager()
+        {
+            var model = new AddAccountViewModel("Manager");
+
+            return View(model);
+        }
+
+        //
+        // GET: /Account/AddStaff
+        [ResourceAuthorize(UhomeResources.Actions.List, UhomeResources.User)]
+        public ActionResult AddStaff()
+        {
+            var model = new AddAccountViewModel("Staff");
+
+            return View(model);
+        }
+
+        //
+        // POST: /Account/Add
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.User)]
+        public async Task<ActionResult> Add(AddAccountViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.DisplayName, Email = model.Email };
+                var password = Membership.GeneratePassword(8, 1);
+                var result = await UserManager.CreateAsync(user, password);
+
+                if (result.Succeeded)
+                {
+                    // Assign user role
+                    UserManager.AddToRole(user.Id, model.RoleName);
+
+                    // For more information on how to enable account confirmation
+                    // and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account",
+                        new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    var msgSubject = Resources.Resources.ConfirmAccountSubject;
+                    var msgBody = string.Format(
+                        "{0}{1}<br/>{2}: <a href=\"{3}\">{4}</a>",
+                        Resources.Resources.InitialPassword,
+                        password,
+                        Resources.Resources.ConfirmAccountPrompt,
+                        callbackUrl,
+                        Resources.Resources.Link);
+                    await UserManager.SendEmailAsync(user.Id, msgSubject, msgBody);
+
+                    return RedirectToAction("Index");
                 }
                 AddErrors(result);
             }

@@ -219,10 +219,16 @@
   <data name="DisplayName" xml:space="preserve">
     <value>Full Name</value>
   </data>
-  <data name="RegisterManager" xml:space="preserve">
-    <value>Add manager user</value>
+  <data name="AddManager" xml:space="preserve">
+    <value>Add manager account</value>
   </data>
-  <data name="RegisterStaff" xml:space="preserve">
-    <value>Add staff user</value>
+  <data name="AddStaff" xml:space="preserve">
+    <value>Add staff account</value>
+  </data>
+  <data name="AddAccount" xml:space="preserve">
+    <value>Add Account</value>
+  </data>
+  <data name="InitialPassword" xml:space="preserve">
+    <value>Your initial password is: </value>
   </data>
 </root>

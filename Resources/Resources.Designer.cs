@@ -70,6 +70,33 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Account.
+        /// </summary>
+        public static string AddAccount {
+            get {
+                return ResourceManager.GetString("AddAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add manager account.
+        /// </summary>
+        public static string AddManager {
+            get {
+                return ResourceManager.GetString("AddManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add staff account.
+        /// </summary>
+        public static string AddStaff {
+            get {
+                return ResourceManager.GetString("AddStaff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Admin.
         /// </summary>
         public static string Admin {
@@ -205,6 +232,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your initial password is: .
+        /// </summary>
+        public static string InitialPassword {
+            get {
+                return ResourceManager.GetString("InitialPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Email field is not a valid email address.
         /// </summary>
         public static string InvalidEmail {
@@ -273,24 +309,6 @@ namespace Resources {
         public static string Register {
             get {
                 return ResourceManager.GetString("Register", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add manager user.
-        /// </summary>
-        public static string RegisterManager {
-            get {
-                return ResourceManager.GetString("RegisterManager", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add staff user.
-        /// </summary>
-        public static string RegisterStaff {
-            get {
-                return ResourceManager.GetString("RegisterStaff", resourceCulture);
             }
         }
         

@@ -1,0 +1,12 @@
+﻿@model uHome.Models.AddAccountViewModel
+@{
+    ViewBag.Title = Resources.AddManager;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@{Html.RenderPartial("_AddAccountFormPartial");}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

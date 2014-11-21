@@ -31,8 +31,9 @@
                             <a href="#" data-toggle="dropdown" class="dropdown-toggle">@Resources.Admin <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink(Resources.RoleAdmin, "Index", "Roles")</li>
-                                <li>@Html.ActionLink(Resources.RegisterManager, "RegisterManager", "Account")</li>
-                                <li>@Html.ActionLink(Resources.RegisterStaff, "RegisterStaff", "Account")</li>
+                                <li>@Html.ActionLink(Resources.UserAdmin, "Index", "Account")</li>
+                                <li>@Html.ActionLink(Resources.AddManager, "AddManager", "Account")</li>
+                                <li>@Html.ActionLink(Resources.AddStaff, "AddStaff", "Account")</li>
                                 <li>@Html.ActionLink(Resources.Video, "List", "VideoClips")</li>
                                 <li>@Html.ActionLink(Resources.Case, "List", "Cases")</li>
                             </ul>

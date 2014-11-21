@@ -302,11 +302,13 @@
     <Content Include="Views\Cases\Index.cshtml" />
     <Content Include="Views\VideoClips\List.cshtml" />
     <Content Include="Views\Cases\List.cshtml" />
-    <Content Include="Views\Account\RegisterManager.cshtml" />
-    <Content Include="Views\Account\RegisterStaff.cshtml" />
+    <Content Include="Views\Account\AddManager.cshtml" />
+    <Content Include="Views\Account\AddStaff.cshtml" />
     <Content Include="Views\Cases\AdminDetails.cshtml" />
     <Content Include="Views\Cases\_ListPartial.cshtml" />
     <Content Include="Views\Account\_RegisterFormPartial.cshtml" />
+    <Content Include="Views\Account\_AddAccountFormPartial.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
