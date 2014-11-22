@@ -12,6 +12,7 @@ using uHome.Models;
 using System.Web.Security;
 using Thinktecture.IdentityModel.Mvc;
 using uHome.Authorization;
+using System.Collections.Generic;
 
 namespace uHome.Controllers
 {
@@ -203,10 +204,19 @@ namespace uHome.Controllers
         [ResourceAuthorize(UhomeResources.Actions.List, UhomeResources.User)]
         public ActionResult Index()
         {
-            var model = from u in Database.Users
-                        select u;
+            var AccountIndexViewModels = new List<AccountIndexViewModel>();
 
-            return View(model);
+            foreach (var user in Database.Users)
+            {
+                var accountIndexViewModel = new AccountIndexViewModel();
+                accountIndexViewModel.Id = user.Id;
+                accountIndexViewModel.UserName = user.UserName;
+                accountIndexViewModel.Email = user.Email;                
+                accountIndexViewModel.Roles = string.Join(", ", UserManager.GetRoles(user.Id));
+                AccountIndexViewModels.Add(accountIndexViewModel);
+            }
+
+            return View(AccountIndexViewModels);
         }
 
         //

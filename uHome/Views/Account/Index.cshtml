@@ -1,4 +1,4 @@
-﻿@model IEnumerable<uHome.Models.ApplicationUser>
+﻿@model IEnumerable<uHome.Models.AccountIndexViewModel>
 
 @{
     ViewBag.Title = Resources.UserAdmin;
@@ -15,6 +15,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Email)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Roles)
+        </th>
         <th></th>
     </tr>
 
@@ -26,6 +29,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Roles)
             </td>
             <td>
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
