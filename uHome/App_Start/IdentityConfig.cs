@@ -308,7 +308,7 @@ namespace uHome.Models
             
             if (user == null)
             {
-                user = new ApplicationUser { UserName = name, Email = email };
+                user = new ApplicationUser { UserName = name, Email = email, EmailConfirmed = true };
                 var result = userManager.Create(user, password);
                 result = userManager.SetLockoutEnabled(user.Id, false);
             }

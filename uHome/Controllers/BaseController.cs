@@ -73,5 +73,15 @@ namespace uHome.Controllers
 
             return base.BeginExecuteCore(callback, state);
         }
+
+        protected override void OnResultExecuting(ResultExecutingContext filterContext)
+        {
+            if (Request.IsAuthenticated)
+            {
+                filterContext.Controller.ViewBag.EmailConfirmed = CurrentUser.EmailConfirmed;
+            }
+
+            base.OnResultExecuting(filterContext);
+        }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Web;
-using System.Web.Mvc;
-using Thinktecture.IdentityModel.Mvc;
+﻿using System.Web.Mvc;
 
 namespace uHome
 {
