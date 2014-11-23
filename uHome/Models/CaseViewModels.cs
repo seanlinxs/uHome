@@ -5,6 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using uHome.Annotations;
 using System.Configuration;
+using System.Text;
 
 namespace uHome.Models
 {
@@ -15,7 +16,44 @@ namespace uHome.Models
         public string Title { get; set; }
         public string Description { get; set; }
         [Display(Name = "UploadAttachments", ResourceType = typeof(Resources.Resources))]
+        [ValidateFiles]
         public IEnumerable<HttpPostedFileBase> Files { get; set; }
+    }
+
+    public class ValidateFilesAttribute : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            long MaxFileSize = 10 * 1024 * 1024; // 10 MB
+            string[] AllowedFileExtensions = { ".doc", ".docx", ".pdf", ".jpg", ".gif", ".png" };
+
+            var files = value as IEnumerable<HttpPostedFileBase>;
+
+            // nothing attached, this is allowed
+            if (files.Count() == 1 && files.First() == null)
+            {
+                return true;
+            }
+
+            foreach (var file in files)
+            {
+                var fileExtension = file.FileName.Substring(file.FileName.LastIndexOf(".")).ToLower();
+
+                if (!AllowedFileExtensions.Contains(fileExtension))
+                {
+                    ErrorMessage = string.Format("{0} is not in allowed file types: {1}", file.FileName, string.Join(", ", AllowedFileExtensions));
+                    return false;
+                }
+
+                if (file.InputStream.Length >= MaxFileSize)
+                {
+                    ErrorMessage = string.Format("{0} is too large, maximum allowed file size is {1}MB", file.FileName, MaxFileSize / 1024 / 1024);
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 
     public class CaseListViewModel

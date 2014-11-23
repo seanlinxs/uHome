@@ -125,7 +125,7 @@ namespace uHome.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Title,Description")] CreateCaseViewModel createCaseViewModel)
+        public async Task<ActionResult> Create([Bind(Include = "Title, Description, Files")] CreateCaseViewModel createCaseViewModel)
         {
             var now = System.DateTime.Now;
 
@@ -144,6 +144,24 @@ namespace uHome.Controllers
                         AssignmentDate = now
                     }
                 };
+
+                // Attachments
+                if (createCaseViewModel.Files.Count() > 0 && createCaseViewModel.Files.First() != null)
+                {
+                    @case.Attachments = new List<Attachment>();
+
+                    foreach (var file in createCaseViewModel.Files)
+                    {
+                        var attachment = new Attachment();
+                        attachment.Case = @case;
+                        attachment.Name = file.FileName;
+                        attachment.UploadAt = now;
+                        attachment.FileStream = new byte[file.InputStream.Length];
+                        file.InputStream.Read(attachment.FileStream, 0, attachment.FileStream.Length);
+                        @case.Attachments.Add(attachment);
+                    }
+                }
+
                 Database.Cases.Add(@case);
                 await Database.SaveChangesAsync();
 

@@ -6,7 +6,7 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "nultipart/form-data" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -32,6 +32,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Files, htmlAttributes: new { @class = "control-label col-md-2"})
+            <span class="glyphicon glyphicon-info-sign" title="@Resources.UploadHints"></span>
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.Files, new { type = "file", multiple = "true" })
                 @Html.ValidationMessageFor(model => model.Files, "", new { @class = "text-danger" })

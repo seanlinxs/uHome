@@ -394,6 +394,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can upload multiple files with each file less than 10 MB, total less than 100MB and allow .doc, .docx, .pdf, .jpg, .png, .gif.
+        /// </summary>
+        public static string UploadHints {
+            get {
+                return ResourceManager.GetString("UploadHints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Users.
         /// </summary>
         public static string UserAdmin {
