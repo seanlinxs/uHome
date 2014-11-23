@@ -6,4 +6,8 @@
 
 <h2>@ViewBag.Title</h2>
 
+<p>
+    @Html.ActionLink("Create New Case", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
 @Html.Partial("_ListPartial", Model, new ViewDataDictionary { { "ActionName", "Details" } })
