@@ -11,7 +11,9 @@ namespace uHome.Models
 
         public string Name { get; set; }
 
-        public string Path { get; set; }
+        public byte[] FileStream { get; set; }
+
+        public DateTime UploadAt { get; set; }
 
         public int CaseID { get; set; }
 
