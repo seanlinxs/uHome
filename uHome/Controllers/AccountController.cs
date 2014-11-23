@@ -244,7 +244,7 @@ namespace uHome.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.User)]
-        public async Task<ActionResult> Add(AddAccountViewModel model)
+        public async Task<ActionResult> Add([Bind(Include = "RoleName, Email, DisplayName")]AddAccountViewModel model)
         {
             if (ModelState.IsValid)
             {
