@@ -231,4 +231,7 @@
   <data name="InitialPassword" xml:space="preserve">
     <value>Your initial password is: </value>
   </data>
+  <data name="UploadAttachments" xml:space="preserve">
+    <value>Upload Attachments</value>
+  </data>
 </root>

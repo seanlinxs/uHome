@@ -14,6 +14,8 @@ namespace uHome.Models
         [LocalizedStringLength(50)]
         public string Title { get; set; }
         public string Description { get; set; }
+        [Display(Name = "UploadAttachments", ResourceType = typeof(Resources.Resources))]
+        public IEnumerable<HttpPostedFileBase> Files { get; set; }
     }
 
     public class CaseListViewModel

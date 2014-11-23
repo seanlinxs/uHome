@@ -376,6 +376,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Upload Attachments.
+        /// </summary>
+        public static string UploadAttachments {
+            get {
+                return ResourceManager.GetString("UploadAttachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to By.
         /// </summary>
         public static string UploadedBy {

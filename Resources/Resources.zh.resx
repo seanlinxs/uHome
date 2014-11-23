@@ -231,4 +231,7 @@
   <data name="InitialPassword" xml:space="preserve">
     <value>您的初始密码为： </value>
   </data>
+  <data name="UploadAttachments" xml:space="preserve">
+    <value>上传附件</value>
+  </data>
 </root>
