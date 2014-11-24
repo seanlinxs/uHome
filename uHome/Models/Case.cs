@@ -20,6 +20,8 @@ namespace uHome.Models
 
         public DateTime CreatedAt { get; set; }
 
+        public DateTime UpdatedAt { get; set; }
+
         public CaseState State { get; set; }
 
         public string ApplicationUserId { get; set; }
