@@ -48,7 +48,7 @@ namespace uHome.Controllers
         {
             var caseGroups = new List<CaseGroupViewModel>();
 
-            foreach (CaseState s in new CaseState[] { CaseState.OPEN, CaseState.ACTIVE })
+            foreach (CaseState s in new CaseState[] { CaseState.NEW, CaseState.ACTIVE })
             {
                 var cases = from c in Database.Cases
                             where c.State == s
@@ -137,6 +137,7 @@ namespace uHome.Controllers
                     Description = createCaseViewModel.Description,
                     CreatedAt = now,
                     CreatedBy = CurrentUser,
+                    State = CaseState.NEW,
                     CaseAssignment = new CaseAssignment
                     {
                         // Default assign to system admin or manager

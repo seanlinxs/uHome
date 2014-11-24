@@ -22,7 +22,7 @@ namespace uHome.Tests.Authorization
                 Title = "Case Title",
                 Description = "Case Description",
                 CreatedAt = System.DateTime.Now,
-                State = CaseState.OPEN
+                State = CaseState.NEW
             };
 
             return @case;
