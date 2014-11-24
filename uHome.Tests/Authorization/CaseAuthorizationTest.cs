@@ -17,11 +17,13 @@ namespace uHome.Tests.Authorization
 
         private Case CreateCase()
         {
+            var now = System.DateTime.Now;
             Case @case = new Case
             {
                 Title = "Case Title",
                 Description = "Case Description",
-                CreatedAt = System.DateTime.Now,
+                CreatedAt = now,
+                UpdatedAt = now,
                 State = CaseState.NEW
             };
 
