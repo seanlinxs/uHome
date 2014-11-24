@@ -78,4 +78,20 @@ namespace uHome.Models
             Cases = cases;
         }
     }
+
+    public class EditCaseViewModel
+    {
+        public int ID { get; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string CreatedBy { get; }
+        public DateTime CreatedAt { get; }
+        public DateTime UpdatedAt { get; set; }
+        public CaseState State { get; set; }
+        public string Assignee { get; set; }
+        public IEnumerable<Attachment> Attachments { get; set; }
+        [Display(Name = "UploadAttachments", ResourceType = typeof(Resources.Resources))]
+        [ValidateFiles]
+        public IEnumerable<HttpPostedFileBase> Files { get; set; }
+    }
 }
