@@ -136,6 +136,7 @@ namespace uHome.Controllers
                     Title = createCaseViewModel.Title,
                     Description = createCaseViewModel.Description,
                     CreatedAt = now,
+                    UpdatedAt = now,
                     CreatedBy = CurrentUser,
                     State = CaseState.NEW,
                     CaseAssignment = new CaseAssignment

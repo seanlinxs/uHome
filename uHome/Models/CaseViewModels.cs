@@ -70,22 +70,24 @@ namespace uHome.Models
     public class CaseGroupViewModel
     {
         public CaseState State { get; private set; }
+        public int Count { get; set; }
         public IEnumerable<CaseListViewModel> Cases { get; private set; }
 
         public CaseGroupViewModel(CaseState s, IQueryable<CaseListViewModel> cases)
         {
             State = s;
             Cases = cases;
+            Count = cases.Count();
         }
     }
 
     public class EditCaseViewModel
     {
-        public int ID { get; }
+        public int ID { get; private set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public string CreatedBy { get; }
-        public DateTime CreatedAt { get; }
+        public string CreatedBy { get; private set; }
+        public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; set; }
         public CaseState State { get; set; }
         public string Assignee { get; set; }
