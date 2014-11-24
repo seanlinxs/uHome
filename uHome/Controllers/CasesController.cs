@@ -48,7 +48,7 @@ namespace uHome.Controllers
         {
             var caseGroups = new List<CaseGroupViewModel>();
 
-            foreach (CaseState s in Enum.GetValues(typeof(CaseState)))
+            foreach (CaseState s in new CaseState[] { CaseState.OPEN, CaseState.ACTIVE })
             {
                 var cases = from c in Database.Cases
                             where c.State == s
