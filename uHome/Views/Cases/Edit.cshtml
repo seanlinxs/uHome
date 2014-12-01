@@ -1,4 +1,4 @@
-﻿@model uHome.Models.Case
+﻿@model uHome.Models.EditCaseViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -6,8 +6,7 @@
 
 <h2>Edit</h2>
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -34,10 +33,23 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.CreatedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.CreatedBy)
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.CreatedAt, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CreatedAt, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CreatedAt, "", new { @class = "text-danger" })
+                @Html.DisplayFor(model => model.CreatedAt)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UpdatedAt, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.UpdatedAt)
             </div>
         </div>
 
@@ -50,10 +62,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ApplicationUserId, "ApplicationUserId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Assignee, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ApplicationUserId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ApplicationUserId, "", new { @class = "text-danger" })
+                @Html.DropDownList("Assignee", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Assignee, "", new { @class = "text-danger" })
             </div>
         </div>
 

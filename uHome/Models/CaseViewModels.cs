@@ -95,5 +95,18 @@ namespace uHome.Models
         [Display(Name = "UploadAttachments", ResourceType = typeof(Resources.Resources))]
         [ValidateFiles]
         public IEnumerable<HttpPostedFileBase> Files { get; set; }
+
+        public EditCaseViewModel(Case @case)
+        {
+            ID = @case.ID;
+            Title = @case.Title;
+            Description = @case.Description;
+            CreatedBy = @case.CreatedBy.UserName;
+            CreatedAt = @case.CreatedAt;
+            UpdatedAt = @case.UpdatedAt;
+            State = @case.State;
+            Assignee = @case.CaseAssignment == null ? "Unassigned" : @case.CaseAssignment.Assignee.UserName;
+            Attachments = @case.Attachments;
+        }
     }
 }

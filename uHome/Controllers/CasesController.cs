@@ -10,6 +10,8 @@ using Thinktecture.IdentityModel.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace uHome.Controllers
 {
@@ -193,10 +195,18 @@ namespace uHome.Controllers
                 return new HttpUnauthorizedResult();
             }
 
-            ViewBag.ID = new SelectList(Database.CaseAssignments, "CaseID", "ApplicationUserId", @case.ID);
-            ViewBag.ApplicationUserId = new SelectList(Database.Users, "Id", "Email", @case.ApplicationUserId);
-            
-            return View(@case);
+            var model = new EditCaseViewModel(@case);
+            var staff = Database.Roles.Where(r => r.Name == "staff").Single().Users;
+            var staffList = new List<ApplicationUser>();
+
+            foreach (var u in staff)
+            {
+                staffList.Add(Database.Users.Find(u.UserId));
+            }
+                        
+            ViewBag.Assignee = new SelectList(staffList, "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
+                        
+            return View(model);
         }
 
         // POST: Cases/Edit/5
