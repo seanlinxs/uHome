@@ -49,7 +49,7 @@ namespace uHome.Models
             return userIdentity;
         }
 
-        public ICollection<ApplicationUserRole> UserRoles { get; set; }
+        public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
         public virtual ICollection<Interest> Interests { get; set; }
         public virtual ICollection<Case> Cases { get; set; }
         public virtual ICollection<CaseAssignment> CaseAssignments { get; set; }

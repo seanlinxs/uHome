@@ -184,6 +184,7 @@ namespace uHome.Controllers
             }
 
             Case @case = await Database.Cases.FindAsync(id);
+            // @case.Attachments = Database.Attachments.Where(a => a.CaseID == @case.ID).ToList();
 
             if (@case == null)
             {
@@ -196,15 +197,21 @@ namespace uHome.Controllers
             }
 
             var model = new EditCaseViewModel(@case);
-            var staff = Database.Roles.Where(r => r.Name == "staff").Single().Users;
-            var staffList = new List<ApplicationUser>();
 
-            foreach (var u in staff)
+            // Administrator, Manager and staff could be assignee
+            var assigneeCandidates = new HashSet<ApplicationUser>();
+
+            var staff = Database.Roles.Where(r => r.Name == "Staff").Single().Users;
+            var managers = Database.Roles.Where(r => r.Name == "Manager").Single().Users;
+            var admins = Database.Roles.Where(r => r.Name == "Admin").Single().Users;
+            var allAssignee = staff.Concat(managers).Concat(admins);
+
+            foreach (var a in allAssignee)
             {
-                staffList.Add(Database.Users.Find(u.UserId));
+                assigneeCandidates.Add(Database.Users.Find(a.UserId));
             }
-                        
-            ViewBag.Assignee = new SelectList(staffList, "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
+
+            ViewBag.Assignee = new SelectList(assigneeCandidates, "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
                         
             return View(model);
         }

@@ -26,7 +26,7 @@ namespace uHome.Models
 
         public string ApplicationUserId { get; set; }
 
-        public ICollection<Attachment> Attachments { get; set; }
+        public virtual ICollection<Attachment> Attachments { get; set; }
         public virtual CaseAssignment CaseAssignment { get; set; }
         public virtual ApplicationUser CreatedBy { get; set; }
     }

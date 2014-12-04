@@ -69,6 +69,23 @@
             </div>
         </div>
 
+        <h3>Attachments</h3>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>File Name</th>
+                <th>Upload At</th>
+                <th>File Size</th>
+            </tr>
+            @foreach (var attachment in Model.Attachments)
+            {
+                <tr>
+                    <td>@Html.ActionLink(attachment.Name, "Download", "Attachment", new { id = attachment.ID })</td>
+                    <td>@attachment.UploadAt</td>
+                    <td>@attachment.Size</td>
+                </tr>
+            }
+        </table>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />

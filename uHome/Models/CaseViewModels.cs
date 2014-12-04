@@ -91,7 +91,7 @@ namespace uHome.Models
         public DateTime UpdatedAt { get; set; }
         public CaseState State { get; set; }
         public string Assignee { get; set; }
-        public IEnumerable<Attachment> Attachments { get; set; }
+        public ICollection<AttachmentViewModel> Attachments { get; set; }
         [Display(Name = "UploadAttachments", ResourceType = typeof(Resources.Resources))]
         [ValidateFiles]
         public IEnumerable<HttpPostedFileBase> Files { get; set; }
@@ -106,7 +106,12 @@ namespace uHome.Models
             UpdatedAt = @case.UpdatedAt;
             State = @case.State;
             Assignee = @case.CaseAssignment == null ? "Unassigned" : @case.CaseAssignment.Assignee.UserName;
-            Attachments = @case.Attachments;
+            Attachments = new List<AttachmentViewModel>();
+            
+            foreach (var attachment in @case.Attachments)
+            {
+                Attachments.Add(new AttachmentViewModel(attachment));
+            }
         }
     }
 }
