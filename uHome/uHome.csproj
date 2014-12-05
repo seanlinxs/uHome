@@ -307,14 +307,12 @@
     <Content Include="Views\VideoClips\Index.cshtml" />
     <Content Include="Views\Cases\Create.cshtml" />
     <Content Include="Views\Cases\Delete.cshtml" />
-    <Content Include="Views\Cases\Details.cshtml" />
     <Content Include="Views\Cases\Edit.cshtml" />
     <Content Include="Views\Cases\Index.cshtml" />
     <Content Include="Views\VideoClips\List.cshtml" />
     <Content Include="Views\Cases\List.cshtml" />
     <Content Include="Views\Account\AddManager.cshtml" />
     <Content Include="Views\Account\AddStaff.cshtml" />
-    <Content Include="Views\Cases\AdminDetails.cshtml" />
     <Content Include="Views\Cases\_ListPartial.cshtml" />
     <Content Include="Views\Account\_RegisterFormPartial.cshtml" />
     <Content Include="Views\Account\_AddAccountFormPartial.cshtml" />

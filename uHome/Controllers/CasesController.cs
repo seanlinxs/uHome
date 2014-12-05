@@ -70,52 +70,6 @@ namespace uHome.Controllers
             return View(caseGroups);
         }
 
-        // GET: Cases/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Case @case = await Database.Cases.FindAsync(id);
-
-            if (@case == null)
-            {
-                return HttpNotFound();
-            }
-
-            if (!HttpContext.CheckAccess(UhomeResources.Actions.View, UhomeResources.Case, id.ToString()))
-            {
-                return new HttpUnauthorizedResult();
-            }
-
-            return View(@case);
-        }
-
-        // GET: Cases/AdminDetails/5
-        public async Task<ActionResult> AdminDetails(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Case @case = await Database.Cases.FindAsync(id);
-
-            if (@case == null)
-            {
-                return HttpNotFound();
-            }
-
-            if (!HttpContext.CheckAccess(UhomeResources.Actions.View, UhomeResources.Case, id.ToString()))
-            {
-                return new HttpUnauthorizedResult();
-            }
-
-            return View(@case);
-        }
-
         // GET: Cases/Create
         public ActionResult Create()
         {
