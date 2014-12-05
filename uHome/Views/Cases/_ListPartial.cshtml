@@ -12,7 +12,7 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h5 class="panel-title">
-                            @Html.ActionLink((string)caseItem.Title, (string)ViewData["ActionName"], new { id = caseItem.ID })
+                            @Html.ActionLink((string)caseItem.Title, "Edit", new { id = caseItem.ID })
                             <small>by @caseItem.CreatedBy | </small>
                             <small>to @caseItem.Assignee</small>
                         </h5>

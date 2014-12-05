@@ -14,7 +14,6 @@
         <h4>Case</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -85,6 +84,15 @@
                 </tr>
             }
         </table>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Files, htmlAttributes: new { @class = "control-label col-md-2" })
+            <span class="glyphicon glyphicon-info-sign" title="@Resources.UploadHints"></span>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Files, new { type = "file", multiple = "true" })
+                @Html.ValidationMessageFor(model => model.Files, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

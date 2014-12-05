@@ -175,6 +175,24 @@ namespace uHome.Models
             // Call update once when all roles are removed
             return await UpdateAsync(user).ConfigureAwait(false);
         }
+
+        public ISet<ApplicationUser> GetAssigneeSet(ApplicationDbContext Database)
+        {
+            // Administrator, Manager and staff could be assignee
+            var assigneeCandidates = new HashSet<ApplicationUser>();
+
+            var staff = Database.Roles.Where(r => r.Name == "Staff").Single().Users;
+            var managers = Database.Roles.Where(r => r.Name == "Manager").Single().Users;
+            var admins = Database.Roles.Where(r => r.Name == "Admin").Single().Users;
+            var allAssignee = staff.Concat(managers).Concat(admins);
+
+            foreach (var a in allAssignee)
+            {
+                assigneeCandidates.Add(Database.Users.Find(a.UserId));
+            }
+
+            return assigneeCandidates;
+        }
     }
 
     public class ApplicationRoleManager : RoleManager<ApplicationRole>

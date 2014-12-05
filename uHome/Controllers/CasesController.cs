@@ -150,21 +150,7 @@ namespace uHome.Controllers
                 };
 
                 // Attachments
-                if (createCaseViewModel.Files.Count() > 0 && createCaseViewModel.Files.First() != null)
-                {
-                    @case.Attachments = new List<Attachment>();
-
-                    foreach (var file in createCaseViewModel.Files)
-                    {
-                        var attachment = new Attachment();
-                        attachment.Case = @case;
-                        attachment.Name = file.FileName;
-                        attachment.UploadAt = now;
-                        attachment.FileStream = new byte[file.InputStream.Length];
-                        file.InputStream.Read(attachment.FileStream, 0, attachment.FileStream.Length);
-                        @case.Attachments.Add(attachment);
-                    }
-                }
+                @case.AddFiles(createCaseViewModel.Files);
 
                 Database.Cases.Add(@case);
                 await Database.SaveChangesAsync();
@@ -184,7 +170,6 @@ namespace uHome.Controllers
             }
 
             Case @case = await Database.Cases.FindAsync(id);
-            // @case.Attachments = Database.Attachments.Where(a => a.CaseID == @case.ID).ToList();
 
             if (@case == null)
             {
@@ -197,22 +182,7 @@ namespace uHome.Controllers
             }
 
             var model = new EditCaseViewModel(@case);
-
-            // Administrator, Manager and staff could be assignee
-            var assigneeCandidates = new HashSet<ApplicationUser>();
-
-            var staff = Database.Roles.Where(r => r.Name == "Staff").Single().Users;
-            var managers = Database.Roles.Where(r => r.Name == "Manager").Single().Users;
-            var admins = Database.Roles.Where(r => r.Name == "Admin").Single().Users;
-            var allAssignee = staff.Concat(managers).Concat(admins);
-
-            foreach (var a in allAssignee)
-            {
-                assigneeCandidates.Add(Database.Users.Find(a.UserId));
-            }
-
-            ViewBag.Assignee = new SelectList(assigneeCandidates, "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
-                        
+            ViewBag.Assignee = new SelectList(UserManager.GetAssigneeSet(Database), "Id", "UserName", @case.CaseAssignment.ApplicationUserId);                        
             return View(model);
         }
 
@@ -221,19 +191,46 @@ namespace uHome.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Title,Description,CreatedAt,State,ApplicationUserId")] Case @case)
+        public async Task<ActionResult> Edit(int? id, [Bind(Include = "ID,Title,Description,State,Assignee,Files")] EditCaseViewModel model)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Case @case = await Database.Cases.FindAsync(id);
+
+            if (@case == null)
+            {
+                return HttpNotFound();
+            }
+
             if (ModelState.IsValid)
             {
+                var now = System.DateTime.Now;
+                @case.Title = model.Title;
+                @case.Description = model.Description;
+                @case.State = model.State;
+                @case.UpdatedAt = now;
+
+                var assignee = await UserManager.FindByIdAsync(model.Assignee);
+                // if assignee does not exist, don't touch it
+                if (assignee != null)
+                {
+                    @case.CaseAssignment.Assignee = assignee;
+                    @case.CaseAssignment.AssignmentDate = now;
+                }
+
+                @case.AddFiles(model.Files);
+
                 Database.Entry(@case).State = EntityState.Modified;
                 await Database.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ID = new SelectList(Database.CaseAssignments, "CaseID", "ApplicationUserId", @case.ID);
-            ViewBag.ApplicationUserId = new SelectList(Database.Users, "Id", "Email", @case.ApplicationUserId);
-            
-            return View(@case);
+            model = new EditCaseViewModel(@case);
+            ViewBag.Assignee = new SelectList(UserManager.GetAssigneeSet(Database), "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
+            return View(model);
         }
 
         protected override void Dispose(bool disposing)
