@@ -83,6 +83,8 @@ namespace uHome.Models
 
     public class EditCaseViewModel
     {
+        [LocalizedRequired]
+        [LocalizedStringLength(50)]
         public string Title { get; set; }
         public string Description { get; set; }
         public string CreatedBy { get; private set; }
