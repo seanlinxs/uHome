@@ -31,7 +31,7 @@ namespace uHome.Controllers
                             select new CaseListViewModel
                             {
                                 ID = c.ID,
-                                Title = c.Title,
+                                Title = c.Title ?? "N/A",
                                 CreatedBy = c.CreatedBy.UserName,
                                 Description = c.Description,
                                 DescriptionThumb = c.Description.Substring(0, maxDisplayChars),

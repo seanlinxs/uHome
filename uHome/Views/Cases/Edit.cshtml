@@ -78,7 +78,7 @@
             @foreach (var attachment in Model.Attachments)
             {
                 <tr>
-                    <td>@Html.ActionLink(attachment.Name, "Download", "Attachment", new { id = attachment.ID })</td>
+                    <td>@Html.ActionLink(attachment.Name, "Download", "Attachments", new { id = attachment.ID }, null)</td>
                     <td>@attachment.UploadAt</td>
                     <td>@attachment.Size</td>
                 </tr>
