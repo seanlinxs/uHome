@@ -13,11 +13,13 @@ namespace uHome.Models
         [ForeignKey("Case")]
         public int CaseID { get; set; }
 
+        [Required]
         public string ApplicationUserId { get; set; }
 
         public DateTime AssignmentDate { get; set; }
 
         public virtual Case Case { get; set; }
+
         public virtual ApplicationUser Assignee { get; set; }
     }
 }

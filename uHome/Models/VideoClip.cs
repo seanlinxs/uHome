@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -19,6 +20,7 @@ namespace uHome.Models
 
         public string ApplicationUserId { get; set; }
 
+        [Required]
         public virtual ApplicationUser UploadedBy { get; set; }
 
         public VideoClip()
