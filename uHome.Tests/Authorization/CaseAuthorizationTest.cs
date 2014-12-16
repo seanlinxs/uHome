@@ -77,7 +77,7 @@ namespace uHome.Tests.Authorization
             applicationUser.UserName = user.Identity.Name;
             db.Users.Add(applicationUser);
             var @case = CreateCase();
-            @case.CreatedBy = applicationUser;
+            @case.ApplicationUserId = applicationUser.Id;
             db.Cases.Add(@case);
             db.SaveChanges();
 
@@ -93,11 +93,11 @@ namespace uHome.Tests.Authorization
             var applicationUser1 = new ApplicationUser();
             applicationUser1.UserName = user.Identity.Name;
             db.Users.Add(applicationUser1);
-            var applicationUser2 = db.Users.Create();
+            var applicationUser2 = new ApplicationUser();
             applicationUser2.UserName = "Other";
             db.Users.Add(applicationUser2);
             var @case = CreateCase();
-            @case.CreatedBy = applicationUser2;
+            @case.ApplicationUserId = applicationUser2.Id;
             db.Cases.Add(@case);
             db.SaveChanges();
 
@@ -130,11 +130,11 @@ namespace uHome.Tests.Authorization
             var applicationUser1 = new ApplicationUser();
             applicationUser1.UserName = user.Identity.Name;
             db.Users.Add(applicationUser1);
-            var applicationUser2 = db.Users.Create();
+            var applicationUser2 = new ApplicationUser();
             applicationUser2.UserName = "Other";
             db.Users.Add(applicationUser2);
             var @case = CreateCase();
-            @case.CreatedBy = applicationUser2;
+            @case.ApplicationUserId = applicationUser2.Id;
             db.Cases.Add(@case);
             db.SaveChanges();
 
@@ -150,11 +150,11 @@ namespace uHome.Tests.Authorization
             var applicationUser1 = new ApplicationUser();
             applicationUser1.UserName = admin.Identity.Name;
             db.Users.Add(applicationUser1);
-            var applicationUser2 = db.Users.Create();
+            var applicationUser2 = new ApplicationUser();
             applicationUser2.UserName = "Other";
             db.Users.Add(applicationUser2);
             var @case = CreateCase();
-            @case.CreatedBy = applicationUser2;
+            @case.ApplicationUserId = applicationUser2.Id;
             db.Cases.Add(@case);
             db.SaveChanges();
 
@@ -170,11 +170,11 @@ namespace uHome.Tests.Authorization
             var applicationUser1 = new ApplicationUser();
             applicationUser1.UserName = admin.Identity.Name;
             db.Users.Add(applicationUser1);
-            var applicationUser2 = db.Users.Create();
+            var applicationUser2 = new ApplicationUser();
             applicationUser2.UserName = "Other";
             db.Users.Add(applicationUser2);
             var @case = CreateCase();
-            @case.CreatedBy = applicationUser2;
+            @case.ApplicationUserId = applicationUser2.Id;
             db.Cases.Add(@case);
             db.SaveChanges();
 
@@ -190,11 +190,11 @@ namespace uHome.Tests.Authorization
             var applicationUser1 = new ApplicationUser();
             applicationUser1.UserName = manager.Identity.Name;
             db.Users.Add(applicationUser1);
-            var applicationUser2 = db.Users.Create();
+            var applicationUser2 = new ApplicationUser();
             applicationUser2.UserName = "Other";
             db.Users.Add(applicationUser2);
             var @case = CreateCase();
-            @case.CreatedBy = applicationUser2;
+            @case.ApplicationUserId = applicationUser2.Id;
             db.Cases.Add(@case);
             db.SaveChanges();
 
@@ -210,11 +210,11 @@ namespace uHome.Tests.Authorization
             var applicationUser1 = new ApplicationUser();
             applicationUser1.UserName = manager.Identity.Name;
             db.Users.Add(applicationUser1);
-            var applicationUser2 = db.Users.Create();
+            var applicationUser2 = new ApplicationUser();
             applicationUser2.UserName = "Other";
             db.Users.Add(applicationUser2);
             var @case = CreateCase();
-            @case.CreatedBy = applicationUser2;
+            @case.ApplicationUserId = applicationUser2.Id;
             db.Cases.Add(@case);
             db.SaveChanges();
 
