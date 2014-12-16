@@ -237,4 +237,13 @@
   <data name="UploadHints" xml:space="preserve">
     <value>You can upload multiple files with each file less than 10 MB, total less than 100MB and allow .doc, .docx, .pdf, .jpg, .png, .gif</value>
   </data>
+  <data name="ACTIVE" xml:space="preserve">
+    <value>IN PROGRESS</value>
+  </data>
+  <data name="CLOSED" xml:space="preserve">
+    <value>CLOSED</value>
+  </data>
+  <data name="NEW" xml:space="preserve">
+    <value>NEW</value>
+  </data>
 </root>
