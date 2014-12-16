@@ -4,7 +4,7 @@
     <div class="col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3>@Resources.ResourceManager.GetString(caseGroup.State.ToString(), Resources.Culture)<span class="badge">@caseGroup.Count</span></h3>
+                <h3>@Resources.ResourceManager.GetString(caseGroup.State.ToString(), Resources.Culture) (@caseGroup.Count)</h3>
             </div>
             <div class="panel-body">
             @foreach (var caseItem in caseGroup.Cases)
