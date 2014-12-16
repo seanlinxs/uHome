@@ -14,6 +14,7 @@ using System.Web.Mvc;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Configuration;
+using System.Threading;
 
 namespace uHome.Models
 {
@@ -47,7 +48,24 @@ namespace uHome.Models
                 message.Body, null, MediaTypeNames.Text.Html));
 
             // Send:
-            return client.SendMailAsync(mail);
+            const int MAX_RETRY = 5;
+            Task result = null;
+            int retry = 0;
+            while (result == null && retry < MAX_RETRY)
+            {
+                try
+                {
+                    retry += 1;
+                    result = client.SendMailAsync(mail);
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep(1000);
+                    continue;
+                }
+            } 
+
+            return result;
         }
     }
 
