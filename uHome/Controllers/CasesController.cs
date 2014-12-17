@@ -201,15 +201,21 @@ namespace uHome.Controllers
             }
 
             @case.UpdatedAt = System.DateTime.Now;
+
             AttachmentViewModel attachment = new AttachmentViewModel(@case.AddFile(Filedata));
 
-            Database.Entry(@case).State = EntityState.Modified;
-            await Database.SaveChangesAsync();
+            if (attachment != null)
+            {
+                Database.Entry(@case).State = EntityState.Modified;
+                await Database.SaveChangesAsync();
 
-            // Build an ajax response data for uploadify
-            var data = new { id = attachment.ID, name = attachment.Name, uploadAt = attachment.UploadAt, size = attachment.Size };
-
-            return Json(data);
+                // Build an ajax response data for uploadify
+                return Json(new { state = "success", id = attachment.ID, name = attachment.Name, uploadAt = attachment.UploadAt, size = attachment.Size });
+            }
+            else // Exceed maximum storage size of case, cannot add more file
+            {
+                return Json(new { state = "failed", error = "You can upload at most 100MB files" });
+            }
         }
 
         protected override void Dispose(bool disposing)

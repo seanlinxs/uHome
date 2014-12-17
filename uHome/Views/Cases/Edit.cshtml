@@ -73,12 +73,19 @@
             'uploader': "@Url.Action("AddFile", "Cases", new { id = ViewBag.CaseId })",
                 'onUploadSuccess': function (file, data, response) {
                     var data = $.parseJSON(data);
-                    var link = "<a href=\"/Attachments/Downlaod/" + data.id + "\">" + data.name + "</a>";
-                    $('#attachment_table').append("<tr>" +
-                            "<td>" + link + "</td>" +
-                            "<td>" + data.uploadAt + "</td>" +
-                            "<td>" + data.size + "</td>" +
-                    "</tr>");
+                    if (data.state == "success")
+                    {
+                        var link = "<a href=\"/Attachments/Downlaod/" + data.id + "\">" + data.name + "</a>";
+                        $('#attachment_table').append("<tr>" +
+                                "<td>" + link + "</td>" +
+                                "<td>" + data.uploadAt + "</td>" +
+                                "<td>" + data.size + "</td>" +
+                        "</tr>");
+                    }
+                    else
+                    {
+                        alert(data.error);
+                    }
             }
         });
     });

@@ -13,6 +13,8 @@ namespace uHome.Models
 
     public class Case
     {
+        public const long MAX_STORAGE_SIZE = 100 * 1024 * 1024;
+
         public int ID { get; set; }
 
         public string Title { get; set; }
@@ -30,12 +32,19 @@ namespace uHome.Models
 
         public int CaseAssignmentID { get; set; }
 
+        public long StorageSize { get; private set; }
+
         public virtual ICollection<Attachment> Attachments { get; set; }
         public virtual CaseAssignment CaseAssignment { get; set; }
         public virtual ApplicationUser CreatedBy { get; set; }
 
         public Attachment AddFile(HttpPostedFileBase file)
         {
+            if (this.StorageSize + file.InputStream.Length > MAX_STORAGE_SIZE)
+            {
+                return null;
+            }
+
             this.Attachments = this.Attachments ?? new List<Attachment>();
             Attachment attachment = new Attachment();
             attachment.Case = this;
@@ -44,6 +53,7 @@ namespace uHome.Models
             attachment.FileStream = new byte[file.InputStream.Length];
             file.InputStream.Read(attachment.FileStream, 0, attachment.FileStream.Length);
             this.Attachments.Add(attachment);
+            this.StorageSize += attachment.FileStream.LongLength;
 
             return attachment;
         }
