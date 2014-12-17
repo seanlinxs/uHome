@@ -7,49 +7,50 @@
 <h4>@Model.Title</h4>
 
 <div class="container">
-    <div class="row col-md-8">
-        <hr />
-        <dl>
-            <dt>Description</dt>
-            <dd class="well well-lg"
-                >@Model.Description</dd>
-            <dt>Attachments</dt>
-            <dd>
-                <table class="table table-bordered table-hover" id="attachment_table">
-                    <tr>
-                        <th>File Name</th>
-                        <th>Upload At</th>
-                        <th>File Size</th>
-                    </tr>
-                    @foreach (var attachment in Model.Attachments)
-                    {
-                        <tr>
-                            <td>@Html.ActionLink(attachment.Name, "Download", "Attachments", new { id = attachment.ID }, null)</td>
-                            <td>@attachment.UploadAt</td>
-                            <td>@attachment.Size</td>
-                        </tr>
-                    }
-                </table>
-            </dd>
-            <dd>
-                <span id="file_upload" />
-            </dd>
-        </dl>
-    </div>
-    <div class="row col-md-4">
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>Created By</dt>
-            <dd>@Model.CreatedBy</dd>
-            <dt>Created At</dt>
-            <dd>@Model.CreatedAt</dd>
-            <dt>Updated At</dt>
-            <dd>@Model.UpdatedAt</dd>
-            <dt>State</dt>
-            <dd>@Model.State</dd>
-            <dt>Assignee</dt>
-            <dd>@Model.Assignee</dd>
-        </dl>
+    <div class="row">
+        <div class="col-md-8">
+            <hr />
+            <dl>
+                <dt>Description</dt>
+                <dd class="well well-lg">@Model.Description</dd>
+                <dt>Attachments</dt>
+                <dd>
+                    <div class="container" id="attachments">
+                        <div class="row">
+                            <div class="col-md-6">Name</div>
+                            <div class="col-md-3">Upload At</div>
+                            <div class="col-md-3">Size</div>
+                        </div>
+                        @foreach (var attachment in Model.Attachments)
+                        {
+                            <div class="row">
+                                <div class="col-md-6">@Html.ActionLink(attachment.Name, "Download", "Attachments", new { id = attachment.ID }, null)</div>
+                                <div class="col-md-3">@attachment.UploadAt</div>
+                                <div class="col-md-3">@attachment.Size</div>
+                            </div>
+                        }
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>Created By</dt>
+                <dd>@Model.CreatedBy</dd>
+                <dt>Created At</dt>
+                <dd>@Model.CreatedAt</dd>
+                <dt>Updated At</dt>
+                <dd>@Model.UpdatedAt</dd>
+                <dt>State</dt>
+                <dd>@Model.State</dd>
+                <dt>Assignee</dt>
+                <dd>@Model.Assignee</dd>
+                <dd>
+                    <span id="file_upload" />
+                </dd>
+            </dl>
+        </div>
     </div>
 </div>
 
@@ -65,27 +66,26 @@
     $(document).ready(function () {
         $('#file_upload').uploadify({
             'buttonClass': "btn btn-info btn-xs",
-            'buttonText': "Select files",
+            'buttonText': "Add attachments",
             'fileSizeLimit': "10MB",
             'fileTypeExts': "*.doc; *.docx; *.xls; *.xlsx; *.pdf; *.jpg; *.gif; *.png",
             'swf': "@Url.Content("~/Content/Images/uploadify.swf")",
             'cancelImg': "@Url.Content("~/Content/Images/uploadify-cancel.png")",
             'uploader': "@Url.Action("AddFile", "Cases", new { id = ViewBag.CaseId })",
-                'onUploadSuccess': function (file, data, response) {
-                    var data = $.parseJSON(data);
-                    if (data.state == "success")
-                    {
-                        var link = "<a href=\"/Attachments/Downlaod/" + data.id + "\">" + data.name + "</a>";
-                        $('#attachment_table').append("<tr>" +
-                                "<td>" + link + "</td>" +
-                                "<td>" + data.uploadAt + "</td>" +
-                                "<td>" + data.size + "</td>" +
-                        "</tr>");
-                    }
-                    else
-                    {
-                        alert(data.error);
-                    }
+            'onUploadSuccess': function (file, data, response) {
+                var data = $.parseJSON(data);
+                if (data.success)
+                {
+                    var link = "<a href=\"/Attachments/Download/" + data.id + "\">" + data.name + "</a>";
+                    $('#attachments').append("<div class=\"row\"><div class=\"col-md-6\">" +
+                                                  link + "</div>" + "<div class=\"col-md-3\">" +
+                                                  data.uploadAt + "</div><div class=\"col-md-3\">" +
+                                                  data.size + "</div></div>");
+                }
+                else
+                {
+                    alert(data.errMsg);
+                }
             }
         });
     });

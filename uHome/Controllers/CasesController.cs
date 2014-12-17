@@ -202,19 +202,22 @@ namespace uHome.Controllers
 
             @case.UpdatedAt = System.DateTime.Now;
 
-            AttachmentViewModel attachment = new AttachmentViewModel(@case.AddFile(Filedata));
+
+            Attachment attachment = @case.AddFile(Filedata);
 
             if (attachment != null)
             {
                 Database.Entry(@case).State = EntityState.Modified;
                 await Database.SaveChangesAsync();
+                var model = new AttachmentViewModel(attachment);
 
                 // Build an ajax response data for uploadify
-                return Json(new { state = "success", id = attachment.ID, name = attachment.Name, uploadAt = attachment.UploadAt, size = attachment.Size });
+                return Json(new { success = true, id = model.ID, name = model.Name, uploadAt = model.UploadAt, size = model.Size });
             }
             else // Exceed maximum storage size of case, cannot add more file
             {
-                return Json(new { state = "failed", error = "You can upload at most 100MB files" });
+                var error = string.Format("Could not save file {0}: exceed quota limit(100MB)", Filedata.FileName);
+                return Json(new { success = false, errMsg = error });
             }
         }
 
