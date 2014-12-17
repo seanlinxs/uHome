@@ -81,7 +81,7 @@ namespace uHome.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Title, Description, Files")] CreateCaseViewModel createCaseViewModel)
+        public async Task<ActionResult> Create([Bind(Include = "Title, Description")] CreateCaseViewModel createCaseViewModel)
         {
             var now = System.DateTime.Now;
 
@@ -102,9 +102,6 @@ namespace uHome.Controllers
                         AssignmentDate = now
                     }
                 };
-
-                // Attachments
-                @case.AddFiles(createCaseViewModel.Files);
 
                 Database.Cases.Add(@case);
                 await Database.SaveChangesAsync();
@@ -136,7 +133,9 @@ namespace uHome.Controllers
             }
 
             var model = new EditCaseViewModel(@case);
-            ViewBag.Assignee = new SelectList(UserManager.GetAssigneeSet(Database), "Id", "UserName", @case.CaseAssignment.ApplicationUserId);                        
+            ViewBag.Assignee = new SelectList(UserManager.GetAssigneeSet(Database), "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
+            ViewBag.CaseId = id;
+            
             return View(model);
         }
 
@@ -145,7 +144,7 @@ namespace uHome.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int? id, [Bind(Include = "ID,Title,Description,State,Assignee,Files")] EditCaseViewModel model)
+        public async Task<ActionResult> Edit(int? id, [Bind(Include = "ID,Title,Description,State,Assignee")] EditCaseViewModel model)
         {
             if (id == null)
             {
@@ -175,8 +174,6 @@ namespace uHome.Controllers
                     @case.CaseAssignment.AssignmentDate = now;
                 }
 
-                @case.AddFiles(model.Files);
-
                 Database.Entry(@case).State = EntityState.Modified;
                 await Database.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -185,6 +182,34 @@ namespace uHome.Controllers
             model = new EditCaseViewModel(@case);
             ViewBag.Assignee = new SelectList(UserManager.GetAssigneeSet(Database), "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
             return View(model);
+        }
+
+        // POST: Cases/AddFile/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        public async Task<ActionResult> AddFile(int? id, HttpPostedFileBase Filedata)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Case @case = await Database.Cases.FindAsync(id);
+            if (@case == null)
+            {
+                return HttpNotFound();
+            }
+
+            @case.UpdatedAt = System.DateTime.Now;
+            AttachmentViewModel attachment = new AttachmentViewModel(@case.AddFile(Filedata));
+
+            Database.Entry(@case).State = EntityState.Modified;
+            await Database.SaveChangesAsync();
+
+            // Build an ajax response data for uploadify
+            var data = new { id = attachment.ID, name = attachment.Name, uploadAt = attachment.UploadAt, size = attachment.Size };
+
+            return Json(data);
         }
 
         protected override void Dispose(bool disposing)

@@ -34,25 +34,18 @@ namespace uHome.Models
         public virtual CaseAssignment CaseAssignment { get; set; }
         public virtual ApplicationUser CreatedBy { get; set; }
 
-        public void AddFiles(IEnumerable<HttpPostedFileBase> Files)
+        public Attachment AddFile(HttpPostedFileBase file)
         {
-            var now = System.DateTime.Now;
+            this.Attachments = this.Attachments ?? new List<Attachment>();
+            Attachment attachment = new Attachment();
+            attachment.Case = this;
+            attachment.Name = file.FileName;
+            attachment.UploadAt = System.DateTime.Now;
+            attachment.FileStream = new byte[file.InputStream.Length];
+            file.InputStream.Read(attachment.FileStream, 0, attachment.FileStream.Length);
+            this.Attachments.Add(attachment);
 
-            if (Files.Count() > 0 && Files.First() != null)
-            {
-                this.Attachments = this.Attachments ?? new List<Attachment>();
-
-                foreach (var file in Files)
-                {
-                    var attachment = new Attachment();
-                    attachment.Case = this;
-                    attachment.Name = file.FileName;
-                    attachment.UploadAt = now;
-                    attachment.FileStream = new byte[file.InputStream.Length];
-                    file.InputStream.Read(attachment.FileStream, 0, attachment.FileStream.Length);
-                    this.Attachments.Add(attachment);
-                }
-            }
+            return attachment;
         }
     }
 }

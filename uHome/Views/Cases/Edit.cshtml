@@ -4,103 +4,54 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h4>@Model.Title</h4>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Case</h4>
+<div class="container">
+    <div class="row col-md-8">
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CreatedBy, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.CreatedBy)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CreatedAt, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.CreatedAt)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UpdatedAt, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.UpdatedAt)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.State, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Assignee, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Assignee", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Assignee, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <h3>Attachments</h3>
-        <table class="table table-bordered table-hover">
-            <tr>
-                <th>File Name</th>
-                <th>Upload At</th>
-                <th>File Size</th>
-            </tr>
-            @foreach (var attachment in Model.Attachments)
-            {
-                <tr>
-                    <td>@Html.ActionLink(attachment.Name, "Download", "Attachments", new { id = attachment.ID }, null)</td>
-                    <td>@attachment.UploadAt</td>
-                    <td>@attachment.Size</td>
-                </tr>
-            }
-        </table>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Files, htmlAttributes: new { @class = "control-label col-md-2" })
-            <span class="glyphicon glyphicon-info-sign" title="@Resources.UploadHints"></span>
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Files, new { type = "file", multiple = "true" })
-                @Html.ValidationMessageFor(model => model.Files, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+        <dl>
+            <dt>Description</dt>
+            <dd class="well well-lg"
+                >@Model.Description</dd>
+            <dt>Attachments</dt>
+            <dd>
+                <table class="table table-bordered table-hover" id="attachment_table">
+                    <tr>
+                        <th>File Name</th>
+                        <th>Upload At</th>
+                        <th>File Size</th>
+                    </tr>
+                    @foreach (var attachment in Model.Attachments)
+                    {
+                        <tr>
+                            <td>@Html.ActionLink(attachment.Name, "Download", "Attachments", new { id = attachment.ID }, null)</td>
+                            <td>@attachment.UploadAt</td>
+                            <td>@attachment.Size</td>
+                        </tr>
+                    }
+                </table>
+            </dd>
+            <dd>
+                <span id="file_upload" />
+            </dd>
+        </dl>
     </div>
-}
+    <div class="row col-md-4">
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>Created By</dt>
+            <dd>@Model.CreatedBy</dd>
+            <dt>Created At</dt>
+            <dd>@Model.CreatedAt</dd>
+            <dt>Updated At</dt>
+            <dd>@Model.UpdatedAt</dd>
+            <dt>State</dt>
+            <dd>@Model.State</dd>
+            <dt>Assignee</dt>
+            <dd>@Model.Assignee</dd>
+        </dl>
+    </div>
+</div>
 
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -108,4 +59,28 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/uploadify")
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#file_upload').uploadify({
+            'buttonClass': "btn btn-info btn-xs",
+            'buttonText': "Select files",
+            'fileSizeLimit': "10MB",
+            'fileTypeExts': "*.doc; *.docx; *.xls; *.xlsx; *.pdf; *.jpg; *.gif; *.png",
+            'swf': "@Url.Content("~/Content/Images/uploadify.swf")",
+            'cancelImg': "@Url.Content("~/Content/Images/uploadify-cancel.png")",
+            'uploader': "@Url.Action("AddFile", "Cases", new { id = ViewBag.CaseId })",
+                'onUploadSuccess': function (file, data, response) {
+                    var data = $.parseJSON(data);
+                    var link = "<a href=\"/Attachments/Downlaod/" + data.id + "\">" + data.name + "</a>";
+                    $('#attachment_table').append("<tr>" +
+                            "<td>" + link + "</td>" +
+                            "<td>" + data.uploadAt + "</td>" +
+                            "<td>" + data.size + "</td>" +
+                    "</tr>");
+            }
+        });
+    });
+    </script>
 }
