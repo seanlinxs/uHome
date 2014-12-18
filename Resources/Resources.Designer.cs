@@ -403,7 +403,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload Attachments.
+        ///   Looks up a localized string similar to Upload.
         /// </summary>
         public static string UploadAttachments {
             get {

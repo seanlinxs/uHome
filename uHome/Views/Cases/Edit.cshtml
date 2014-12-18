@@ -51,24 +51,24 @@
         </div>
         <div class="col-md-4">
             <hr />
-            <dl class="dl-horizontal">
-                <dt>Created By</dt>
-                <dd>@Model.CreatedBy</dd>
-                <dt>Created At</dt>
-                <dd>@Model.CreatedAt</dd>
-                <dt>Updated At</dt>
-                <dd id="UpdatedAt">@Model.UpdatedAt</dd>
-                <dt>State</dt>
-                <dd>@Model.State</dd>
-                <dt>Assignee</dt>
-                <dd>@Model.Assignee</dd>
-                <dd id="plupload_container">
+            <div class="dl-horizontal">
+                <div>@Html.LabelFor(model => model.CreatedBy)</div>
+                <div>@Html.DisplayFor(model => model.CreatedBy)</div>
+                <div>@Html.LabelFor(model => model.CreatedAt)</div>
+                <div>@Html.DisplayFor(model => model.CreatedAt)</div>
+                <div>@Html.LabelFor(model => model.UpdatedAt)</div>
+                <div id="UpdatedAt">@Html.DisplayFor(model => model.UpdatedAt)</div>
+                <div>@Html.LabelFor(model => model.State)</div>
+                <div>@Html.DisplayFor(model => model.State)</div>
+                <div>@Html.LabelFor(model => model.Assignee)</div>
+                <div>@Html.DisplayFor(model => model.Assignee)</div>
+                <div id="plupload_container">
+                    <a id="pickfiles" href="javascript:;" class="btn btn-primary">Select Files</a>
+                    <a id="savefiles" href="javascript:;" class="btn btn-info" onclick="window.location.reload();">@Resources.UploadAttachments</a>
                     <span id="filelist"></span>
-                    <a id="pickfiles" href="javascript:;" class="btn btn-primary">@Resources.UploadAttachments</a>
-                    <a id="savefiles" href="javascript:;" class="btn btn-info" onclick="window.location.reload();">Save</a>
-                    <pre id="console"></pre>
-                </dd>
-            </dl>
+                </div>
+                <div id="console"></div>
+            </div>
         </div>
     </div>
 </div>

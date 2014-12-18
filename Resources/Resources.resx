@@ -232,7 +232,7 @@
     <value>Your initial password is: </value>
   </data>
   <data name="UploadAttachments" xml:space="preserve">
-    <value>Upload Attachments</value>
+    <value>Upload</value>
   </data>
   <data name="UploadHints" xml:space="preserve">
     <value>You can upload multiple files with each file less than 10 MB, total less than 100MB and allow .doc, .docx, .pdf, .jpg, .png, .gif</value>
