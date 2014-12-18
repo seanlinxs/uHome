@@ -14,6 +14,7 @@ namespace uHome.Models
         [LocalizedRequired]
         [LocalizedStringLength(50)]
         public string Title { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
     }
 
