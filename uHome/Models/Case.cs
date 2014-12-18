@@ -13,7 +13,7 @@ namespace uHome.Models
 
     public class Case
     {
-        public const long MAX_STORAGE_SIZE = 100 * 1024 * 1024;
+        public const long MAX_STORAGE_SIZE = 50 * 1024 * 1024; // Allow maximum 50MB attachments
 
         public int ID { get; set; }
 

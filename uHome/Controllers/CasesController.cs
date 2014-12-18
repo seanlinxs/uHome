@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using uHome.Extensions;
 
 namespace uHome.Controllers
 {
@@ -106,7 +107,7 @@ namespace uHome.Controllers
                 Database.Cases.Add(@case);
                 await Database.SaveChangesAsync();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", new { id = @case.ID });
             }
 
             return View();
@@ -212,7 +213,7 @@ namespace uHome.Controllers
                 var model = new AttachmentViewModel(attachment);
 
                 // Build an ajax response data for uploadify
-                return Json(new { success = true, id = model.ID, name = model.Name, uploadAt = model.UploadAt, size = model.Size });
+                return Json(new { success = true, newAttachment = this.RenderPartialViewToString("_EditAttachmentPartial", model) });
             }
             else // Exceed maximum storage size of case, cannot add more file
             {

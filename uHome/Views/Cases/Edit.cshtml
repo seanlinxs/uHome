@@ -90,11 +90,8 @@
                     var data = $.parseJSON(data);
                     if (data.success)
                     {
-                        var link = "<a href=\"/Attachments/Download/" + data.id + "\">" + data.name + "</a>";
-                        $('#attachments').append("<div class=\"row\"><div class=\"col-md-6\">" +
-                                                      link + "</div>" + "<div class=\"col-md-3\">" +
-                                                      data.uploadAt + "</div><div class=\"col-md-3\">" +
-                                                      data.size + "</div></div>");
+                        console.log(data);
+                        $('#attachments').append(data.newAttachment);
                     }
                     else
                     {

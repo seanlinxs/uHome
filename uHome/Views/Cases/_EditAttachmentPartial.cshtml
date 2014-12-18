@@ -1,0 +1,23 @@
+﻿@model uHome.Models.AttachmentViewModel
+
+<div class="row" id="attachment_@Model.ID">
+    <div class="col-md-6">@Html.ActionLink(Model.Name, "Download", "Attachments", new { id = Model.ID }, null)</div>
+    <div class="col-md-3">@Model.UploadAt</div>
+    <div class="col-md-2">@Model.Size</div>
+    <div class="col-md-1">
+        @Ajax.RawActionLink(
+            "<span class=\"glyphicon glyphicon-trash\"></span>",
+            "Delete",
+            "Attachments",
+            new { id = Model.ID },
+            new AjaxOptions
+            {
+                Confirm = string.Format("Are you sure you want ot delete {0}?", Model.Name),
+                OnBegin = "showSpinner",
+                OnComplete = "hideSpinner",
+                OnSuccess = "onAttachmentDeleteSuccess",
+                OnFailure = "onAttachmentDeleteFailure",
+                HttpMethod = "DELETE"
+            }, null)
+    </div>
+</div>
