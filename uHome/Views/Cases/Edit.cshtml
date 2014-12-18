@@ -104,14 +104,16 @@
             });
         });
 
-        function onAttachmentDeleteSuccess(response, status, data)
+        function onAttachmentDeleteSuccess(response)
         {
-            var id = "#attachment_" + response.id;
-            $(id).remove();
-        }
-
-        function onAttachmentDeleteFailure(context) {
-            alert(context.errMsg);
+            if (response.success)
+            {
+                var id = "#attachment_" + response.id;
+                $(id).remove();
+            }
+            else {
+                alert(response.error);
+            }
         }
     </script>
 }

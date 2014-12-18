@@ -56,11 +56,11 @@ namespace uHome
                 Database.Attachments.Remove(attachment);
                 await Database.SaveChangesAsync();
 
-                return Json(new { id = id});
+                return Json(new { success = true, id = id});
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Gone);
+                return Json(new { success = false, error = e.Message});
             }
         }
 
