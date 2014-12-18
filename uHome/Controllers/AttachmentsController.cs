@@ -35,30 +35,33 @@ namespace uHome
             return File(attachment.FileStream, MimeMapping.GetMimeMapping(attachment.Name), attachment.Name);
         }
 
-        // GET: Attachments/Delete/5
+        // DELETE: Attachments/Delete/5
+        [HttpDelete]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            
             Attachment attachment = await Database.Attachments.FindAsync(id);
+            
             if (attachment == null)
             {
                 return HttpNotFound();
             }
-            return View(attachment);
-        }
 
-        // POST: Attachments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            Attachment attachment = await Database.Attachments.FindAsync(id);
-            Database.Attachments.Remove(attachment);
-            await Database.SaveChangesAsync();
-            return RedirectToAction("Index");
+            try
+            {
+                Database.Attachments.Remove(attachment);
+                await Database.SaveChangesAsync();
+
+                return Json(new { id = id});
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Gone);
+            }
         }
 
         protected override void Dispose(bool disposing)

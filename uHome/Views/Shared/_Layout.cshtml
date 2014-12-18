@@ -6,6 +6,17 @@
     <title>@ViewBag.Title - uHome</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <script type="text/javascript">
+        function showSpinner()
+        {
+            $('#spinner').show();
+        }
+
+        function hideSpinner()
+        {
+            $('#spinner').hide();
+        }
+    </script>
 
 </head>
 <body>
@@ -54,9 +65,13 @@
             <p>&copy; @DateTime.Now.Year - uHome</p>
         </footer>
     </div>
+    <div id="spinner" class="spinner" style="display:none;">
+        <img id="img-spinner" src=@Url.Content("~/Content/Images/ajax-loader.gif") alt="Loading" />
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
 </body>
 </html>
