@@ -173,6 +173,32 @@ namespace uHome.Controllers
             }
         }
 
+        // GET: Cases/AdminEdit/5
+        public async Task<ActionResult> AdminEdit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Case @case = await Database.Cases.FindAsync(id);
+
+            if (@case == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (!HttpContext.CheckAccess(UhomeResources.Actions.Edit, UhomeResources.Case, id.ToString()))
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            var model = new EditCaseViewModel(@case);
+            ViewBag.Assignee = new SelectList(UserManager.GetAssigneeSet(Database), "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
+
+            return View(model);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

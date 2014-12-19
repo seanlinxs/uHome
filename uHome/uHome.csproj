@@ -403,6 +403,7 @@
     <Content Include="Views\Attachments\Edit.cshtml" />
     <Content Include="Views\Attachments\Index.cshtml" />
     <Content Include="Views\Cases\_EditAttachmentPartial.cshtml" />
+    <Content Include="Views\Cases\AdminEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
