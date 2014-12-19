@@ -118,6 +118,15 @@
             up.start();
         });
 
+        uploader.bind("FileUpLoaded", function (up, files, info) {
+            var response = $.parseJSON(info.response);
+
+            if (response.success == false)
+            {
+                alert(response.error);
+            }
+        });
+
         function onAttachmentDeleteSuccess(response)
         {
             if (response.success)

@@ -421,6 +421,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not upload {0}, total file size must be less than {1}.
+        /// </summary>
+        public static string UploadedFailed {
+            get {
+                return ResourceManager.GetString("UploadedFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You can upload multiple files with each file less than 10 MB, total less than 100MB and allow .doc, .docx, .pdf, .jpg, .png, .gif.
         /// </summary>
         public static string UploadHints {

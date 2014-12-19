@@ -165,11 +165,11 @@ namespace uHome.Controllers
                 await Database.SaveChangesAsync();
 
                 // Build an ajax response data for uploadify
-                return Json(new { success = true, updatedAt = @case.UpdatedAt.ToString() });
+                return Json(new { success = true });
             }
             else // Exceed maximum storage size of case, cannot add more file
             {
-                return Json(new { success = false, errMsg = string.Format("Could not save {0}, exceed quota limit(100MB)", error) });
+                return Json(new { success = false, error = string.Format(Resources.Resources.UploadedFailed, error, Case.MAX_STORAGE_SIZE) });
             }
         }
 
