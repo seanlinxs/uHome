@@ -106,20 +106,13 @@
         });*@
 
         var uploader = new plupload.Uploader({
-            //runtimes: 'html5,flash,silverlight,html4',
             runtimes: 'html5, html4',
             browse_button: 'pickfiles',
             container: document.getElementById('plupload_container'),
-            url: "@Url.Action("AddFile", "Cases", new { id = Model.ID })",
-            //flash_swf_url: 'Scripts/Moxie.swf',
-            //silverlight_xap_url: 'Scripts/Moxie.xap',
+            url: "@Url.Action("AddFiles", "Cases", new { id = Model.ID })",
 
             filters: {
                 max_file_size: '10mb',
-                mime_types: [
-                    { title: "Image files", extensions: "jpg,gif,png,pdf" },
-                    { title: "Zip files", extensions: "zip" }
-                ]
             },
 
             init: {
@@ -128,6 +121,7 @@
 
                     document.getElementById('uploadfiles').onclick = function () {
                         uploader.start();
+
                         return false;
                     };
                 },
