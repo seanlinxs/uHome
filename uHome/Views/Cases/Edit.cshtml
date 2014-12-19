@@ -56,13 +56,16 @@
                 <dt>Created At</dt>
                 <dd>@Model.CreatedAt</dd>
                 <dt>Updated At</dt>
-                <dd>@Model.UpdatedAt</dd>
+                <dd id="UpdatedAt">@Model.UpdatedAt</dd>
                 <dt>State</dt>
                 <dd>@Model.State</dd>
                 <dt>Assignee</dt>
                 <dd>@Model.Assignee</dd>
-                <dd>
-                    <span id="file_upload" />
+                <dd id="plupload_container">
+                    <span id="filelist"></span>
+                    <a id="pickfiles" href="javascript:;" class="btn btn-default">[Select files]</a>
+                    <a id="uploadfiles" href="javascript:;" class="btn btn-default">[Upload files]</a>
+                    <pre id="console"></pre>
                 </dd>
             </dl>
         </div>
@@ -74,10 +77,11 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/uploadify")
+    @*@Scripts.Render("~/bundles/uploadify")*@
+    @Scripts.Render("~/bundles/plupload")
 
     <script type="text/javascript">
-        $(document).ready(function () {
+        @*$(document).ready(function () {
             $('#file_upload').uploadify({
                 'buttonClass': "btn btn-info btn-xs",
                 'buttonText': "Add attachments",
@@ -85,13 +89,13 @@
                 'fileTypeExts': "*.doc; *.docx; *.xls; *.xlsx; *.pdf; *.jpg; *.gif; *.png",
                 'swf': "@Url.Content("~/Content/Images/uploadify.swf")",
                 'cancelImg': "@Url.Content("~/Content/Images/uploadify-cancel.png")",
-                'uploader': "@Url.Action("AddFile", "Cases", new { id = ViewBag.CaseId })",
+                'uploader': "@Url.Action("AddFile", "Cases", new { id = Model.ID })",
                 'onUploadSuccess': function (file, data, response) {
                     var data = $.parseJSON(data);
                     if (data.success)
                     {
-                        console.log(data);
                         $('#attachments').append(data.newAttachment);
+                        $('#UpdatedAt').text(data.updatedAt);
                     }
                     else
                     {
@@ -99,7 +103,52 @@
                     }
                 }
             });
+        });*@
+
+        var uploader = new plupload.Uploader({
+            //runtimes: 'html5,flash,silverlight,html4',
+            runtimes: 'html5, html4',
+            browse_button: 'pickfiles',
+            container: document.getElementById('plupload_container'),
+            url: "@Url.Action("AddFile", "Cases", new { id = Model.ID })",
+            //flash_swf_url: 'Scripts/Moxie.swf',
+            //silverlight_xap_url: 'Scripts/Moxie.xap',
+
+            filters: {
+                max_file_size: '10mb',
+                mime_types: [
+                    { title: "Image files", extensions: "jpg,gif,png,pdf" },
+                    { title: "Zip files", extensions: "zip" }
+                ]
+            },
+
+            init: {
+                PostInit: function () {
+                    document.getElementById('filelist').innerHTML = '';
+
+                    document.getElementById('uploadfiles').onclick = function () {
+                        uploader.start();
+                        return false;
+                    };
+                },
+
+                FilesAdded: function (up, files) {
+                    plupload.each(files, function (file) {
+                        document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+                    });
+                },
+
+                UploadProgress: function (up, file) {
+                    document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+                },
+
+                Error: function (up, err) {
+                    document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+                }
+            }
         });
+
+        uploader.init();
 
         function onAttachmentDeleteSuccess(response)
         {
@@ -107,6 +156,7 @@
             {
                 var id = "#attachment_" + response.id;
                 $(id).remove();
+                $('#UpdatedAt').val(response.updatedAt);
             }
             else {
                 alert(response.error);

@@ -13,6 +13,7 @@ using System.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using uHome.Extensions;
+using System.Threading;
 
 namespace uHome.Controllers
 {
@@ -135,60 +136,14 @@ namespace uHome.Controllers
 
             var model = new EditCaseViewModel(@case);
             ViewBag.Assignee = new SelectList(UserManager.GetAssigneeSet(Database), "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
-            ViewBag.CaseId = id;
             
-            return View(model);
-        }
-
-        // POST: Cases/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int? id, [Bind(Include = "ID,Title,Description,State,Assignee")] EditCaseViewModel model)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Case @case = await Database.Cases.FindAsync(id);
-
-            if (@case == null)
-            {
-                return HttpNotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                var now = System.DateTime.Now;
-                @case.Title = model.Title;
-                @case.Description = model.Description;
-                @case.State = model.State;
-                @case.UpdatedAt = now;
-
-                var assignee = await UserManager.FindByIdAsync(model.Assignee);
-                // if assignee does not exist, don't touch it
-                if (assignee != null)
-                {
-                    @case.CaseAssignment.Assignee = assignee;
-                    @case.CaseAssignment.AssignmentDate = now;
-                }
-
-                Database.Entry(@case).State = EntityState.Modified;
-                await Database.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
-            model = new EditCaseViewModel(@case);
-            ViewBag.Assignee = new SelectList(UserManager.GetAssigneeSet(Database), "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
             return View(model);
         }
 
         // POST: Cases/AddFile/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        public async Task<ActionResult> AddFile(int? id, HttpPostedFileBase Filedata)
+        public async Task<ActionResult> AddFile(int? id)
         {
             if (id == null)
             {
@@ -201,24 +156,20 @@ namespace uHome.Controllers
                 return HttpNotFound();
             }
 
-            @case.UpdatedAt = System.DateTime.Now;
+            var error = @case.AddFiles(Request.Files);
 
-
-            Attachment attachment = @case.AddFile(Filedata);
-
-            if (attachment != null)
+            if (error == null)
             {
+                @case.UpdatedAt = System.DateTime.Now;
                 Database.Entry(@case).State = EntityState.Modified;
                 await Database.SaveChangesAsync();
-                var model = new AttachmentViewModel(attachment);
 
                 // Build an ajax response data for uploadify
-                return Json(new { success = true, newAttachment = this.RenderPartialViewToString("_EditAttachmentPartial", model) });
+                return Json(new { success = true, updatedAt = @case.UpdatedAt.ToString() });
             }
             else // Exceed maximum storage size of case, cannot add more file
             {
-                var error = string.Format("Could not save file {0}: exceed quota limit(100MB)", Filedata.FileName);
-                return Json(new { success = false, errMsg = error });
+                return Json(new { success = false, errMsg = string.Format("Could not save {0}, exceed quota limit(100MB)", error) });
             }
         }
 

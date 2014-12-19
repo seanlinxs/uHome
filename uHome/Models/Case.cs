@@ -38,24 +38,38 @@ namespace uHome.Models
         public virtual CaseAssignment CaseAssignment { get; set; }
         public virtual ApplicationUser CreatedBy { get; set; }
 
-        public Attachment AddFile(HttpPostedFileBase file)
+        public string AddFiles(HttpFileCollectionBase files)
         {
-            if (this.StorageSize + file.InputStream.Length > MAX_STORAGE_SIZE)
+            this.Attachments = this.Attachments ?? new List<Attachment>();
+
+            for (int i = 0; i < files.Count; i++ )
             {
-                return null;
+                var file = files[i];
+
+                if (this.StorageSize + file.InputStream.Length > MAX_STORAGE_SIZE)
+                {
+                    return file.FileName;
+                }
+                else
+                {
+                    Attachment attachment = new Attachment();
+                    attachment.Case = this;
+                    attachment.Name = file.FileName;
+                    attachment.UploadAt = System.DateTime.Now;
+                    attachment.FileStream = new byte[file.InputStream.Length];
+                    file.InputStream.Read(attachment.FileStream, 0, attachment.FileStream.Length);
+                    this.Attachments.Add(attachment);
+                    this.StorageSize += attachment.FileStream.LongLength;
+                }
             }
 
-            this.Attachments = this.Attachments ?? new List<Attachment>();
-            Attachment attachment = new Attachment();
-            attachment.Case = this;
-            attachment.Name = file.FileName;
-            attachment.UploadAt = System.DateTime.Now;
-            attachment.FileStream = new byte[file.InputStream.Length];
-            file.InputStream.Read(attachment.FileStream, 0, attachment.FileStream.Length);
-            this.Attachments.Add(attachment);
-            this.StorageSize += attachment.FileStream.LongLength;
+            return null;
+        }
 
-            return attachment;
+        public void DelAttachment(Attachment attachment)
+        {
+            this.StorageSize -= attachment.FileStream.LongLength;
+            this.Attachments.Remove(attachment);
         }
     }
 }

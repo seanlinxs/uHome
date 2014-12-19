@@ -9,14 +9,14 @@ namespace uHome.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public string UploadAt { get; set; }
+        public DateTime UploadAt { get; set; }
         public string Size { get; set; }
 
         public AttachmentViewModel(Attachment attachment)
         {
             ID = attachment.ID;
             Name = attachment.Name;
-            UploadAt = attachment.UploadAt.ToString();
+            UploadAt = attachment.UploadAt;
             var length = attachment.FileStream.Length;
 
             if (length < 1024)

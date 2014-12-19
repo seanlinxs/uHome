@@ -80,8 +80,7 @@ namespace uHome.Models
 
     public class EditCaseViewModel
     {
-        [LocalizedRequired]
-        [LocalizedStringLength(50)]
+        public int ID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string CreatedBy { get; private set; }
@@ -90,16 +89,10 @@ namespace uHome.Models
         public CaseState State { get; set; }
         public string Assignee { get; set; }
         public ICollection<AttachmentViewModel> Attachments { get; set; }
-        [Display(Name = "UploadAttachments", ResourceType = typeof(Resources.Resources))]
-        [ValidateFiles]
-        public IEnumerable<HttpPostedFileBase> Files { get; set; }
-
-        public EditCaseViewModel()
-        {
-        }
 
         public EditCaseViewModel(Case @case)
         {
+            ID = @case.ID;
             Title = @case.Title;
             Description = @case.Description;
             CreatedBy = @case.CreatedBy.UserName;

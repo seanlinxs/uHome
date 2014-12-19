@@ -22,11 +22,14 @@ namespace uHome
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Attachment attachment = await Database.Attachments.FindAsync(id);
+
             if (attachment == null)
             {
                 return HttpNotFound();
             }
+
             if (!HttpContext.CheckAccess(UhomeResources.Actions.View, UhomeResources.Case, attachment.CaseID.ToString()))
             {
                 return new HttpUnauthorizedResult();
@@ -51,12 +54,17 @@ namespace uHome
                 return HttpNotFound();
             }
 
+            Case @case = await Database.Cases.FindAsync(attachment.CaseID);
+            @case.UpdatedAt = System.DateTime.Now;
+
             try
             {
+                @case.DelAttachment(attachment);
                 Database.Attachments.Remove(attachment);
+                Database.Entry(@case).State = EntityState.Modified;
                 await Database.SaveChangesAsync();
 
-                return Json(new { success = true, id = id});
+                return Json(new { success = true, id = id, updatedAt = @case.UpdatedAt });
             }
             catch (Exception e)
             {
