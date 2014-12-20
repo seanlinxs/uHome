@@ -19,8 +19,7 @@ namespace uHome
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include("~/Scripts/bootstrap.js",
                 "~/Scripts/respond.js"));
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/bootstrap.css", "~/Content/site.css",
-                "~/Scripts/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css"));
+            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/bootstrap.css", "~/Content/site.css"));
             bundles.Add(new ScriptBundle("~/bundles/jssor").Include("~/Scripts/jssor.*"));
 
             // Set EnableOptimizations to false for debugging. For more information,

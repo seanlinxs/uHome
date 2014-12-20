@@ -173,7 +173,7 @@ namespace uHome.Controllers
                     await Database.SaveChangesAsync();
 
                     // Build an ajax response data for uploadify
-                    return Json(new { success = true, updateAt = @case.UpdatedAt.ToString(),
+                    return Json(new { success = true, updatedAt = @case.UpdatedAt.ToString(),
                         attachmentRow = this.RenderPartialViewToString("_EditAttachmentPartial", new AttachmentViewModel(attachment)) });
                 }
                 else // Exceed maximum storage size of case, cannot add more file

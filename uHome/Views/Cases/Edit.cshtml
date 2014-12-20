@@ -33,7 +33,7 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">@Html.LabelFor(model => model.UpdatedAt)</div>
-                <div class="panel-body">@Html.DisplayFor(model => model.UpdatedAt)</div>
+                <div class="panel-body" id="UpdatedAt">@Html.DisplayFor(model => model.UpdatedAt)</div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">@Html.LabelFor(model => model.State)</div>
@@ -79,7 +79,8 @@
                 },
 
                 Error: function (up, err) {
-                    document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+                    document.getElementById('console').innerHTML = "Error #" + err.code + ": " + err.message;
+                    up.stop();
                 }
             }
         });
@@ -105,8 +106,8 @@
             }
             else
             {
-                alert(response.error);
-                return false;
+                document.getElementById('console').innerHTML = response.error;
+                up.stop();
             }
             
         });
