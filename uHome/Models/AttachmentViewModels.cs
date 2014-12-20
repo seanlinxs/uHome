@@ -17,7 +17,7 @@ namespace uHome.Models
             ID = attachment.ID;
             Name = attachment.Name;
             UploadAt = attachment.UploadAt;
-            var length = attachment.FileStream.Length;
+            var length = attachment.Size;
 
             if (length < 1024)
             {

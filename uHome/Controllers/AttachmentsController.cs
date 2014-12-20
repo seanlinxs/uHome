@@ -35,7 +35,7 @@ namespace uHome
                 return new HttpUnauthorizedResult();
             }
 
-            return File(attachment.FileStream, MimeMapping.GetMimeMapping(attachment.Name), attachment.Name);
+            return File(attachment.Path, MimeMapping.GetMimeMapping(attachment.Name), attachment.Name);
         }
 
         // DELETE: Attachments/Delete/5

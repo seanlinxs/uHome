@@ -144,10 +144,10 @@ namespace uHome.Controllers
             return View(model);
         }
 
-        // POST: Cases/AddFiles/5
+        // POST: Cases/AddFile/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        public async Task<ActionResult> AddFiles(int? id)
+        public async Task<ActionResult> AddFile(int? id)
         {
             if (id == null)
             {
@@ -160,20 +160,35 @@ namespace uHome.Controllers
                 return HttpNotFound();
             }
 
-            var error = @case.AddFiles(Request.Files);
+            var file = Request.Files[0];
 
-            if (error == null)
+            try
             {
-                @case.UpdatedAt = System.DateTime.Now;
-                Database.Entry(@case).State = EntityState.Modified;
-                await Database.SaveChangesAsync();
+                var success = @case.AddFile(file);
 
-                // Build an ajax response data for uploadify
-                return Json(new { success = true });
+                if (success)
+                {
+                    @case.UpdatedAt = System.DateTime.Now;
+                    Database.Entry(@case).State = EntityState.Modified;
+                    await Database.SaveChangesAsync();
+
+                    // Build an ajax response data for uploadify
+                    return Json(new { success = true });
+                }
+                else // Exceed maximum storage size of case, cannot add more file
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        error = string.Format(Resources.Resources.UploadedFailed,
+                        file.FileName,
+                        Case.MAX_STORAGE_SIZE / 1024 / 1024)
+                    });
+                }
             }
-            else // Exceed maximum storage size of case, cannot add more file
+            catch (Exception e)
             {
-                return Json(new { success = false, error = string.Format(Resources.Resources.UploadedFailed, error, Case.MAX_STORAGE_SIZE) });
+                return Json(new { success = false, error = string.Format("Save {0} failed: {1}", file.FileName, e.Message) });
             }
         }
 

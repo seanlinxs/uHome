@@ -247,6 +247,6 @@
     <value>NEW</value>
   </data>
   <data name="UploadedFailed" xml:space="preserve">
-    <value>Could not upload {0}, total file size must be less than {1}</value>
+    <value>Could not upload {0}, total file size must be less than {1}MB</value>
   </data>
 </root>

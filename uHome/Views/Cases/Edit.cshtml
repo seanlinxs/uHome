@@ -86,7 +86,7 @@
             runtimes: 'html5, html4',
             browse_button: 'pickfiles',
             container: document.getElementById('plupload_container'),
-            url: "@Url.Action("AddFiles", "Cases", new { id = Model.ID })",
+            url: "@Url.Action("AddFile", "Cases", new { id = Model.ID })",
 
             filters: {
                 max_file_size: '10mb',
@@ -124,6 +124,7 @@
             if (response.success == false)
             {
                 alert(response.error);
+                return false;
             }
         });
 

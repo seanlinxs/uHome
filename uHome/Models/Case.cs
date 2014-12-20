@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -38,38 +39,37 @@ namespace uHome.Models
         public virtual CaseAssignment CaseAssignment { get; set; }
         public virtual ApplicationUser CreatedBy { get; set; }
 
-        public string AddFiles(HttpFileCollectionBase files)
+        public bool AddFile(HttpPostedFileBase file)
         {
             this.Attachments = this.Attachments ?? new List<Attachment>();
+            var size = file.InputStream.Length;
 
-            for (int i = 0; i < files.Count; i++ )
+            if (this.StorageSize + size > MAX_STORAGE_SIZE)
             {
-                var file = files[i];
-
-                if (this.StorageSize + file.InputStream.Length > MAX_STORAGE_SIZE)
-                {
-                    return file.FileName;
-                }
-                else
-                {
-                    Attachment attachment = new Attachment();
-                    attachment.Case = this;
-                    attachment.Name = file.FileName;
-                    attachment.UploadAt = System.DateTime.Now;
-                    attachment.FileStream = new byte[file.InputStream.Length];
-                    file.InputStream.Read(attachment.FileStream, 0, attachment.FileStream.Length);
-                    this.Attachments.Add(attachment);
-                    this.StorageSize += attachment.FileStream.LongLength;
-                }
+                return false; // Can not upload this file but might be able to upload smaller ones
+            }
+            else
+            {
+                var path = string.Format("{0}Uploads/{1}", AppDomain.CurrentDomain.BaseDirectory, file.FileName);
+                file.SaveAs(path);
+                Attachment attachment = new Attachment();
+                attachment.Case = this;
+                attachment.Name = file.FileName;
+                attachment.UploadAt = System.DateTime.Now;
+                attachment.Path = path;
+                attachment.Size = size;
+                this.Attachments.Add(attachment);
+                this.StorageSize += size;
+                
+                return true;
             }
 
-            return null;
         }
 
         public void DelAttachment(Attachment attachment)
         {
-            this.StorageSize -= attachment.FileStream.LongLength;
-            this.Attachments.Remove(attachment);
+            File.Delete(attachment.Path);
+            this.StorageSize -= attachment.Size;
         }
     }
 }
