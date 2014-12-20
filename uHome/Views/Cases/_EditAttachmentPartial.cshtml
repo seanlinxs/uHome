@@ -1,10 +1,8 @@
 ﻿@model uHome.Models.AttachmentViewModel
 
 <div class="row" id="attachment_@Model.ID">
-    <div class="col-md-6">@Html.ActionLink(Model.Name, "Download", "Attachments", new { id = Model.ID }, null)</div>
-    <div class="col-md-3">@Model.UploadAt</div>
-    <div class="col-md-2">@Model.Size</div>
-    <div class="col-md-1">
+    <div class="col-md-8">@Html.ActionLink(Model.Name, "Download", "Attachments", new { id = Model.ID }, null)</div>
+    <div class="col-md-4">
         @Ajax.RawActionLink(
             "<span class=\"glyphicon glyphicon-trash\"></span>",
             "Delete",
@@ -18,6 +16,6 @@
                 OnSuccess = "onAttachmentDeleteSuccess",
                 OnFailure = "onAttachmentDeleteFailure",
                 HttpMethod = "DELETE"
-            }, null)
+            }, null) | @Model.UploadAt | @Model.Size
     </div>
 </div>

@@ -406,12 +406,12 @@
     <Content Include="Views\Attachments\Details.cshtml" />
     <Content Include="Views\Attachments\Edit.cshtml" />
     <Content Include="Views\Attachments\Index.cshtml" />
-    <Content Include="Views\Cases\_EditAttachmentPartial.cshtml" />
+    <Content Include="Views\Cases\_AdminEditAttachmentPartial.cshtml" />
     <Content Include="Views\Cases\AdminEdit.cshtml" />
+    <Content Include="Views\Cases\_EditAttachmentPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

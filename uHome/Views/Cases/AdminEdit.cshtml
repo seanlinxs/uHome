@@ -3,58 +3,50 @@
 @{
     ViewBag.Title = "AdminEdit";
 }
-<h4>@Model.Title</h4>
+<h2>@Model.Title</h2>
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-9">
             <hr />
-            <dl>
-                <dt>Description</dt>
-                <dd class="well well-lg">@Model.Description</dd>
-                <dt>Attachments</dt>
-                <dd>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Html.LabelFor(model => model.Description)</div>
+                <div class="panel-body">@Html.DisplayFor(model => model.Description)</div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Html.LabelFor(model => model.Attachments)</div>
+                <div class="panel-body">
                     <div class="container" id="attachments">
-                        <div class="row">
-                            <div class="col-md-6">Name</div>
-                            <div class="col-md-4">Upload At</div>
-                            <div class="col-md-2">Size</div>
-                        </div>
                         @foreach (var attachment in Model.Attachments)
                         {
-                            <div class="row" id="attachment_@attachment.ID">
-                                <div class="col-md-6">@Html.ActionLink(attachment.Name, "Download", "Attachments", new { id = attachment.ID }, null)</div>
-                                <div class="col-md-4">@attachment.UploadAt</div>
-                                <div class="col-md-2">@attachment.Size</div>
-                            </div>
+                            Html.RenderPartial("_AdminEditAttachmentPartial", attachment);
                         }
                     </div>
-                </dd>
-            </dl>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <hr />
-            <div class="dl-horizontal">
-                <div>@Html.LabelFor(model => model.CreatedBy)</div>
-                <div>@Html.DisplayFor(model => model.CreatedBy)</div>
-                <div>@Html.LabelFor(model => model.CreatedAt)</div>
-                <div>@Html.DisplayFor(model => model.CreatedAt)</div>
-                <div>@Html.LabelFor(model => model.UpdatedAt)</div>
-                <div id="UpdatedAt">@Html.DisplayFor(model => model.UpdatedAt)</div>
-                <div>@Html.LabelFor(model => model.State)</div>
-                <div>@Html.DisplayFor(model => model.State)</div>
-                <div>@Html.LabelFor(model => model.Assignee)</div>
-                <div>@Html.DisplayFor(model => model.Assignee)</div>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Html.LabelFor(model => model.CreatedBy)</div>
+                <div class="panel-body">@Html.DisplayFor(model => model.CreatedBy)</div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Html.LabelFor(model => model.CreatedAt)</div>
+                <div class="panel-body">@Html.DisplayFor(model => model.CreatedAt)</div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Html.LabelFor(model => model.UpdatedAt)</div>
+                <div class="panel-body">@Html.DisplayFor(model => model.UpdatedAt)</div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Html.LabelFor(model => model.State)</div>
+                <div class="panel-body">@Html.DisplayFor(model => model.State)</div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Html.LabelFor(model => model.Assignee)</div>
+                <div class="panel-body">@Html.DisplayFor(model => model.Assignee)</div>
             </div>
         </div>
     </div>
 </div>
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    <script type="text/javascript">
-    </script>
-}

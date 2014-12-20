@@ -39,14 +39,14 @@ namespace uHome.Models
         public virtual CaseAssignment CaseAssignment { get; set; }
         public virtual ApplicationUser CreatedBy { get; set; }
 
-        public bool AddFile(HttpPostedFileBase file)
+        public Attachment AddFile(HttpPostedFileBase file)
         {
             this.Attachments = this.Attachments ?? new List<Attachment>();
             var size = file.InputStream.Length;
 
             if (this.StorageSize + size > MAX_STORAGE_SIZE)
             {
-                return false; // Can not upload this file but might be able to upload smaller ones
+                return null; // Can not upload this file but might be able to upload smaller ones
             }
             else
             {
@@ -61,7 +61,7 @@ namespace uHome.Models
                 this.Attachments.Add(attachment);
                 this.StorageSize += size;
                 
-                return true;
+                return attachment;
             }
 
         }

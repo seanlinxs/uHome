@@ -83,6 +83,7 @@ namespace uHome.Models
     {
         public int ID { get; set; }
         public string Title { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         public string CreatedBy { get; private set; }
         public DateTime CreatedAt { get; private set; }

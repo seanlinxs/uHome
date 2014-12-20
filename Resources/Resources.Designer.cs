@@ -403,7 +403,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload.
+        ///   Looks up a localized string similar to Upload Attachments.
         /// </summary>
         public static string UploadAttachments {
             get {
@@ -421,7 +421,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not upload {0}, total file size must be less than {1}MB.
+        ///   Looks up a localized string similar to Could not save {0}, total file size must be less than {1}MB.
         /// </summary>
         public static string UploadedFailed {
             get {

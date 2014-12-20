@@ -164,25 +164,24 @@ namespace uHome.Controllers
 
             try
             {
-                var success = @case.AddFile(file);
+                var attachment = @case.AddFile(file);
 
-                if (success)
+                if (attachment != null)
                 {
                     @case.UpdatedAt = System.DateTime.Now;
                     Database.Entry(@case).State = EntityState.Modified;
                     await Database.SaveChangesAsync();
 
                     // Build an ajax response data for uploadify
-                    return Json(new { success = true });
+                    return Json(new { success = true, updateAt = @case.UpdatedAt.ToString(),
+                        attachmentRow = this.RenderPartialViewToString("_EditAttachmentPartial", new AttachmentViewModel(attachment)) });
                 }
                 else // Exceed maximum storage size of case, cannot add more file
                 {
                     return Json(new
                     {
                         success = false,
-                        error = string.Format(Resources.Resources.UploadedFailed,
-                        file.FileName,
-                        Case.MAX_STORAGE_SIZE / 1024 / 1024)
+                        error = string.Format(Resources.Resources.UploadedFailed, file.FileName, Case.MAX_STORAGE_SIZE / 1024 / 1024)
                     });
                 }
             }
