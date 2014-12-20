@@ -49,7 +49,11 @@
                     <span id="filelist"></span>
                 </div>
             </div>
-            <div id="console"></div>
+            <div class="alert alert-danger" role="alert" id="errbox">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <span id="console"></span>
+            </div>
         </div>
     </div>
 </div>
@@ -72,6 +76,7 @@
             init: {
                 PostInit: function () {
                     document.getElementById('filelist').innerHTML = '';
+                    document.getElementById('errbox').hidden = true;
                 },
 
                 UploadProgress: function (up, file) {
@@ -79,7 +84,8 @@
                 },
 
                 Error: function (up, err) {
-                    document.getElementById('console').innerHTML = "Error #" + err.code + ": " + err.message;
+                    document.getElementById('errbox').hidden = false;
+                    document.getElementById('console').innerHTML = err.code + ": " + err.message;
                     up.stop();
                 }
             }
@@ -91,6 +97,7 @@
             plupload.each(files, function (file) {
                 document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
             });
+            document.getElementById('errbox').hidden = true;
 
             up.refresh();
             up.start();
@@ -106,6 +113,7 @@
             }
             else
             {
+                document.getElementById('errbox').hidden = false;
                 document.getElementById('console').innerHTML = response.error;
                 up.stop();
             }
