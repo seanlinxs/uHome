@@ -43,6 +43,8 @@ namespace uHome.Controllers
                 caseGroups.Add(new CaseGroupViewModel(s, cases));
             }
 
+            ViewData["Action"] = "Edit";
+
             return View(caseGroups);
         }
 
@@ -68,6 +70,8 @@ namespace uHome.Controllers
                             };
                 caseGroups.Add(new CaseGroupViewModel(s, cases));
             }
+
+            ViewData["Action"] = "AdminEdit";
 
             return View(caseGroups);
         }
