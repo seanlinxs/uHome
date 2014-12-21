@@ -84,11 +84,11 @@
                     {
                         $("#attachments").append(response.attachmentRow);
                         $('#UpdatedAt').text(response.updatedAt);
-                        $('#' + file.id + ' > span#result').html('<i style="color: Green;" class="glyphicon glyphicon-ok-circle"></i>');
+                        $('#' + file.id + ' > span#result').html('<i style="color: Green;" class="glyphicon glyphicon-ok"></i>');
                     }
                     else
                     {
-                        $('#' + file.id + ' > span#result').html('<i style="color: Red;" class="glyphicon glyphicon-remove-circle" title="' + response.error + '"></i>');
+                        $('#' + file.id + ' > span#result').html('<i style="color: Red;" class="glyphicon glyphicon-remove" title="' + response.error + '"></i>');
                     }
             
                 },
