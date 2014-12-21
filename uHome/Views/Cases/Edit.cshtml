@@ -49,11 +49,6 @@
                     <span id="filelist"></span>
                 </div>
             </div>
-            <div class="alert alert-danger" role="alert" id="errbox">
-                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                <span class="sr-only">Error:</span>
-                <span id="console"></span>
-            </div>
         </div>
     </div>
 </div>
@@ -66,7 +61,7 @@
         var uploader = new plupload.Uploader({
             runtimes: 'html5, html4',
             browse_button: 'pickfiles',
-            container: document.getElementById('plupload_container'),
+            container: $('#plupload_container')[0],
             url: "@Url.Action("AddFile", "Cases", new { id = Model.ID })",
 
             filters: {
@@ -75,18 +70,31 @@
 
             init: {
                 PostInit: function () {
-                    document.getElementById('filelist').innerHTML = '';
-                    document.getElementById('errbox').hidden = true;
+                    $('#filelist').html('');
                 },
 
                 UploadProgress: function (up, file) {
-                    document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+                    $('#' + file.id + ' > b#percent').html(file.percent + "%");
+                },
+
+                FileUpLoaded: function (up, file, info) {
+                    var response = $.parseJSON(info.response);
+
+                    if (response.success)
+                    {
+                        $("#attachments").append(response.attachmentRow);
+                        $('#UpdatedAt').text(response.updatedAt);
+                        $('#' + file.id + ' > span#result').html('<i style="color: Green;" class="glyphicon glyphicon-ok-circle"></i>');
+                    }
+                    else
+                    {
+                        $('#' + file.id + ' > span#result').html('<i style="color: Red;" class="glyphicon glyphicon-remove-circle" title="' + response.error + '"></i>');
+                    }
+            
                 },
 
                 Error: function (up, err) {
-                    document.getElementById('errbox').hidden = false;
-                    document.getElementById('console').innerHTML = err.code + ": " + err.message;
-                    up.stop();
+                    alert(err.code + ": " + err.message);
                 }
             }
         });
@@ -95,29 +103,11 @@
 
         uploader.bind("FilesAdded", function (up, files) {
             plupload.each(files, function (file) {
-                document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+                $('#filelist').append('<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b id="percent">0%</b> <span id="result"></span></div>');
             });
-            document.getElementById('errbox').hidden = true;
 
             up.refresh();
             up.start();
-        });
-
-        uploader.bind("FileUpLoaded", function (up, files, info) {
-            var response = $.parseJSON(info.response);
-
-            if (response.success)
-            {
-                $("#attachments").append(response.attachmentRow);
-                $('#UpdatedAt').text(response.updatedAt);
-            }
-            else
-            {
-                document.getElementById('errbox').hidden = false;
-                document.getElementById('console').innerHTML = response.error;
-                up.stop();
-            }
-            
         });
 
         function onAttachmentDeleteSuccess(response)

@@ -54,7 +54,7 @@ namespace uHome.Models
                 file.SaveAs(path);
                 Attachment attachment = new Attachment();
                 attachment.Case = this;
-                attachment.Name = file.FileName;
+                attachment.Name = Path.GetFileName(file.FileName);
                 attachment.UploadAt = System.DateTime.Now;
                 attachment.Path = path;
                 attachment.Size = size;

@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using uHome.Extensions;
 using System.Threading;
+using System.IO;
 
 namespace uHome.Controllers
 {
@@ -43,8 +44,6 @@ namespace uHome.Controllers
                 caseGroups.Add(new CaseGroupViewModel(s, cases));
             }
 
-            ViewData["Action"] = "Edit";
-
             return View(caseGroups);
         }
 
@@ -70,8 +69,6 @@ namespace uHome.Controllers
                             };
                 caseGroups.Add(new CaseGroupViewModel(s, cases));
             }
-
-            ViewData["Action"] = "AdminEdit";
 
             return View(caseGroups);
         }
@@ -161,6 +158,7 @@ namespace uHome.Controllers
             }
 
             var file = Request.Files[0];
+            var fileName = Path.GetFileName(file.FileName);
 
             try
             {
@@ -181,13 +179,13 @@ namespace uHome.Controllers
                     return Json(new
                     {
                         success = false,
-                        error = string.Format(Resources.Resources.UploadedFailed, file.FileName, Case.MAX_STORAGE_SIZE / 1024 / 1024)
+                        error = string.Format(Resources.Resources.UploadedFailed, fileName, Case.MAX_STORAGE_SIZE / 1024 / 1024)
                     });
                 }
             }
             catch (Exception e)
             {
-                return Json(new { success = false, error = string.Format("Save {0} failed: {1}", file.FileName, e.Message) });
+                return Json(new { success = false, error = string.Format("Save {0} failed: {1}", fileName, e.Message) });
             }
         }
 
