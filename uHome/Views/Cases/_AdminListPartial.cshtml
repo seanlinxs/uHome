@@ -13,7 +13,8 @@
                     <div class="panel-heading">
                         <h5 class="panel-title">
                             @Html.ActionLink((string)caseItem.Title, "AdminEdit", new { id = caseItem.ID })
-                            <small>by @caseItem.CreatedBy | </small>
+                            <br />
+                            <small>by @caseItem.CreatedBy</small>
                         </h5>
                     </div>
                     <div class="panel-body" title="@caseItem.Description">@caseItem.DescriptionThumb</div>
