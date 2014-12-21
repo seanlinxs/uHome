@@ -50,7 +50,7 @@ namespace uHome.Models
             }
             else
             {
-                var path = string.Format("{0}Uploads/{1}", AppDomain.CurrentDomain.BaseDirectory, file.FileName);
+                var path = string.Format("{0}Uploads/{1}", AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
                 file.SaveAs(path);
                 Attachment attachment = new Attachment();
                 attachment.Case = this;
