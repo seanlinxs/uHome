@@ -5,6 +5,8 @@
 }
 <h2>@Model.Title</h2>
 
+@Html.AntiForgeryToken()
+
 <div class="container">
     <div class="row">
         <div class="col-md-9">
@@ -135,6 +137,10 @@
             else {
                 alert(response.error);
             }
+        }
+
+        function onDownloadItemDeleteFailure(response) {
+            alert("500: Internel Error, please report to administrator");
         }
 
         function onCaseChangeStateSuccess(response) {

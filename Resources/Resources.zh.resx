@@ -249,4 +249,10 @@
   <data name="UploadedFailed" xml:space="preserve">
     <value>无法保存文件{0}，文件总和必须小于{1}MB</value>
   </data>
+  <data name="DownloadItem" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="MustBeUnique" xml:space="preserve">
+    <value>必须唯一</value>
+  </data>
 </root>

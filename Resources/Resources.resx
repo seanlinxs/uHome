@@ -249,4 +249,10 @@
   <data name="UploadedFailed" xml:space="preserve">
     <value>Could not save {0}, total file size must be less than {1}MB</value>
   </data>
+  <data name="DownloadItem" xml:space="preserve">
+    <value>Download Items</value>
+  </data>
+  <data name="MustBeUnique" xml:space="preserve">
+    <value>Must be unique</value>
+  </data>
 </root>

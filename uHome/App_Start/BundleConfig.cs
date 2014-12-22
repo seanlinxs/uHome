@@ -21,6 +21,7 @@ namespace uHome
                 "~/Scripts/respond.js"));
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/bootstrap.css", "~/Content/site.css"));
             bundles.Add(new ScriptBundle("~/bundles/jssor").Include("~/Scripts/jssor.*"));
+            bundles.Add(new ScriptBundle("~/bundles/site").Include("~/Scripts/site.js"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862

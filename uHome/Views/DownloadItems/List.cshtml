@@ -1,0 +1,79 @@
+﻿@model IEnumerable<uHome.Models.ListDownloadItemViewModel>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@Html.AntiForgeryToken()
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Size)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FileName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr id="DownloadItem_@item.ID">
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+            <span class="glyphicon glyphicon-info-sign" title="@item.Description"></span>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Size)
+        </td>
+        <td>
+            @Html.ActionLink(item.FileName, "Download", null, new { id = item.ID }, null)
+        </td>
+        <td>
+            @Ajax.RawActionLink(
+                "<span class=\"glyphicon glyphicon-trash\"></span> Delete",
+                "Delete",
+                "DownloadItems",
+                new { id = item.ID },
+                new AjaxOptions
+                {
+                    Confirm = string.Format("Are you sure you want ot delete {0}?", item.Name),
+                    OnBegin = "showSpinner",
+                    OnComplete = "hideSpinner",
+                    OnSuccess = "onDownloadItemDeleteSuccess",
+                    OnFailure = "onDownloadItemDeleteFailure",
+                    HttpMethod = "DELETE"
+                },
+                new { @class = "btn btn-danger" }
+            )
+        </td>
+    </tr>
+}
+
+</table>
+
+@section Scripts {
+    <script type="text/javascript">
+        function onDownloadItemDeleteSuccess(response) {
+            if (response.success) {
+                $('#DownloadItem_' + response.Id).remove();
+            }
+            else {
+                alert(response.error);
+            }
+        }
+
+        function onDownloadItemDeleteFailure(response) {
+            alert("500: Internel Error, please report to administrator");
+        }
+    </script>
+}

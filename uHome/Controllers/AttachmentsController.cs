@@ -40,6 +40,7 @@ namespace uHome
 
         // DELETE: Attachments/Delete/5
         [HttpDelete]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)

@@ -8,32 +8,43 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using uHome.Models;
+using System.IO;
 
 namespace uHome.Controllers
 {
     public class DownloadItemsController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: DownloadItems
         public async Task<ActionResult> Index()
         {
-            return View(await db.DownloadItems.ToListAsync());
+            return View(await Database.DownloadItems.ToListAsync());
         }
 
-        // GET: DownloadItems/Details/5
-        public async Task<ActionResult> Details(int? id)
+        // GET: DownloadItems/List
+        public async Task<ActionResult> List()
+        {
+            var downloadItems = new List<ListDownloadItemViewModel>();
+            await Database.DownloadItems.ForEachAsync(di => downloadItems.Add(new ListDownloadItemViewModel(di)));
+
+            return View(downloadItems);
+        }
+
+        // GET: DownloadItems/Download/5
+        public async Task<ActionResult> Download(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DownloadItem downloadItem = await db.DownloadItems.FindAsync(id);
+
+            DownloadItem downloadItem = await Database.DownloadItems.FindAsync(id);
+
             if (downloadItem == null)
             {
                 return HttpNotFound();
             }
-            return View(downloadItem);
+
+            return File(downloadItem.Path, MimeMapping.GetMimeMapping(downloadItem.FileName), downloadItem.FileName);
         }
 
         // GET: DownloadItems/Create
@@ -47,16 +58,25 @@ namespace uHome.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Name,Description,Path")] DownloadItem downloadItem)
+        public async Task<ActionResult> Create([Bind(Include = "Name,Description,FileData")] CreateDownloadItemViewModel model)
         {
             if (ModelState.IsValid)
             {
-                db.DownloadItems.Add(downloadItem);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                DownloadItem downloadItem = new DownloadItem();
+                downloadItem.Name = model.Name;
+                downloadItem.Description = model.Description;
+                var path = string.Format("{0}Uploads/{1}", AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
+                model.FileData.SaveAs(path);
+                downloadItem.Path = path;
+                downloadItem.FileName = Path.GetFileName(model.FileData.FileName);
+                downloadItem.Size = model.FileData.InputStream.Length;
+                Database.DownloadItems.Add(downloadItem);
+                await Database.SaveChangesAsync();
+                
+                return RedirectToAction("List");
             }
 
-            return View(downloadItem);
+            return View(model);
         }
 
         // GET: DownloadItems/Edit/5
@@ -66,7 +86,7 @@ namespace uHome.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DownloadItem downloadItem = await db.DownloadItems.FindAsync(id);
+            DownloadItem downloadItem = await Database.DownloadItems.FindAsync(id);
             if (downloadItem == null)
             {
                 return HttpNotFound();
@@ -83,44 +103,48 @@ namespace uHome.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(downloadItem).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Database.Entry(downloadItem).State = EntityState.Modified;
+                await Database.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(downloadItem);
         }
 
-        // GET: DownloadItems/Delete/5
+        // POST: DownloadItems/Delete/5
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DownloadItem downloadItem = await db.DownloadItems.FindAsync(id);
+            
+            DownloadItem downloadItem = await Database.DownloadItems.FindAsync(id);
+            
             if (downloadItem == null)
             {
                 return HttpNotFound();
             }
-            return View(downloadItem);
-        }
 
-        // POST: DownloadItems/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            DownloadItem downloadItem = await db.DownloadItems.FindAsync(id);
-            db.DownloadItems.Remove(downloadItem);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            try
+            {
+                Database.DownloadItems.Remove(downloadItem);
+                await Database.SaveChangesAsync();
+
+                return Json(new { success = true, Id = downloadItem.ID });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, error = e.Message });
+            }
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                Database.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -6,17 +6,11 @@
     <title>@ViewBag.Title - uHome</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <script type="text/javascript">
-        function showSpinner()
-        {
-            $('#spinner').show();
-        }
-
-        function hideSpinner()
-        {
-            $('#spinner').hide();
-        }
-    </script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/site")
+    @RenderSection("scripts", required: false)
 
 </head>
 <body>
@@ -50,6 +44,7 @@
                                 <li>@Html.ActionLink(Resources.AddStaff, "AddStaff", "Account")</li>
                                 <li>@Html.ActionLink(Resources.Video, "List", "VideoClips")</li>
                                 <li>@Html.ActionLink(Resources.Case, "List", "Cases")</li>
+                                <li>@Html.ActionLink(Resources.DownloadItem, "List", "DownloadItems")</li>
                             </ul>
                         </li>
                     }
@@ -69,9 +64,5 @@
         <img id="img-spinner" src=@Url.Content("~/Content/Images/ajax-loader.gif") alt="Loading" />
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/jqueryval")
-    @RenderSection("scripts", required: false)
 </body>
 </html>

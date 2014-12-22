@@ -205,6 +205,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download Items.
+        /// </summary>
+        public static string DownloadItem {
+            get {
+                return ResourceManager.GetString("DownloadItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string Email {
@@ -300,6 +309,15 @@ namespace Resources {
         public static string LogOn {
             get {
                 return ResourceManager.GetString("LogOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Must be unique.
+        /// </summary>
+        public static string MustBeUnique {
+            get {
+                return ResourceManager.GetString("MustBeUnique", resourceCulture);
             }
         }
         
