@@ -21,6 +21,7 @@ namespace uHome.Controllers
     public class CasesController : BaseController
     {
         private int maxDisplayChars = int.Parse(ConfigurationManager.AppSettings["MaxDisplayChars"]);
+
         // GET: Cases
         [ResourceAuthorize(UhomeResources.Actions.List, UhomeResources.Case)]
         public ActionResult Index()
@@ -83,8 +84,8 @@ namespace uHome.Controllers
         // POST: Cases/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Case)]
         [HttpPost]
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Case)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Title, Description")] CreateCaseViewModel createCaseViewModel)
         {
@@ -119,7 +120,6 @@ namespace uHome.Controllers
         }
 
         // GET: Cases/Edit/5
-        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Case)]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -147,8 +147,7 @@ namespace uHome.Controllers
         // POST: Cases/AddFile/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Case)]
-        [ValidateAntiForgeryToken]
+        [HttpPost]
         public async Task<ActionResult> AddFile(int? id)
         {
             if (id == null)
@@ -216,11 +215,6 @@ namespace uHome.Controllers
                 return HttpNotFound();
             }
 
-            if (!HttpContext.CheckAccess(UhomeResources.Actions.Edit, UhomeResources.Case, id.ToString()))
-            {
-                return new HttpUnauthorizedResult();
-            }
-
             var model = new EditCaseViewModel(@case);
             ViewBag.Assignee = new SelectList(UserManager.GetAssigneeSet(Database), "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
 
@@ -228,7 +222,6 @@ namespace uHome.Controllers
         }
 
         [HttpPost]
-        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Case)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Close(int? id)
         {
@@ -270,7 +263,6 @@ namespace uHome.Controllers
         }
 
         [HttpPost]
-        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Case)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Reopen(int? id)
         {
