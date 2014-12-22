@@ -98,6 +98,7 @@ namespace uHome.Controllers
                     UpdatedAt = now,
                     CreatedBy = CurrentUser,
                     State = CaseState.NEW,
+                    OldState = CaseState.CLOSED,
                     CaseAssignment = new CaseAssignment
                     {
                         // Default assign to system admin or manager
@@ -136,7 +137,6 @@ namespace uHome.Controllers
             }
 
             var model = new EditCaseViewModel(@case);
-            ViewBag.Assignee = new SelectList(UserManager.GetAssigneeSet(Database), "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
             
             return View(model);
         }
@@ -152,9 +152,15 @@ namespace uHome.Controllers
             }
 
             Case @case = await Database.Cases.FindAsync(id);
+            
             if (@case == null)
             {
                 return HttpNotFound();
+            }
+
+            if (!HttpContext.CheckAccess(UhomeResources.Actions.Edit, UhomeResources.Case, id.ToString()))
+            {
+                return new HttpUnauthorizedResult();
             }
 
             var file = Request.Files[0];
@@ -213,6 +219,85 @@ namespace uHome.Controllers
             ViewBag.Assignee = new SelectList(UserManager.GetAssigneeSet(Database), "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Close(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Case @case = await Database.Cases.FindAsync(id);
+
+            if (@case == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (!HttpContext.CheckAccess(UhomeResources.Actions.Edit, UhomeResources.Case, id.ToString()))
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            try
+            {
+                @case.OldState = @case.State;
+                @case.State = CaseState.CLOSED;
+                @case.UpdatedAt = System.DateTime.Now;
+                await Database.SaveChangesAsync();
+
+                return Json(new {
+                    success = true,
+                    updatedAt = @case.UpdatedAt.ToString(),
+                    state = @case.State.ToString(),
+                    actionLink = this.RenderPartialViewToString("_ChangeStateLinkPartial", new EditCaseViewModel(@case))
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, error = e.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Reopen(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Case @case = await Database.Cases.FindAsync(id);
+
+            if (@case == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (!HttpContext.CheckAccess(UhomeResources.Actions.Edit, UhomeResources.Case, id.ToString()))
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            try
+            {
+                @case.State = @case.OldState;
+                @case.UpdatedAt = System.DateTime.Now;
+                await Database.SaveChangesAsync();
+
+                return Json(new {
+                    success = true,
+                    updatedAt = @case.UpdatedAt.ToString(),
+                    state = @case.State.ToString(),
+                    actionLink = this.RenderPartialViewToString("_ChangeStateLinkPartial", new EditCaseViewModel(@case))
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, error = e.Message });
+            }
         }
 
         protected override void Dispose(bool disposing)

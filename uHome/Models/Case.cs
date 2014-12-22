@@ -28,6 +28,8 @@ namespace uHome.Models
 
         public CaseState State { get; set; }
 
+        public CaseState OldState { get; set; }
+
         [Required]
         public string ApplicationUserId { get; set; }
 

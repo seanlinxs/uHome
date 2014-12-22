@@ -89,6 +89,7 @@ namespace uHome.Models
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; set; }
         public CaseState State { get; set; }
+        public string StateAction { get; set; }
         public string Assignee { get; set; }
         public ICollection<AttachmentViewModel> Attachments { get; set; }
 
@@ -101,6 +102,7 @@ namespace uHome.Models
             CreatedAt = @case.CreatedAt;
             UpdatedAt = @case.UpdatedAt;
             State = @case.State;
+            StateAction = State == CaseState.CLOSED ? "Reopen" : "Close";
             Assignee = @case.CaseAssignment == null ? "Unassigned" : @case.CaseAssignment.Assignee.UserName;
             Attachments = new List<AttachmentViewModel>();
             

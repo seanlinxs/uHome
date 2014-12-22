@@ -8,6 +8,20 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9">
+            <div class="btn-group" role="group">
+                @Ajax.RawActionLink(
+                    "<span class=\"btn btn-default\">" + Model.StateAction + "</span>",
+                    Model.StateAction,
+                    "Cases",
+                    new { id = Model.ID },
+                    new AjaxOptions
+                    {
+                        OnBegin = "showSpinner",
+                        OnComplete = "hideSpinner",
+                        OnSuccess = "onCaseChangeStateSuccess",
+                        HttpMethod = "POST"
+                    }, new { id = "ChangeStateLink" })
+            </div>
             <hr />
             <div class="panel panel-default">
                 <div class="panel-heading">@Html.LabelFor(model => model.Description)</div>
@@ -37,7 +51,7 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">@Html.LabelFor(model => model.State)</div>
-                <div class="panel-body">@Html.DisplayFor(model => model.State)</div>
+                <div class="panel-body" id="State">@Html.DisplayFor(model => model.State)</div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">@Html.LabelFor(model => model.Assignee)</div>
@@ -123,5 +137,15 @@
             }
         }
 
+        function onCaseChangeStateSuccess(response) {
+            if (response.success) {
+                $('#UpdatedAt').text(response.updatedAt);
+                $('#State').text(response.state);
+                $('#ChangeStateLink').replaceWith(response.actionLink);
+            }
+            else {
+                alert(response.error);
+            }
+        }
     </script>
 }

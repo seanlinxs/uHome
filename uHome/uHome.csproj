@@ -227,6 +227,10 @@
     <Compile Include="Migrations\201412200440319_MoveAttachmentToFileSystem.Designer.cs">
       <DependentUpon>201412200440319_MoveAttachmentToFileSystem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201412220414594_AddOldStateToCase.cs" />
+    <Compile Include="Migrations\201412220414594_AddOldStateToCase.Designer.cs">
+      <DependentUpon>201412220414594_AddOldStateToCase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Attachment.cs" />
@@ -410,6 +414,7 @@
     <Content Include="Views\Cases\AdminEdit.cshtml" />
     <Content Include="Views\Cases\_EditAttachmentPartial.cshtml" />
     <Content Include="Views\Cases\_AdminListPartial.cshtml" />
+    <Content Include="Views\Cases\_ChangeStateLinkPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -445,6 +450,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201412200440319_MoveAttachmentToFileSystem.resx">
       <DependentUpon>201412200440319_MoveAttachmentToFileSystem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412220414594_AddOldStateToCase.resx">
+      <DependentUpon>201412220414594_AddOldStateToCase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

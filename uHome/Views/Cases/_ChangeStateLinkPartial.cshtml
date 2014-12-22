@@ -1,0 +1,14 @@
+﻿@model uHome.Models.EditCaseViewModel
+
+@Ajax.RawActionLink(
+    "<span class=\"btn btn-default\">" + Model.StateAction + "</span>",
+    Model.StateAction,
+    "Cases",
+    new { id = Model.ID },
+    new AjaxOptions
+    {
+        OnBegin = "showSpinner",
+        OnComplete = "hideSpinner",
+        OnSuccess = "onCaseChangeStateSuccess",
+        HttpMethod = "POST"
+    }, new { id = "ChangeStateLink" })
