@@ -75,7 +75,6 @@ namespace uHome.Controllers
         }
 
         // GET: Cases/Create
-        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Case)]
         public ActionResult Create()
         {
             return View();
@@ -85,7 +84,6 @@ namespace uHome.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Case)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Title, Description")] CreateCaseViewModel createCaseViewModel)
         {
@@ -111,6 +109,8 @@ namespace uHome.Controllers
                 };
 
                 Database.Cases.Add(@case);
+                await Database.SaveChangesAsync();
+                @case.Title = string.Format("CASE-{0}: {1}", @case.ID, @case.Title);
                 await Database.SaveChangesAsync();
 
                 return RedirectToAction("Edit", new { id = @case.ID });
