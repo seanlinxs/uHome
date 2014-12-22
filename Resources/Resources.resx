@@ -255,4 +255,10 @@
   <data name="MustBeUnique" xml:space="preserve">
     <value>Must be unique</value>
   </data>
+  <data name="ExtensionNotAllowed" xml:space="preserve">
+    <value>Extension is not allowed</value>
+  </data>
+  <data name="FileTooBig" xml:space="preserve">
+    <value>File is too big</value>
+  </data>
 </root>

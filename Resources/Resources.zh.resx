@@ -255,4 +255,10 @@
   <data name="MustBeUnique" xml:space="preserve">
     <value>必须唯一</value>
   </data>
+  <data name="ExtensionNotAllowed" xml:space="preserve">
+    <value>文件类型不被允许</value>
+  </data>
+  <data name="FileTooBig" xml:space="preserve">
+    <value>文件尺寸太大</value>
+  </data>
 </root>

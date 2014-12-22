@@ -232,6 +232,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extension is not allowed.
+        /// </summary>
+        public static string ExtensionNotAllowed {
+            get {
+                return ResourceManager.GetString("ExtensionNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File is too big.
+        /// </summary>
+        public static string FileTooBig {
+            get {
+                return ResourceManager.GetString("FileTooBig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forgot your password?.
         /// </summary>
         public static string ForgotPassword {

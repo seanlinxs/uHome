@@ -206,5 +206,32 @@ namespace uHome.Tests.Authorization
                 UhomeResources.Actions.Edit, UhomeResources.Case, @case.ID.ToString());
             Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
         }
+
+        [TestMethod]
+        public void AuthenticatedCannotAdminEditCase()
+        {
+            var user = User("John");
+            var ctx = new ResourceAuthorizationContext(user,
+                UhomeResources.Actions.AdminEdit, UhomeResources.Case);
+            Assert.IsFalse(subject.CheckAccessAsync(ctx).Result);
+        }
+
+        [TestMethod]
+        public void AuthenticatedAdminCanAdminEditCase()
+        {
+            var admin = User("AdminUser", new string[] { "Admin" });
+            var ctx = new ResourceAuthorizationContext(admin,
+                UhomeResources.Actions.AdminEdit, UhomeResources.Case);
+            Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
+        }
+
+        [TestMethod]
+        public void AuthenticatedManagerCanAdminEditCase()
+        {
+            var manager = User("ManagerUser", new string[] { "Manager" });
+            var ctx = new ResourceAuthorizationContext(manager,
+                UhomeResources.Actions.AdminEdit, UhomeResources.Case);
+            Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
+        }
     }
 }

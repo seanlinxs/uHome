@@ -74,6 +74,7 @@ namespace uHome.Controllers
         }
 
         // GET: Cases/Create
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Case)]
         public ActionResult Create()
         {
             return View();
@@ -82,6 +83,7 @@ namespace uHome.Controllers
         // POST: Cases/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Case)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Title, Description")] CreateCaseViewModel createCaseViewModel)
@@ -117,6 +119,7 @@ namespace uHome.Controllers
         }
 
         // GET: Cases/Edit/5
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Case)]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -144,6 +147,8 @@ namespace uHome.Controllers
         // POST: Cases/AddFile/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Case)]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddFile(int? id)
         {
             if (id == null)
@@ -196,6 +201,7 @@ namespace uHome.Controllers
         }
 
         // GET: Cases/AdminEdit/5
+        [ResourceAuthorize(UhomeResources.Actions.AdminEdit, UhomeResources.Case)]
         public async Task<ActionResult> AdminEdit(int? id)
         {
             if (id == null)
@@ -222,6 +228,8 @@ namespace uHome.Controllers
         }
 
         [HttpPost]
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Case)]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Close(int? id)
         {
             if (id == null)
@@ -262,6 +270,8 @@ namespace uHome.Controllers
         }
 
         [HttpPost]
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Case)]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Reopen(int? id)
         {
             if (id == null)
