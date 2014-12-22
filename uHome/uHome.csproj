@@ -443,6 +443,7 @@
     <Content Include="Views\DownloadItems\Edit.cshtml" />
     <Content Include="Views\DownloadItems\Index.cshtml" />
     <Content Include="Views\DownloadItems\List.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

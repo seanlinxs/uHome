@@ -28,9 +28,13 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink(Resources.Home, "Index", "Home")</li>
                     <li>@Html.ActionLink(Resources.About, "About", "Home")</li>
-                    <li>@Html.ActionLink(Resources.Case, "Index", "Cases")</li>
-                    <li>@Html.ActionLink(Resources.Video, "Index", "VideoClips")</li>
-                    <li>@Html.ActionLink(Resources.DownloadItem, "Index", "DownloadItems")</li>
+                    <li>@Html.ActionLink(Resources.RoleAdmin, "Index", "Roles")</li>
+                    <li>@Html.ActionLink(Resources.UserAdmin, "Index", "Account")</li>
+                    <li>@Html.ActionLink(Resources.AddManager, "AddManager", "Account")</li>
+                    <li>@Html.ActionLink(Resources.AddStaff, "AddStaff", "Account")</li>
+                    <li>@Html.ActionLink(Resources.Video, "List", "VideoClips")</li>
+                    <li>@Html.ActionLink(Resources.Case, "List", "Cases")</li>
+                    <li>@Html.ActionLink(Resources.DownloadItem, "List", "DownloadItems")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

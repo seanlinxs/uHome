@@ -12,35 +12,6 @@ namespace uHome.Tests.Authorization
     [TestClass]
     public class UserAuthorizationTest : AuthorizationTest
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-        private TransactionScope scope;
-
-        private Case CreateCase()
-        {
-            Case @case = new Case
-            {
-                Title = "Case Title",
-                Description = "Case Description",
-                CreatedAt = System.DateTime.Now,
-                State = CaseState.NEW
-            };
-
-            return @case;
-        }
-
-        [TestInitialize]
-        public void Init()
-        {
-            subject = new UhomeResourceAuthorizationManager();
-            scope = new TransactionScope();
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            scope.Dispose();
-        }
-
         [TestMethod]
         public void AnonymousCannotListUser()
         {

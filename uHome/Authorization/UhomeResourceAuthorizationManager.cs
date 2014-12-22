@@ -31,6 +31,11 @@ namespace uHome.Authorization
                 return CheckAccessUserAsync(ctx);
             }
 
+            if (resource == UhomeResources.DownloadItem)
+            {
+                return CheckAccessDownloadItemAsync(ctx);
+            }
+
             return Nok();
         }
 
@@ -109,6 +114,33 @@ namespace uHome.Authorization
             if (ctx.Principal.IsInRole("Admin"))
             {
                 return Ok();
+            }
+
+            return Nok();
+        }
+
+        public Task<bool> CheckAccessDownloadItemAsync(ResourceAuthorizationContext ctx)
+        {
+            var user = ctx.Principal.Identity;
+
+            if (!user.IsAuthenticated)
+            {
+                return Nok();
+            }
+
+            var action = ctx.Action.First().Value;
+
+            if (action == UhomeResources.VideoClipActions.View)
+            {
+                return Ok();
+            }
+
+            if (action == UhomeResources.VideoClipActions.Edit)
+            {
+                if (ctx.Principal.IsInRole("Admin"))
+                {
+                    return Ok();
+                }
             }
 
             return Nok();

@@ -12,9 +12,6 @@ namespace uHome.Tests.Authorization
     [TestClass]
     public class CaseAuthorizationTest : AuthorizationTest
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-        private TransactionScope scope;
-
         private Case CreateCase()
         {
             var now = System.DateTime.Now;
@@ -28,19 +25,6 @@ namespace uHome.Tests.Authorization
             };
 
             return @case;
-        }
-
-        [TestInitialize]
-        public void Init()
-        {
-            subject = new UhomeResourceAuthorizationManager();
-            scope = new TransactionScope();
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            scope.Dispose();
         }
 
         [TestMethod]

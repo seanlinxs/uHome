@@ -9,18 +9,25 @@ using System.Web;
 using System.Web.Mvc;
 using uHome.Models;
 using System.IO;
+using uHome.Authorization;
+using Thinktecture.IdentityModel.Mvc;
 
 namespace uHome.Controllers
 {
     public class DownloadItemsController : BaseController
     {
         // GET: DownloadItems
+        [ResourceAuthorize(UhomeResources.Actions.View, UhomeResources.DownloadItem)]
         public async Task<ActionResult> Index()
         {
-            return View(await Database.DownloadItems.ToListAsync());
+            var downloadItems = new List<ListDownloadItemViewModel>();
+            await Database.DownloadItems.ForEachAsync(di => downloadItems.Add(new ListDownloadItemViewModel(di)));
+
+            return View(downloadItems);
         }
 
         // GET: DownloadItems/List
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.DownloadItem)]
         public async Task<ActionResult> List()
         {
             var downloadItems = new List<ListDownloadItemViewModel>();
@@ -30,6 +37,7 @@ namespace uHome.Controllers
         }
 
         // GET: DownloadItems/Download/5
+        [ResourceAuthorize(UhomeResources.Actions.View, UhomeResources.DownloadItem)]
         public async Task<ActionResult> Download(int? id)
         {
             if (id == null)
@@ -47,6 +55,7 @@ namespace uHome.Controllers
             return File(downloadItem.Path, MimeMapping.GetMimeMapping(downloadItem.FileName), downloadItem.FileName);
         }
 
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.DownloadItem)]
         // GET: DownloadItems/Create
         public ActionResult Create()
         {
@@ -56,6 +65,7 @@ namespace uHome.Controllers
         // POST: DownloadItems/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.DownloadItem)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Name,Description,FileData")] CreateDownloadItemViewModel model)
@@ -79,38 +89,8 @@ namespace uHome.Controllers
             return View(model);
         }
 
-        // GET: DownloadItems/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            DownloadItem downloadItem = await Database.DownloadItems.FindAsync(id);
-            if (downloadItem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(downloadItem);
-        }
-
-        // POST: DownloadItems/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Name,Description,Path")] DownloadItem downloadItem)
-        {
-            if (ModelState.IsValid)
-            {
-                Database.Entry(downloadItem).State = EntityState.Modified;
-                await Database.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(downloadItem);
-        }
-
         // POST: DownloadItems/Delete/5
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.DownloadItem)]
         [HttpDelete]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int? id)

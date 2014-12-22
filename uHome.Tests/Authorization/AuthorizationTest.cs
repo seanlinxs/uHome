@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using uHome.Authorization;
 using System.Security.Claims;
 using Thinktecture.IdentityModel.Owin.ResourceAuthorization;
+using uHome.Models;
+using System.Transactions;
 
 namespace uHome.Tests.Authorization
 {
@@ -25,5 +27,22 @@ namespace uHome.Tests.Authorization
 
             return new ClaimsPrincipal(ci);
         }
+
+        public ApplicationDbContext db = new ApplicationDbContext();
+        public TransactionScope scope;
+
+        [TestInitialize]
+        public void Init()
+        {
+            subject = new UhomeResourceAuthorizationManager();
+            scope = new TransactionScope();
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            scope.Dispose();
+        }
+
     }
 }
