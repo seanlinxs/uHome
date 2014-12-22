@@ -231,6 +231,10 @@
     <Compile Include="Migrations\201412220414594_AddOldStateToCase.Designer.cs">
       <DependentUpon>201412220414594_AddOldStateToCase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201412220509431_CreateDownloadItems.cs" />
+    <Compile Include="Migrations\201412220509431_CreateDownloadItems.Designer.cs">
+      <DependentUpon>201412220509431_CreateDownloadItems.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Attachment.cs" />
@@ -238,6 +242,7 @@
     <Compile Include="Models\Case.cs" />
     <Compile Include="Models\CaseAssignment.cs" />
     <Compile Include="Models\CaseViewModels.cs" />
+    <Compile Include="Models\DownloadItem.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InterestMessage.cs" />
@@ -453,6 +458,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201412220414594_AddOldStateToCase.resx">
       <DependentUpon>201412220414594_AddOldStateToCase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412220509431_CreateDownloadItems.resx">
+      <DependentUpon>201412220509431_CreateDownloadItems.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

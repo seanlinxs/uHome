@@ -65,6 +65,7 @@ namespace uHome.Models
         public DbSet<VideoClip> VideoClips { get; set; }
         public DbSet<InterestMessage> InterestMessages { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<DownloadItem> DownloadItems { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
