@@ -270,4 +270,7 @@
   <data name="ASSIGNED" xml:space="preserve">
     <value>ASSIGNED</value>
   </data>
+  <data name="Assignee" xml:space="preserve">
+    <value>Handled By</value>
+  </data>
 </root>

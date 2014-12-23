@@ -270,4 +270,7 @@
   <data name="ASSIGNED" xml:space="preserve">
     <value>已分配</value>
   </data>
+  <data name="Assignee" xml:space="preserve">
+    <value>承办人</value>
+  </data>
 </root>

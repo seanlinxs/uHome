@@ -63,6 +63,7 @@ namespace uHome.Models
         public DateTime UpdatedAt { get; set; }
         public CaseState State { get; set; }
         public string StateAction { get; set; }
+        [Display(Name = "Assignee", ResourceType = typeof(Resources.Resources))]
         public string Assignee { get; set; }
         public ICollection<AttachmentViewModel> Attachments { get; set; }
 
