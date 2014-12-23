@@ -23,7 +23,7 @@ namespace uHome.Jobs
             using (var db = new ApplicationDbContext())
             {
                 var now = System.DateTime.Now;
-                var before = now.AddMinutes(-1 * validDays);
+                var before = now.AddDays(-1 * validDays);
 
                 foreach (var c in db.Cases.Where(i => i.State != CaseState.CLOSED).Where(i => i.UpdatedAt < before).ToList())
                 {
