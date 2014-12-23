@@ -20,6 +20,7 @@ namespace uHome.Models
 
     public class CaseListViewModel
     {
+        static int maxDisplayChars = int.Parse(ConfigurationManager.AppSettings["MaxDisplayChars"]);
         public int ID { get; set; }
         public string Title { get; set; }
         public string CreatedBy { get; set; }
@@ -27,6 +28,26 @@ namespace uHome.Models
         public string DescriptionThumb { get; set; }
         public string Assignee { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        public CaseListViewModel(Case c)
+        {
+            ID = c.ID;
+            Title = c.Title;
+            CreatedBy = c.CreatedBy.UserName;
+            Description = c.Description;
+
+            if (c.Description != null && c.Description.Length > maxDisplayChars)
+            {
+                DescriptionThumb = c.Description.Substring(0, maxDisplayChars);
+            }
+            else
+            {
+                DescriptionThumb = c.Description;
+            }
+
+            Assignee = c.CaseAssignment == null ? "Unassigned" : c.CaseAssignment.Assignee.UserName;
+            CreatedAt = c.CreatedAt;
+        }
     }
 
     public class CaseGroupViewModel
@@ -35,7 +56,7 @@ namespace uHome.Models
         public int Count { get; set; }
         public IEnumerable<CaseListViewModel> Cases { get; private set; }
 
-        public CaseGroupViewModel(CaseState s, IQueryable<CaseListViewModel> cases)
+        public CaseGroupViewModel(CaseState s, IEnumerable<CaseListViewModel> cases)
         {
             State = s;
             Cases = cases;

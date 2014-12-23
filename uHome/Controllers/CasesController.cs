@@ -20,8 +20,6 @@ namespace uHome.Controllers
 {
     public class CasesController : BaseController
     {
-        private int maxDisplayChars = int.Parse(ConfigurationManager.AppSettings["MaxDisplayChars"]);
-
         // GET: Cases
         [ResourceAuthorize(UhomeResources.Actions.List, UhomeResources.Case)]
         public ActionResult Index()
@@ -30,20 +28,13 @@ namespace uHome.Controllers
 
             foreach (CaseState s in Enum.GetValues(typeof(CaseState)))
             {
-                var cases = from c in Database.Cases
-                            where c.State == s && c.ApplicationUserId == CurrentUser.Id
-                            select new CaseListViewModel
-                            {
-                                ID = c.ID,
-                                Title = c.Title ?? "N/A",
-                                CreatedBy = c.CreatedBy.UserName,
-                                Description = c.Description,
-                                DescriptionThumb = c.Description.Substring(0, maxDisplayChars),
-                                Assignee = c.CaseAssignment == null ? "Unassigned" : c.CaseAssignment.Assignee.UserName,
-                                CreatedAt = c.CreatedAt
-                            };
-                caseGroups.Add(new CaseGroupViewModel(s, cases));
-            }
+                var cases = Database.Cases
+                    .Where(c => c.ApplicationUserId == CurrentUser.Id)
+                    .Where(c => c.State == s)
+                    .ToList();
+                var models = cases.Select(c => new CaseListViewModel(c));
+                caseGroups.Add(new CaseGroupViewModel(s, models));
+           }
 
             return View(caseGroups);
         }
@@ -56,19 +47,9 @@ namespace uHome.Controllers
 
             foreach (CaseState s in new CaseState[] { CaseState.NEW, CaseState.ACTIVE })
             {
-                var cases = from c in Database.Cases
-                            where c.State == s
-                            select new CaseListViewModel
-                            {
-                                ID = c.ID,
-                                Title = c.Title,
-                                CreatedBy = c.CreatedBy.UserName,
-                                Description = c.Description,
-                                DescriptionThumb = c.Description.Substring(0, maxDisplayChars),
-                                Assignee = c.CaseAssignment == null ? "Unassigned" : c.CaseAssignment.Assignee.UserName,
-                                CreatedAt = c.CreatedAt
-                            };
-                caseGroups.Add(new CaseGroupViewModel(s, cases));
+                var cases = Database.Cases.Where(c => c.State == s).ToList();
+                var models = cases.Select(c => new CaseListViewModel(c));
+                caseGroups.Add(new CaseGroupViewModel(s, models));
             }
 
             return View(caseGroups);
