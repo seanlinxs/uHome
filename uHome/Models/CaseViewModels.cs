@@ -20,12 +20,10 @@ namespace uHome.Models
 
     public class CaseListViewModel
     {
-        static int maxDisplayChars = int.Parse(ConfigurationManager.AppSettings["MaxDisplayChars"]);
         public int ID { get; set; }
         public string Title { get; set; }
         public string CreatedBy { get; set; }
         public string Description { get; set; }
-        public string DescriptionThumb { get; set; }
         public string Assignee { get; set; }
         public DateTime CreatedAt { get; set; }
 
@@ -35,16 +33,6 @@ namespace uHome.Models
             Title = c.Title;
             CreatedBy = c.CreatedBy.UserName;
             Description = c.Description;
-
-            if (c.Description != null && c.Description.Length > maxDisplayChars)
-            {
-                DescriptionThumb = c.Description.Substring(0, maxDisplayChars);
-            }
-            else
-            {
-                DescriptionThumb = c.Description;
-            }
-
             Assignee = c.CaseAssignment == null ? "Unassigned" : c.CaseAssignment.Assignee.UserName;
             CreatedAt = c.CreatedAt;
         }
