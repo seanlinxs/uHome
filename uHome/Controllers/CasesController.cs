@@ -26,7 +26,7 @@ namespace uHome.Controllers
         {
             var caseGroups = new List<CaseGroupViewModel>();
 
-            foreach (CaseState s in Enum.GetValues(typeof(CaseState)))
+            foreach (CaseState s in new CaseState[] { CaseState.NEW, CaseState.ACTIVE, CaseState.CLOSED })
             {
                 var cases = Database.Cases
                     .Where(c => c.ApplicationUserId == CurrentUser.Id)
@@ -45,7 +45,7 @@ namespace uHome.Controllers
         {
             var caseGroups = new List<CaseGroupViewModel>();
 
-            foreach (CaseState s in new CaseState[] { CaseState.NEW, CaseState.ACTIVE })
+            foreach (CaseState s in new CaseState[] { CaseState.NEW, CaseState.ASSIGNED, CaseState.ACTIVE })
             {
                 var cases = Database.Cases.Where(c => c.State == s).ToList();
                 var models = cases.Select(c => new CaseListViewModel(c));
@@ -81,12 +81,12 @@ namespace uHome.Controllers
                     CreatedBy = CurrentUser,
                     State = CaseState.NEW,
                     OldState = CaseState.CLOSED,
-                    CaseAssignment = new CaseAssignment
-                    {
-                        // Default assign to system admin or manager
-                        Assignee = await UserManager.FindByNameAsync("Administrator"),
-                        AssignmentDate = now
-                    }
+                    //CaseAssignment = new CaseAssignment
+                    //{
+                    //    // Default assign to system admin or manager
+                    //    Assignee = await UserManager.FindByNameAsync("Administrator"),
+                    //    AssignmentDate = now
+                    //}
                 };
 
                 Database.Cases.Add(@case);

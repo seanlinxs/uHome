@@ -9,7 +9,7 @@ namespace uHome.Models
 {
     public enum CaseState
     {
-        NEW, ACTIVE, CLOSED
+        NEW, ACTIVE, CLOSED, ASSIGNED
     }
 
     public class Case

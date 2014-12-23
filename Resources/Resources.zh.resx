@@ -267,4 +267,7 @@
   <data name="CaseExpiredSubject" xml:space="preserve">
     <value>{0} 已被自动关闭</value>
   </data>
+  <data name="ASSIGNED" xml:space="preserve">
+    <value>已分配</value>
+  </data>
 </root>

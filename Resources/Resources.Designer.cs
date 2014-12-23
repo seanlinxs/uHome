@@ -115,6 +115,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ASSIGNED.
+        /// </summary>
+        public static string ASSIGNED {
+            get {
+                return ResourceManager.GetString("ASSIGNED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Case.
         /// </summary>
         public static string Case {

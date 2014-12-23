@@ -267,4 +267,7 @@
   <data name="CaseExpiredSubject" xml:space="preserve">
     <value>{0} has been closed</value>
   </data>
+  <data name="ASSIGNED" xml:space="preserve">
+    <value>ASSIGNED</value>
+  </data>
 </root>
