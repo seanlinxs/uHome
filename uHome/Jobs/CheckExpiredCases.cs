@@ -16,8 +16,8 @@ namespace uHome.Jobs
         public void Execute(IJobExecutionContext context)
         {
             var From = ConfigurationManager.AppSettings["MailSentFrom"];
-            var managers = UserService.FindUsersByRoleName("Manager");
-            var admins = UserService.FindUsersByRoleName("Admin");
+            var managers = UserService.FindUsersByRoleName("Manager").ToList();
+            var admins = UserService.FindUsersByRoleName("Admin").ToList();
             var validDays = double.Parse(ConfigurationManager.AppSettings["ValidDays"]);
 
             using (var db = new ApplicationDbContext())
@@ -27,9 +27,12 @@ namespace uHome.Jobs
 
                 foreach (var c in db.Cases.Where(i => i.State != CaseState.CLOSED).Where(i => i.UpdatedAt < before).ToList())
                 {
-                    var recipients = new HashSet<ApplicationUser>();
-                    recipients.UnionWith(managers);
-                    recipients.UnionWith(admins);
+                    var recipients = new HashSet<string>();
+
+                    foreach (var user in managers.Concat(admins))
+                    {
+                        recipients.Add(user.Email);
+                    }
 
                     // Close it
                     c.OldState = c.State;
@@ -44,15 +47,15 @@ namespace uHome.Jobs
                         logger.Debug(string.Format("\nException: {0}", e.InnerException.Message));
                     }
 
-                    recipients.Add(c.CreatedBy);
+                    recipients.Add(c.CreatedBy.Email);
 
                     if (c.CaseAssignment.Assignee != null)
                     {
-                        recipients.Add(c.CaseAssignment.Assignee);
+                        recipients.Add(c.CaseAssignment.Assignee.Email);
                     }
 
-                    logger.Debug(string.Format("\nrecipients: {0}", string.Join(", ", recipients.Select(r => r.Email))));
-                    string To = string.Join(",", recipients.Select(r => r.Email));
+                    logger.Debug(string.Format("\nrecipients: {0}", string.Join(", ", recipients)));
+                    string To = string.Join(",", recipients);
                     string Subject = string.Format(Resources.Resources.CaseExpiredSubject, c.Title);
                     string Message = string.Format(Resources.Resources.CaseExpiredMessage, c.Title, validDays);
                     MessageService.SendMail(From, To, Subject, Message);

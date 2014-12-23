@@ -14,6 +14,7 @@ namespace uHome.Services
     public static class MessageService
     {
         public static SmtpClient client;
+        static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         static MessageService()
         {
@@ -22,7 +23,7 @@ namespace uHome.Services
             var pwd = ConfigurationManager.AppSettings["MailPassword"];
 
             // Configure the client:
-            client = new System.Net.Mail.SmtpClient("smtp-mail.outlook.com");
+            client = new System.Net.Mail.SmtpClient(ConfigurationManager.AppSettings["MailServer"]);
             client.Port = 587;
             client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
@@ -53,8 +54,9 @@ namespace uHome.Services
                     retry += 1;
                     result = client.SendMailAsync(mail);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    logger.Debug(e.StackTrace);
                     Thread.Sleep(1000);
                     continue;
                 }
