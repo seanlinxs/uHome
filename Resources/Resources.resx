@@ -261,4 +261,10 @@
   <data name="FileTooBig" xml:space="preserve">
     <value>File is too big</value>
   </data>
+  <data name="CaseExpiredMessage" xml:space="preserve">
+    <value>{0} has no update for {1} days and been closed by system</value>
+  </data>
+  <data name="CaseExpiredSubject" xml:space="preserve">
+    <value>{0} has been closed</value>
+  </data>
 </root>

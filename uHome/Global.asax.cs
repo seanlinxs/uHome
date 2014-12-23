@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using uHome.Models;
+using uHome.Jobs;
+using System.IO;
 
 namespace uHome
 {
@@ -18,6 +20,8 @@ namespace uHome
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
+            Scheduler.Start(); // Run scheduled jobs
         }
 
         void Application_Error(object sender, EventArgs e)

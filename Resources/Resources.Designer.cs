@@ -124,6 +124,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} has no update for {1} days and been closed by system.
+        /// </summary>
+        public static string CaseExpiredMessage {
+            get {
+                return ResourceManager.GetString("CaseExpiredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has been closed.
+        /// </summary>
+        public static string CaseExpiredSubject {
+            get {
+                return ResourceManager.GetString("CaseExpiredSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please check your email and confirm your email address.
         /// </summary>
         public static string CheckEmailToConfirm {

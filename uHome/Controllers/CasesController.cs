@@ -216,7 +216,7 @@ namespace uHome.Controllers
             }
 
             var model = new EditCaseViewModel(@case);
-            ViewBag.Assignee = new SelectList(UserManager.GetAssigneeSet(Database), "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
+            ViewBag.Assignee = new SelectList(UserManager.GetAssigneeSet(), "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
 
             return View(model);
         }

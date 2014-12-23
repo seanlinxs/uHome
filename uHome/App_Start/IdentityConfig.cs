@@ -15,6 +15,7 @@ using System.Net.Mail;
 using System.Net.Mime;
 using System.Configuration;
 using System.Threading;
+using uHome.Services;
 
 namespace uHome.Models
 {
@@ -22,48 +23,12 @@ namespace uHome.Models
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Credentials:
-            var credentialUserName = ConfigurationManager.AppSettings["MailAccount"];
-            var sentFrom = ConfigurationManager.AppSettings["MailSentFrom"];
-            var pwd = ConfigurationManager.AppSettings["MailPassword"];
-
-            // Configure the client:
-            System.Net.Mail.SmtpClient client =
-                new System.Net.Mail.SmtpClient("smtp-mail.outlook.com");
-            client.Port = 587;
-            client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-
-            // Create the credentials:
-            System.Net.NetworkCredential credentials =
-                new System.Net.NetworkCredential(credentialUserName, pwd);
-            client.EnableSsl = true;
-            client.Credentials = credentials;
-
-            // Create the message:
-            var mail =
-                new System.Net.Mail.MailMessage(sentFrom, message.Destination);
-            mail.Subject = message.Subject;
-            mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(
-                message.Body, null, MediaTypeNames.Text.Html));
-
-            // Send:
-            const int MAX_RETRY = 5;
-            Task result = null;
-            int retry = 0;
-            while (result == null && retry < MAX_RETRY)
-            {
-                try
-                {
-                    retry += 1;
-                    result = client.SendMailAsync(mail);
-                }
-                catch (Exception)
-                {
-                    Thread.Sleep(1000);
-                    continue;
-                }
-            } 
+            var result = MessageService.SendMail(
+                ConfigurationManager.AppSettings["MailSentFrom"],
+                message.Destination,
+                message.Subject,
+                message.Body
+                );
 
             return result;
         }
@@ -194,20 +159,15 @@ namespace uHome.Models
             return await UpdateAsync(user).ConfigureAwait(false);
         }
 
-        public ISet<ApplicationUser> GetAssigneeSet(ApplicationDbContext Database)
+        public ISet<ApplicationUser> GetAssigneeSet()
         {
             // Administrator, Manager and staff could be assignee
             var assigneeCandidates = new HashSet<ApplicationUser>();
 
-            var staff = Database.Roles.Where(r => r.Name == "Staff").Single().Users;
-            var managers = Database.Roles.Where(r => r.Name == "Manager").Single().Users;
-            var admins = Database.Roles.Where(r => r.Name == "Admin").Single().Users;
+            var staff = UserService.FindUsersByRoleName("Staff");
+            var managers = UserService.FindUsersByRoleName("Manager");
+            var admins = UserService.FindUsersByRoleName("Admin");
             var allAssignee = staff.Concat(managers).Concat(admins);
-
-            foreach (var a in allAssignee)
-            {
-                assigneeCandidates.Add(Database.Users.Find(a.UserId));
-            }
 
             return assigneeCandidates;
         }
