@@ -35,3 +35,74 @@ textarea {
     width: 100px; /* width of the spinner gif */
     height: 102px; /*hight of the spinner gif +2px to fix IE8 issue */
 }
+
+.case-columns {
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    border-spacing:10px 0;
+    display:table;
+    list-style:none;
+    margin:0;
+    table-layout:fixed;
+    width:100%;
+    padding:0;
+}
+
+.case-column {
+    background:#e9e9e9;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    display:table-cell;
+    list-style:none;
+    margin:0;
+    padding:0;
+    position:relative;
+    vertical-align:top;
+}
+
+.case-container {
+    background:#ffffff;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    border:1px solid #cccccc;
+    border-top-width: 0;
+    color:#333333;
+    display:block;
+    font-size:14px;
+    height:85px;
+    line-height:1.42857142857143;
+    margin:0;
+    padding-top:6px;
+    padding-left:10px;
+    padding-right:10px;
+    padding-bottom:6px;
+    position:relative;
+}
+
+.case-container:first-child {
+    border-top-width:1px;
+}
+
+.case-container:hover {
+    background:#e9e9e9;
+}
+
+.case-title {
+    display:inline-block;
+    /*height:1.1em;*/
+    margin-bottom:5px;
+    text-overflow:ellipsis;
+    vertical-align:middle;
+    white-space:nowrap;
+    overflow:hidden;
+}
+
+.case-description {
+    display:block;
+    height:3em;
+    /*line-height:1.1;*/
+    overflow:hidden;
+}

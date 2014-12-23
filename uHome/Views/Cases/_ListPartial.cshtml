@@ -1,25 +1,21 @@
-﻿<div class="row">
+﻿<ul class="case-columns">
 @foreach (var caseGroup in Model)
 {
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3>@Resources.ResourceManager.GetString(caseGroup.State.ToString(), Resources.Culture) (@caseGroup.Count)</h3>
-            </div>
-            <div class="panel-body">
+    <li class="case-column">
+        <div class="panel-heading">
+            @Resources.ResourceManager.GetString(caseGroup.State.ToString(), Resources.Culture) (@caseGroup.Count)
+        </div>
+        <div>
             @foreach (var caseItem in caseGroup.Cases)
             {
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h5 class="panel-title">
-                            @Html.ActionLink((string)caseItem.Title, "Edit", new { id = caseItem.ID })
-                        </h5>
+                <div class="case-container">
+                    <div class="case-title">
+                        @Html.ActionLink((string)caseItem.Title, "Edit", new { id = caseItem.ID })
                     </div>
-                    <div class="panel-body" title="@caseItem.Description">@caseItem.DescriptionThumb</div>
+                    <div class="case-description" title="@caseItem.Description">@caseItem.Description</div>
                 </div>
             }
-            </div>
         </div>
-    </div>
+    </li>
 }
-</div>
+</ul>
