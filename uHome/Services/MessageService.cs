@@ -56,7 +56,7 @@ namespace uHome.Services
                 }
                 catch (Exception e)
                 {
-                    logger.Debug(e.StackTrace);
+                    logger.Debug(e.Message);
                     Thread.Sleep(1000);
                     continue;
                 }

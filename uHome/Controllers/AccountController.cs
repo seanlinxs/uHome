@@ -13,6 +13,7 @@ using System.Web.Security;
 using Thinktecture.IdentityModel.Mvc;
 using uHome.Authorization;
 using System.Collections.Generic;
+using System.Net;
 
 namespace uHome.Controllers
 {
@@ -522,6 +523,36 @@ namespace uHome.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
+        }
+
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.User)]
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ApplicationUser account = await UserManager.FindByIdAsync(id);
+
+            if (account == null)
+            {
+                return HttpNotFound();
+            }
+
+            try
+            {
+                Database.Users.Remove(account);
+                await Database.SaveChangesAsync();
+
+                return Json(new { success = true, Id = account.Id });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, error = e.Message });
+            }
         }
 
         #region Helpers

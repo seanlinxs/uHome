@@ -6,6 +6,8 @@
 
 <h2>@ViewBag.Title</h2>
 
+@Html.AntiForgeryToken()
+
 <table class="table table-bordered table-hover">
     <tr>
         <th>
@@ -22,7 +24,7 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr id="Account_@item.Id">
             <td>
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
@@ -33,9 +35,41 @@
                 @Html.DisplayFor(modelItem => item.Roles)
             </td>
             <td>
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                @Ajax.RawActionLink(
+                "<span class=\"glyphicon glyphicon-trash\"></span> Delete",
+                "Delete",
+                "Account",
+                new { id = item.Id },
+                new AjaxOptions
+                {
+                    Confirm = string.Format("Are you sure you want ot delete {0}?", item.UserName),
+                    OnBegin = "showSpinner",
+                    OnComplete = "hideSpinner",
+                    OnSuccess = "onAccountDeleteSuccess",
+                    OnFailure = "onAccountDeleteFailure",
+                    HttpMethod = "DELETE"
+                },
+                new { @class = "btn btn-danger" }
+            )
             </td>
         </tr>
     }
 
 </table>
+
+@section Scripts {
+    <script type="text/javascript">
+        function onAccountDeleteSuccess(response) {
+            if (response.success) {
+                $('#Account_' + response.Id).remove();
+            }
+            else {
+                alert(response.error);
+            }
+        }
+
+        function onAccountDeleteFailure(response) {
+            alert("500: Internel Error, please report to administrator");
+        }
+    </script>
+}
