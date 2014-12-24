@@ -36,8 +36,8 @@
             </td>
             <td>
                 @Ajax.RawActionLink(
-                "<span class=\"glyphicon glyphicon-trash\"></span> Delete",
-                "Delete",
+                "<span class=\"glyphicon glyphicon-trash\"></span> Disable",
+                "Disable",
                 "Account",
                 new { id = item.Id },
                 new AjaxOptions
@@ -47,7 +47,7 @@
                     OnComplete = "hideSpinner",
                     OnSuccess = "onAccountDeleteSuccess",
                     OnFailure = "onAccountDeleteFailure",
-                    HttpMethod = "DELETE"
+                    HttpMethod = "POST"
                 },
                 new { @class = "btn btn-danger" }
             )

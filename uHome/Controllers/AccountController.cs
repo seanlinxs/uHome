@@ -526,9 +526,9 @@ namespace uHome.Controllers
         }
 
         [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.User)]
-        [HttpDelete]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<ActionResult> Disable(string id)
         {
             if (id == null)
             {
@@ -544,7 +544,7 @@ namespace uHome.Controllers
 
             try
             {
-                Database.Users.Remove(account);
+                //Database.Users.Remove(account);
                 await Database.SaveChangesAsync();
 
                 return Json(new { success = true, Id = account.Id });
