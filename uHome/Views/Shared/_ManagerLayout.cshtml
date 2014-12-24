@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - uHome</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/site")
+
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("uHome", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink(Resources.Home, "Index", "Home")</li>
+                    <li>@Html.ActionLink(Resources.About, "About", "Home")</li>
+                    <li>@Html.ActionLink(Resources.Case, "List", "Cases")</li>
+                    <li>@Html.ActionLink(Resources.Video, "Index", "VideoClips")</li>
+                    <li>@Html.ActionLink(Resources.DownloadItem, "Index", "DownloadItems")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - uHome</p>
+        </footer>
+    </div>
+
+    <div id="spinner" class="spinner" style="display:none;">
+        <img id="img-spinner" src=@Url.Content("~/Content/Images/ajax-loader.gif") alt="Loading" />
+    </div>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

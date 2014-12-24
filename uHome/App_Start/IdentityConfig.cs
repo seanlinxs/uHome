@@ -316,11 +316,6 @@ namespace uHome.Models
             {
                 var result = userManager.AddToRole(user.Id, "Admin");
             }
-
-            if (!rolesForUser.Contains("Manager"))
-            {
-                var result = userManager.AddToRole(user.Id, "Manager");
-            }
         }
     }
 }
