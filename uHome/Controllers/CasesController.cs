@@ -56,6 +56,25 @@ namespace uHome.Controllers
             return View(caseGroups);
         }
 
+        // GET: Cases
+        [ResourceAuthorize(UhomeResources.Actions.List, UhomeResources.Case)]
+        public ActionResult StaffList()
+        {
+            var caseGroups = new List<CaseGroupViewModel>();
+
+            foreach (CaseState s in new CaseState[] { CaseState.ASSIGNED, CaseState.ACTIVE, CaseState.CLOSED })
+            {
+                var cases = Database.Cases
+                    .Where(c => c.CaseAssignment.ApplicationUserId == CurrentUser.Id)
+                    .Where(c => c.State == s)
+                    .ToList();
+                var models = cases.Select(c => new CaseListViewModel(c));
+                caseGroups.Add(new CaseGroupViewModel(s, models));
+            }
+
+            return View(caseGroups);
+        }
+
         // GET: Cases/Create
         public ActionResult Create()
         {
@@ -123,6 +142,31 @@ namespace uHome.Controllers
 
             var model = new EditCaseViewModel(@case);
             
+            return View(model);
+        }
+
+        // GET: Cases/Edit/5
+        public async Task<ActionResult> StaffEdit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Case @case = await Database.Cases.FindAsync(id);
+
+            if (@case == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (!HttpContext.CheckAccess(UhomeResources.Actions.Edit, UhomeResources.Case, id.ToString()))
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            var model = new EditCaseViewModel(@case);
+
             return View(model);
         }
 

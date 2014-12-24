@@ -10,7 +10,7 @@
                 {
                     <div class="case-container">
                         <div class="case-title">
-                            @Html.ActionLink((string)caseItem.Title, "Edit", new { id = caseItem.ID })
+                            @Html.ActionLink((string)caseItem.Title, "StaffEdit", new { id = caseItem.ID })
                         </div>
                         <div class="case-description" title="@caseItem.Description">@caseItem.Description</div>
                     </div>

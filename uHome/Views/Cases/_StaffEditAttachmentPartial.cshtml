@@ -1,0 +1,6 @@
+﻿@model uHome.Models.AttachmentViewModel
+
+<div class="row" id="attachment_@Model.ID">
+    <div class="col-md-8">@Html.ActionLink(Model.Name, "Download", "Attachments", new { id = Model.ID }, null)</div>
+    <div class="col-md-4">@Model.UploadAt | @Model.Size</div>
+</div>

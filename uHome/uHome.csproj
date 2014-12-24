@@ -455,6 +455,11 @@
     <Content Include="Views\DownloadItems\List.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Shared\_ManagerLayout.cshtml" />
+    <Content Include="Views\Cases\StaffList.cshtml" />
+    <Content Include="Views\Cases\_StaffListPartial.cshtml" />
+    <Content Include="Views\Cases\StaffEdit.cshtml" />
+    <Content Include="Views\Shared\_StaffLayout.cshtml" />
+    <Content Include="Views\Cases\_StaffEditAttachmentPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

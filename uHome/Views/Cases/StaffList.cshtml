@@ -1,0 +1,9 @@
+﻿@model IEnumerable<uHome.Models.CaseGroupViewModel>
+
+@{
+    ViewBag.Title = "My Cases";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.Partial("_StaffListPartial", Model)

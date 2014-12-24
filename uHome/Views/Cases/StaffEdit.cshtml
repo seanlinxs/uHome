@@ -1,0 +1,55 @@
+﻿@model uHome.Models.EditCaseViewModel
+
+@{
+    ViewBag.Title = "StaffEdit";
+}
+<h2>@Model.Title</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <hr />
+            <div class="panel panel-default">
+                <div class="panel-heading">@Html.LabelFor(model => model.Description)</div>
+                <div class="panel-body">@Html.DisplayFor(model => model.Description)</div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Html.LabelFor(model => model.Attachments)</div>
+                <div class="panel-body">
+                    <div class="container" id="attachments">
+                        @foreach (var attachment in Model.Attachments)
+                        {
+                            Html.RenderPartial("_StaffEditAttachmentPartial", attachment);
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <hr />
+            <div class="panel panel-default">
+                <div class="panel-heading">@Html.LabelFor(model => model.CreatedBy)</div>
+                <div class="panel-body">@Html.DisplayFor(model => model.CreatedBy)</div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Html.LabelFor(model => model.CreatedAt)</div>
+                <div class="panel-body">@Html.DisplayFor(model => model.CreatedAt)</div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Html.LabelFor(model => model.UpdatedAt)</div>
+                <div class="panel-body">@Html.DisplayFor(model => model.UpdatedAt)</div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Html.LabelFor(model => model.State)</div>
+                <div class="panel-body">@Html.DisplayFor(model => model.State)</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jeditable")
+
+    <script>
+    </script>
+}
