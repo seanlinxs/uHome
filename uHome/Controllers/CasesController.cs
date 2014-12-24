@@ -15,6 +15,7 @@ using Microsoft.AspNet.Identity.Owin;
 using uHome.Extensions;
 using System.Threading;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace uHome.Controllers
 {
@@ -26,7 +27,7 @@ namespace uHome.Controllers
         {
             var caseGroups = new List<CaseGroupViewModel>();
 
-            foreach (CaseState s in new CaseState[] { CaseState.NEW, CaseState.ACTIVE, CaseState.CLOSED })
+            foreach (CaseState s in new CaseState[] { CaseState.NEW, CaseState.ASSIGNED, CaseState.ACTIVE, CaseState.CLOSED })
             {
                 var cases = Database.Cases
                     .Where(c => c.ApplicationUserId == CurrentUser.Id)
@@ -197,7 +198,27 @@ namespace uHome.Controllers
             }
 
             var model = new EditCaseViewModel(@case);
-            ViewBag.Assignee = new SelectList(UserManager.GetAssigneeSet(), "Id", "UserName", @case.CaseAssignment.ApplicationUserId);
+            var AssigneeCadidates = UserManager.GetAssigneeCadidates();
+            var AssigneeList = new Dictionary<string, string>();
+            AssigneeList.Add("unassigned", "Unassigned");
+
+            foreach (var a in AssigneeCadidates)
+            {
+                int total = Database.CaseAssignments.Where(ca => ca.ApplicationUserId == a.Id).Count();
+                int active = Database.Cases.Where(c => c.State == CaseState.ACTIVE).Where(c => c.CaseAssignment.ApplicationUserId == a.Id).Count();
+                AssigneeList.Add(a.Id, string.Format("{0} ({1}/{2})", a.UserName, total, active));
+            }
+            
+            if (@case.CaseAssignment == null)
+            {
+                AssigneeList.Add("selected", "unassigned");
+            }
+            else{
+                AssigneeList.Add("selected", @case.CaseAssignment.ApplicationUserId);
+            }
+
+            ViewBag.AssigneeSelectList = JsonConvert.SerializeObject(AssigneeList);
+            logger.Debug(ViewBag.AssigneeSelectList);
 
             return View(model);
         }
@@ -280,6 +301,56 @@ namespace uHome.Controllers
             catch (Exception e)
             {
                 return Json(new { success = false, error = e.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<string> Assign(int? id, string user_id)
+        {
+            if (id == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return "Error";
+            }
+
+            Case @case = await Database.Cases.FindAsync(id);
+
+            if (@case == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return "Error";
+            }
+
+            if (!HttpContext.CheckAccess(UhomeResources.Actions.Edit, UhomeResources.Case, id.ToString()))
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return "Error";
+            }
+
+            if (user_id == "unassigned")
+            {
+                Database.CaseAssignments.Remove(@case.CaseAssignment);
+                @case.State = CaseState.NEW;
+                @case.UpdatedAt = System.DateTime.Now;
+                await Database.SaveChangesAsync();
+
+                return "Unassigned";
+            }
+            else
+            {
+                if (@case.CaseAssignment == null)
+                {
+                    @case.CaseAssignment = new CaseAssignment();
+                }
+
+                @case.CaseAssignment.ApplicationUserId = user_id;
+                @case.CaseAssignment.AssignmentDate = System.DateTime.Now;
+                @case.State = CaseState.ASSIGNED;
+                @case.UpdatedAt = System.DateTime.Now;
+                await Database.SaveChangesAsync();
+
+                return (await UserManager.FindByIdAsync(user_id)).UserName;
             }
         }
 

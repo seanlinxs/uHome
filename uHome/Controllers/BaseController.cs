@@ -11,6 +11,8 @@ namespace uHome.Controllers
 {
     public class BaseController : Controller
     {
+        public readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+ 
         public ApplicationDbContext Database
         {
             get

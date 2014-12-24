@@ -159,15 +159,15 @@ namespace uHome.Models
             return await UpdateAsync(user).ConfigureAwait(false);
         }
 
-        public ISet<ApplicationUser> GetAssigneeSet()
+        public ISet<ApplicationUser> GetAssigneeCadidates()
         {
-            // Administrator, Manager and staff could be assignee
+            // Manager and staff could be assignee
             var assigneeCandidates = new HashSet<ApplicationUser>();
 
             var staff = UserService.FindUsersByRoleName("Staff");
             var managers = UserService.FindUsersByRoleName("Manager");
-            var admins = UserService.FindUsersByRoleName("Admin");
-            var allAssignee = staff.Concat(managers).Concat(admins);
+            assigneeCandidates.UnionWith(staff);
+            assigneeCandidates.UnionWith(managers);
 
             return assigneeCandidates;
         }

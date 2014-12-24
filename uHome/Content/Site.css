@@ -91,7 +91,7 @@ textarea {
 }
 
 .case-title {
-    display:inline-block;
+    display:block;
     /*height:1.1em;*/
     margin-bottom:5px;
     text-overflow:ellipsis;
