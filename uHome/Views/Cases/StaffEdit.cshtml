@@ -6,11 +6,9 @@
 <h2>@Model.Title</h2>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-9">
-            <div class="btn-group" role="group">
-                @Ajax.RawActionLink(
-                    "<span class=\"btn btn-default\">" + Model.StateAction + "</span>",
+    <div class="btn-group" role="group">
+        @Ajax.RawActionLink(
+                    "<span class=\"btn btn-primary\">" + Model.StateAction + "</span>",
                     Model.StateAction,
                     "Cases",
                     new { id = Model.ID },
@@ -21,7 +19,9 @@
                         OnSuccess = "onCaseChangeStateSuccess",
                         HttpMethod = "POST"
                     }, new { id = "ChangeStateLink" })
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
             <hr />
             <div class="panel panel-default">
                 <div class="panel-heading">@Html.LabelFor(model => model.Description)</div>
@@ -51,11 +51,11 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">@Html.LabelFor(model => model.UpdatedAt)</div>
-                <div class="panel-body">@Html.DisplayFor(model => model.UpdatedAt)</div>
+                <div class="panel-body" id="UpdatedAt">@Html.DisplayFor(model => model.UpdatedAt)</div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">@Html.LabelFor(model => model.State)</div>
-                <div class="panel-body">@Html.DisplayFor(model => model.State)</div>
+                <div class="panel-body" id="State">@Html.DisplayFor(model => model.State)</div>
             </div>
         </div>
     </div>
@@ -65,5 +65,15 @@
     @Scripts.Render("~/bundles/jeditable")
 
     <script>
+        function onCaseChangeStateSuccess(response) {
+            if (response.success) {
+                $('#UpdatedAt').text(response.updatedAt);
+                $('#State').text(response.state);
+                $('#ChangeStateLink').replaceWith(response.actionLink);
+            }
+            else {
+                alert(response.error);
+            }
+        }
     </script>
 }

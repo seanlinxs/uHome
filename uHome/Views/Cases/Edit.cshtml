@@ -8,11 +8,9 @@
 @Html.AntiForgeryToken()
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-9">
-            <div class="btn-group" role="group">
-                @Ajax.RawActionLink(
-                    "<span class=\"btn btn-default\">" + Model.StateAction + "</span>",
+    <div class="btn-group" role="group">
+        @Ajax.RawActionLink(
+                    "<span class=\"btn btn-primary\">" + Model.StateAction + "</span>",
                     Model.StateAction,
                     "Cases",
                     new { id = Model.ID },
@@ -23,7 +21,9 @@
                         OnSuccess = "onCaseChangeStateSuccess",
                         HttpMethod = "POST"
                     }, new { id = "ChangeStateLink" })
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
             <hr />
             <div class="panel panel-default">
                 <div class="panel-heading">@Html.LabelFor(model => model.Description)</div>

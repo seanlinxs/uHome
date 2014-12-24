@@ -398,6 +398,90 @@ namespace uHome.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Start(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Case @case = await Database.Cases.FindAsync(id);
+
+            if (@case == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (!HttpContext.CheckAccess(UhomeResources.Actions.StaffEdit, UhomeResources.Case, id.ToString()))
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            try
+            {
+                @case.OldState = @case.State;
+                @case.State = CaseState.ACTIVE;
+                @case.UpdatedAt = System.DateTime.Now;
+                await Database.SaveChangesAsync();
+
+                return Json(new
+                {
+                    success = true,
+                    updatedAt = @case.UpdatedAt.ToString(),
+                    state = @case.State.ToString(),
+                    actionLink = this.RenderPartialViewToString("_ChangeStateLinkPartial", new StaffEditCaseViewModel(@case))
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, error = e.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Stop(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Case @case = await Database.Cases.FindAsync(id);
+
+            if (@case == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (!HttpContext.CheckAccess(UhomeResources.Actions.StaffEdit, UhomeResources.Case, id.ToString()))
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            try
+            {
+                @case.OldState = @case.State;
+                @case.State = CaseState.ASSIGNED;
+                @case.UpdatedAt = System.DateTime.Now;
+                await Database.SaveChangesAsync();
+
+                return Json(new
+                {
+                    success = true,
+                    updatedAt = @case.UpdatedAt.ToString(),
+                    state = @case.State.ToString(),
+                    actionLink = this.RenderPartialViewToString("_ChangeStateLinkPartial", new StaffEditCaseViewModel(@case))
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, error = e.Message });
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

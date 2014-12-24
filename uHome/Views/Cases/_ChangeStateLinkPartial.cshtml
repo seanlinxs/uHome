@@ -1,7 +1,7 @@
-﻿@model uHome.Models.EditCaseViewModel
+﻿@model uHome.Models.BaseEditCaseViewModel
 
 @Ajax.RawActionLink(
-    "<span class=\"btn btn-default\">" + Model.StateAction + "</span>",
+    "<span class=\"btn btn-primary\">" + Model.StateAction + "</span>",
     Model.StateAction,
     "Cases",
     new { id = Model.ID },
