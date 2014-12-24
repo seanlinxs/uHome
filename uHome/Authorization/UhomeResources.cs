@@ -18,6 +18,7 @@ namespace uHome.Authorization
             public const string Edit = "Edit";
             public const string List = "List";
             public const string AdminEdit = "AdminEdit";
+            public const string StaffEdit = "StaffEdit";
         }
 
         public class VideoClipActions : Actions

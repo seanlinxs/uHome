@@ -89,18 +89,43 @@ namespace uHome.Authorization
             {
                 var caseId = int.Parse(ctx.Resource.Skip(1).Take(1).First().Value);
                 var @case = db.Cases.Find(caseId);
-                var users = db.Users;
-                var applicationUser = (from u in db.Users
-                                      where u.UserName == ctx.Principal.Identity.Name
-                                      select u).First();
+                var applicationUser = db.Users.Where(u => u.UserName == ctx.Principal.Identity.Name).Single();
 
-                if (applicationUser.Cases.Contains(@case))
+                if (ctx.Action.First().Value == UhomeResources.Actions.Edit)
                 {
-                    return Ok();
+                    if (@case.ApplicationUserId == applicationUser.Id)
+                    {
+                        return Ok();
+                    }
+                    else
+                    {
+                        return Nok();
+                    }
                 }
-                else
+                else if (ctx.Action.First().Value == UhomeResources.Actions.StaffEdit)
                 {
-                    return Nok();
+                    if (@case.CaseAssignment != null && @case.CaseAssignment.ApplicationUserId == applicationUser.Id)
+                    {
+                        return Ok();
+                    }
+                    else
+                    {
+                        return Nok();
+                    }
+                }
+                else if (ctx.Action.First().Value == UhomeResources.Actions.View)
+                {
+                    if (@case.CaseAssignment != null && @case.CaseAssignment.ApplicationUserId == applicationUser.Id)
+                    {
+                        return Ok();
+                    }
+                    else if (@case.ApplicationUserId == applicationUser.Id)
+                    {
+                        return Ok();
+                    }
+                    {
+                        return Nok();
+                    }
                 }
             }
 

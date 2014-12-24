@@ -233,5 +233,29 @@ namespace uHome.Tests.Authorization
                 UhomeResources.Actions.AdminEdit, UhomeResources.Case);
             Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
         }
+
+        [TestMethod]
+        public void AuthenticatedStaffCanStaffEditAssignedCase()
+        {
+            var staff = User("StaffUser", new string[] { "Staff" });
+            var applicationUser1 = new ApplicationUser();
+            applicationUser1.UserName = staff.Identity.Name;
+            db.Users.Add(applicationUser1);
+            var applicationUser2 = new ApplicationUser();
+            applicationUser2.UserName = "MemberUser";
+            db.Users.Add(applicationUser2);
+            var @case = CreateCase();
+            @case.ApplicationUserId = applicationUser2.Id;
+            db.Cases.Add(@case);
+            @case.CaseAssignment = new CaseAssignment();
+            @case.CaseAssignment.ApplicationUserId = applicationUser1.Id;
+            @case.CaseAssignment.AssignmentDate = System.DateTime.Now;
+            @case.UpdatedAt = System.DateTime.Now;
+            db.SaveChanges();
+
+            var ctx = new ResourceAuthorizationContext(staff,
+                UhomeResources.Actions.StaffEdit, UhomeResources.Case, @case.ID.ToString());
+            Assert.IsTrue(subject.CheckAccessAsync(ctx).Result);
+        }
     }
 }

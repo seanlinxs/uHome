@@ -145,7 +145,7 @@ namespace uHome.Controllers
             return View(model);
         }
 
-        // GET: Cases/Edit/5
+        // GET: Cases/StaffEdit/5
         public async Task<ActionResult> StaffEdit(int? id)
         {
             if (id == null)
@@ -160,7 +160,7 @@ namespace uHome.Controllers
                 return HttpNotFound();
             }
 
-            if (!HttpContext.CheckAccess(UhomeResources.Actions.Edit, UhomeResources.Case, id.ToString()))
+            if (!HttpContext.CheckAccess(UhomeResources.Actions.StaffEdit, UhomeResources.Case, id.ToString()))
             {
                 return new HttpUnauthorizedResult();
             }
