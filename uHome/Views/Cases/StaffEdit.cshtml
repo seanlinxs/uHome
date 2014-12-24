@@ -1,4 +1,4 @@
-﻿@model uHome.Models.EditCaseViewModel
+﻿@model uHome.Models.StaffEditCaseViewModel
 
 @{
     ViewBag.Title = "StaffEdit";
@@ -8,6 +8,20 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9">
+            <div class="btn-group" role="group">
+                @Ajax.RawActionLink(
+                    "<span class=\"btn btn-default\">" + Model.StateAction + "</span>",
+                    Model.StateAction,
+                    "Cases",
+                    new { id = Model.ID },
+                    new AjaxOptions
+                    {
+                        OnBegin = "showSpinner",
+                        OnComplete = "hideSpinner",
+                        OnSuccess = "onCaseChangeStateSuccess",
+                        HttpMethod = "POST"
+                    }, new { id = "ChangeStateLink" })
+            </div>
             <hr />
             <div class="panel panel-default">
                 <div class="panel-heading">@Html.LabelFor(model => model.Description)</div>

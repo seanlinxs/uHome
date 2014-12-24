@@ -165,7 +165,7 @@ namespace uHome.Controllers
                 return new HttpUnauthorizedResult();
             }
 
-            var model = new EditCaseViewModel(@case);
+            var model = new StaffEditCaseViewModel(@case);
 
             return View(model);
         }
