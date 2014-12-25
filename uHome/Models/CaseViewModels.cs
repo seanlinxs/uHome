@@ -79,6 +79,7 @@ namespace uHome.Models
             State = @case.State;
             Assignee = @case.CaseAssignment == null ? "Unassigned" : @case.CaseAssignment.Assignee.UserName;
             Attachments = new List<AttachmentViewModel>();
+            Comments = new List<CommentViewModel>();
 
             foreach (var attachment in @case.Attachments)
             {
