@@ -48,12 +48,26 @@
                         {
                             Html.RenderPartial("_EditCommentPartial", comment);
                         }
-                        <div id="new-comment"></div>
                     </div>
                 </div>
             </div>
-            <div>
-                <span class="btn btn-primary" id="add-comment">Comment</span>
+            <div id="new-comment-btnbox">
+                <span class="btn btn-primary" id="new-comment">Comment</span>
+            </div>
+            <div id="new-comment-edtbox" class="in-place-modal">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <textarea class="form-control text-box multi-line col-md-10" rows="10" id="Comment" name="Comment"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <span class="btn btn-default" id="add-comment">Add Comment</span>
+                            <span class="btn btn-default" id="cancel-add-comment">Cancel</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-3">
@@ -86,10 +100,8 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/plupload")
-    @Scripts.Render("~/bundles/jeditable")
 
     <script type="text/javascript">
-
         var uploader = new plupload.Uploader({
             runtimes: 'html5, html4',
             browse_button: 'pickfiles',
@@ -112,17 +124,15 @@
                 FileUpLoaded: function (up, file, info) {
                     var response = $.parseJSON(info.response);
 
-                    if (response.success)
-                    {
+                    if (response.success) {
                         $("#attachments").append(response.attachmentRow);
                         $('#UpdatedAt').text(response.updatedAt);
                         $('#' + file.id + ' > span#result').html('<i style="color: Green;" class="glyphicon glyphicon-ok"></i>');
                     }
-                    else
-                    {
+                    else {
                         $('#' + file.id + ' > span#result').html('<i style="color: Red;" class="glyphicon glyphicon-remove" title="' + response.error + '"></i>');
                     }
-            
+
                 },
 
                 Error: function (up, err) {
@@ -142,10 +152,8 @@
             up.start();
         });
 
-        function onAttachmentDeleteSuccess(response)
-        {
-            if (response.success)
-            {
+        function onAttachmentDeleteSuccess(response) {
+            if (response.success) {
                 var id = "#attachment_" + response.id;
                 $(id).remove();
                 $('#UpdatedAt').text(response.updatedAt);
@@ -170,13 +178,28 @@
             }
         }
 
+        $('#new-comment').click(function () {
+            $('#new-comment-edtbox').show();
+            $('#Comment').focus();
+        });
+
         $('#add-comment').click(function () {
-            $('#new-comment').editable("@Url.Action("AddComment", "Cases", new { id = Model.ID })", {
-                type: 'textarea',
-                id: 'element_id',
-                submit: 'OK',
-                callback: function () {
-                    $('#comments').append("<div id=\"new-comment\"></div>");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddComment", "Cases", new { id = Model.ID })",
+                data: {
+                    value: $('#Comment').val()
+                },
+                success: function (response) {
+                    if (response.success == true) {
+                        $('#comments').append(response.newCommentRow);
+                        $('#Comment').val("");
+                        $('#new-comment-edtbox').hide();
+                    }
+                    else
+                    {
+                        alert(response.error);
+                    }
                 }
             });
         });

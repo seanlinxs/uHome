@@ -127,6 +127,10 @@ textarea {
     overflow-y:hidden;
 }
 
-.action-container .action-links{
+.action-container .action-links {
     visibility:hidden;
+}
+
+.in-place-modal {
+    display:none;
 }

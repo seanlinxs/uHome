@@ -484,26 +484,23 @@ namespace uHome.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<string> AddComment(int? id, string value)
+        public async Task<ActionResult> AddComment(int? id, string value)
         {
             if (id == null)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return "Bad Request";
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             Case @case = await Database.Cases.FindAsync(id);
 
             if (@case == null)
             {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return "Case not found";
+                return HttpNotFound();
             }
 
             if (!HttpContext.CheckAccess(UhomeResources.Actions.View, UhomeResources.Case, id.ToString()))
             {
-                Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return "Permisson Denied";
+                return new HttpUnauthorizedResult();
             } 
             
             try
@@ -512,12 +509,11 @@ namespace uHome.Controllers
                 @case.UpdatedAt = System.DateTime.Now;
                 await Database.SaveChangesAsync();
 
-                return this.RenderPartialViewToString("_EditCommentPartial", commentViewModel);
+                return Json(new { success = true, newCommentRow = this.RenderPartialViewToString("_EditCommentPartial", commentViewModel) });
             }
             catch (Exception e)
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return e.Message;
+                return Json(new { success = false, error = e.Message });
             }
         }
 
