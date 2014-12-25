@@ -66,6 +66,7 @@ namespace uHome.Models
         [Display(Name = "Assignee", ResourceType = typeof(Resources.Resources))]
         public string Assignee { get; set; }
         public ICollection<AttachmentViewModel> Attachments { get; set; }
+        public ICollection<CommentViewModel> Comments { get; set; }
 
         public BaseEditCaseViewModel(Case @case)
         {
@@ -82,6 +83,11 @@ namespace uHome.Models
             foreach (var attachment in @case.Attachments)
             {
                 Attachments.Add(new AttachmentViewModel(attachment));
+            }
+
+            foreach (var comment in @case.Comments)
+            {
+                Comments.Add(new CommentViewModel(comment));
             }
         }
     }
