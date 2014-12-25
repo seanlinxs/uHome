@@ -40,6 +40,20 @@
                     </div>
                 </div>
             </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">@Html.LabelFor(model => model.Comments)</div>
+                <div class="panel-body">
+                    <div class="container" id="comments">
+                        @foreach (var comment in Model.Comments)
+                        {
+                            Html.RenderPartial("_EditCommentPartial", comment);
+                        }
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span class="btn btn-primary" id="add-comment">Comment</span>
+            </div>
         </div>
         <div class="col-md-3">
             <hr />
@@ -71,6 +85,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/plupload")
+    @Scripts.Render("~/bundles/jeditable")
 
     <script type="text/javascript">
 
@@ -153,5 +168,11 @@
                 alert(response.error);
             }
         }
+
+        $('#add-comment').editable("@Url.Action("AddComment", "Cases", new { id = Model.ID })", {
+            type: 'textarea',
+            id: 'element_id',
+            submit: 'OK',
+        });
     </script>
 }
