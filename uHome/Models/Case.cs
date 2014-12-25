@@ -40,6 +40,7 @@ namespace uHome.Models
         public virtual ICollection<Attachment> Attachments { get; set; }
         public virtual CaseAssignment CaseAssignment { get; set; }
         public virtual ApplicationUser CreatedBy { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
 
         public Attachment AddFile(HttpPostedFileBase file)
         {

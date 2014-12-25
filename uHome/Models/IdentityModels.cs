@@ -54,6 +54,7 @@ namespace uHome.Models
         public virtual ICollection<Case> Cases { get; set; }
         public virtual ICollection<CaseAssignment> CaseAssignments { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -66,6 +67,7 @@ namespace uHome.Models
         public DbSet<InterestMessage> InterestMessages { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<DownloadItem> DownloadItems { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

@@ -269,6 +269,7 @@
     <Compile Include="Models\Case.cs" />
     <Compile Include="Models\CaseAssignment.cs" />
     <Compile Include="Models\CaseViewModels.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\DownloadItem.cs" />
     <Compile Include="Models\DownloadItemViewModels.cs" />
     <Compile Include="Models\Feedback.cs" />
