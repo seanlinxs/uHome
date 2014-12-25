@@ -107,13 +107,29 @@ textarea {
     overflow:hidden;
 }
 
+.data-block {
+    border-bottom:1px solid #ddd;padding:0.5em;
+}
+
+.data-block:hover {
+    background-color:#f0f0f0;
+}
+
+.data-block.focused {
+    background-color:#e0f0ff;
+}
+
+.data-block:after {
+    content:".";display:block;height:0;clear:both;visibility:hidden;
+}
+
 .twixi-wrap {
     padding-left:24px;
     position:relative;
 }
 
 .action-details {
-    line-height:1.5;
+    line-height:2;
     text-align:left;
 }
 

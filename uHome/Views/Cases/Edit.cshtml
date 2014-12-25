@@ -58,7 +58,7 @@
                 <div class="form-horizontal">
                     <div class="form-group">
                         <div class="col-md-10">
-                            <textarea class="form-control text-box multi-line col-md-10" rows="10" id="Comment" name="Comment"></textarea>
+                            <textarea class="form-control text-box multi-line" rows="3" id="Comment" name="Comment"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -198,10 +198,15 @@
                     }
                     else
                     {
-                        alert(response.error);
+                        alert(response.errmsg);
                     }
                 }
             });
+        });
+
+        $('#cancel-add-comment').click(function () {
+            $('#Comment').val("");
+            $('#new-comment-edtbox').hide();
         });
     </script>
 }
