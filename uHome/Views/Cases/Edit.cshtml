@@ -48,6 +48,7 @@
                         {
                             Html.RenderPartial("_EditCommentPartial", comment);
                         }
+                        <div id="new-comment"></div>
                     </div>
                 </div>
             </div>
@@ -169,10 +170,15 @@
             }
         }
 
-        $('#add-comment').editable("@Url.Action("AddComment", "Cases", new { id = Model.ID })", {
-            type: 'textarea',
-            id: 'element_id',
-            submit: 'OK',
+        $('#add-comment').click(function () {
+            $('#new-comment').editable("@Url.Action("AddComment", "Cases", new { id = Model.ID })", {
+                type: 'textarea',
+                id: 'element_id',
+                submit: 'OK',
+                callback: function () {
+                    $('#comments').append("<div id=\"new-comment\"></div>");
+                }
+            });
         });
     </script>
 }

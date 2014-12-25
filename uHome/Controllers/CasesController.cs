@@ -482,6 +482,45 @@ namespace uHome.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<string> AddComment(int? id, string value)
+        {
+            if (id == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return "Bad Request";
+            }
+
+            Case @case = await Database.Cases.FindAsync(id);
+
+            if (@case == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return "Case not found";
+            }
+
+            if (!HttpContext.CheckAccess(UhomeResources.Actions.View, UhomeResources.Case, id.ToString()))
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return "Permisson Denied";
+            } 
+            
+            try
+            {
+                var commentViewModel = @case.AddComment(value, CurrentUser);
+                @case.UpdatedAt = System.DateTime.Now;
+                await Database.SaveChangesAsync();
+
+                return this.RenderPartialViewToString("_EditCommentPartial", commentViewModel);
+            }
+            catch (Exception e)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return e.Message;
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -74,5 +74,17 @@ namespace uHome.Models
             File.Delete(attachment.Path);
             this.StorageSize -= attachment.Size;
         }
+
+        public CommentViewModel AddComment(string value, ApplicationUser createdBy)
+        {
+            this.Comments = this.Comments ?? new List<Comment>();
+            var comment = new Comment();
+            comment.Content = value;
+            comment.CreatedAt = System.DateTime.Now;
+            comment.CreatedBy = createdBy;
+            this.Comments.Add(comment);
+
+            return new CommentViewModel(comment);
+        }
     }
 }
