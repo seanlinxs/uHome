@@ -513,7 +513,7 @@ namespace uHome.Controllers
             }
             catch (Exception e)
             {
-                return Json(new { success = false, errmsg = "Internal Error" });
+                return Json(new { success = false, errmsg = e.Message });
             }
         }
 
