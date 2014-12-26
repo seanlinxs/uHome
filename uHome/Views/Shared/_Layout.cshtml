@@ -25,11 +25,26 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink(Resources.Home, "Index", "Home")</li>
-                    <li>@Html.ActionLink(Resources.About, "About", "Home")</li>
-                    <li>@Html.ActionLink(Resources.Case, "Index", "Cases")</li>
-                    <li>@Html.ActionLink(Resources.Video, "Index", "VideoClips")</li>
-                    <li>@Html.ActionLink(Resources.DownloadItem, "Index", "DownloadItems")</li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        Html.RenderPartial("_AdminLinksPartial");
+                    }
+                    else if (User.IsInRole("Manager"))
+                    {
+                        Html.RenderPartial("_ManagerLinksPartial");
+                    }
+                    else if (User.IsInRole("Staff"))
+                    {
+                        Html.RenderPartial("_StaffLinksPartial");
+                    }
+                    else if (User.IsInRole("FreeAccount") || User.IsInRole("SilverAccount") || User.IsInRole("GoldAccount"))
+                    {
+                        Html.RenderPartial("_MemberLinksPartial");
+                    }
+                    else
+                    {
+                        Html.RenderPartial("_AnonymousLinksPartial");
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
