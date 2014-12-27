@@ -191,15 +191,9 @@
                     value: $('#Comment').val()
                 },
                 success: function (response) {
-                    if (response.success == true) {
-                        $('#comments').append(response.newCommentRow);
-                        $('#Comment').val("");
-                        $('#new-comment-edtbox').hide();
-                    }
-                    else
-                    {
-                        alert(response.errmsg);
-                    }
+                    $('#comments').append(response.newCommentRow);
+                    $('#Comment').val("");
+                    $('#new-comment-edtbox').hide();
                 }
             });
         });

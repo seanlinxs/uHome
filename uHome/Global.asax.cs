@@ -9,6 +9,7 @@ using System.Web.Routing;
 using uHome.Models;
 using uHome.Jobs;
 using System.IO;
+using System.Net.Mime;
 
 namespace uHome
 {
@@ -27,28 +28,12 @@ namespace uHome
         void Application_Error(object sender, EventArgs e)
         {
             Exception ex = Server.GetLastError();
-
-            if (ex is HttpRequestValidationException)
-            {
-                Response.Clear();
-                Response.StatusCode = 200;
-                Response.Write(@"
-<html>
-  <head>
-    <title>HTML Not Allowed</title>
-  </head>
-  <body>
-    <h1>Oops!</h1>
-    <p>I'm sorry, but HTML entry is not allowed on that page.</p>
-    <p>
-      Please make sure that your entries do not contain any angle brackets like &lt; or &gt;.
-    </p>
-    <p><a href='javascript:back()'>Go back</a></p>
-  </body>
-</html>
-");
-                Response.End();
-            }
+            Response.TrySkipIisCustomErrors = true;
+            Response.StatusCode = 500; // Capture our own exceptions and mark as internal server error
+            Response.Clear();
+            Response.ContentType = MediaTypeNames.Text.Plain;
+            Response.Write(ex.Message);
+            Response.End();
         }
     }
 }

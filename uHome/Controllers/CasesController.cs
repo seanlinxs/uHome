@@ -486,9 +486,9 @@ namespace uHome.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddComment(int? id, string value)
         {
-            if (id == null)
+            if (id != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new Exception("Case id is missing");
             }
 
             Case @case = await Database.Cases.FindAsync(id);
@@ -501,20 +501,13 @@ namespace uHome.Controllers
             if (!HttpContext.CheckAccess(UhomeResources.Actions.View, UhomeResources.Case, id.ToString()))
             {
                 return new HttpUnauthorizedResult();
-            } 
-            
-            try
-            {
-                var commentViewModel = @case.AddComment(value, CurrentUser);
-                @case.UpdatedAt = System.DateTime.Now;
-                await Database.SaveChangesAsync();
+            }
 
-                return Json(new { success = true, newCommentRow = this.RenderPartialViewToString("_EditCommentPartial", commentViewModel) });
-            }
-            catch (Exception e)
-            {
-                return Json(new { success = false, errmsg = e.Message });
-            }
+            var commentViewModel = @case.AddComment(value, CurrentUser);
+            @case.UpdatedAt = System.DateTime.Now;
+            await Database.SaveChangesAsync();
+
+            return Json(new { newCommentRow = this.RenderPartialViewToString("_EditCommentPartial", commentViewModel) });
         }
 
         protected override void Dispose(bool disposing)

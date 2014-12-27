@@ -169,7 +169,7 @@ textarea {
 .toast-notification {
     color:#c09853;
     background-color:#fcf8e3;
-    visibility: hidden;
+    display:none;
 }
 
 .toast-danger {

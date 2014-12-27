@@ -29,3 +29,10 @@ $.ajaxPrefilter(function (options, localOptions, jqXHR) {
         }
     }
 });
+
+$(document).ajaxError(
+    function(event, response, settings, exception) {
+    console.log("ajaxError called");
+    $('#notification').text(exception + ": " + response.responseText);
+    $('#notification').show();
+});
