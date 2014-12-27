@@ -196,32 +196,23 @@ namespace uHome.Controllers
             var file = Request.Files[0];
             var fileName = Path.GetFileName(file.FileName);
 
-            try
+            var attachment = @case.AddFile(file);
+
+            if (attachment != null)
             {
-                var attachment = @case.AddFile(file);
+                @case.UpdatedAt = System.DateTime.Now;
+                Database.Entry(@case).State = EntityState.Modified;
+                await Database.SaveChangesAsync();
 
-                if (attachment != null)
-                {
-                    @case.UpdatedAt = System.DateTime.Now;
-                    Database.Entry(@case).State = EntityState.Modified;
-                    await Database.SaveChangesAsync();
-
-                    // Build an ajax response data for uploadify
-                    return Json(new { success = true, updatedAt = @case.UpdatedAt.ToString(),
-                        attachmentRow = this.RenderPartialViewToString("_EditAttachmentPartial", new AttachmentViewModel(attachment)) });
-                }
-                else // Exceed maximum storage size of case, cannot add more file
-                {
-                    return Json(new
-                    {
-                        success = false,
-                        error = string.Format(Resources.Resources.UploadedFailed, fileName, Case.MAX_STORAGE_SIZE / 1024 / 1024)
-                    });
-                }
+                // Build an ajax response data for uploadify
+                return Json(new {
+                    updatedAt = @case.UpdatedAt.ToString(),
+                    attachmentRow = this.RenderPartialViewToString("_EditAttachmentPartial", new AttachmentViewModel(attachment))
+                });
             }
-            catch (Exception e)
+            else // Exceed maximum storage size of case, cannot add more file
             {
-                return Json(new { success = false, error = string.Format("Save {0} failed: {1}", fileName, e.Message) });
+                throw new Exception(string.Format(Resources.Resources.UploadedFailed, fileName, Case.MAX_STORAGE_SIZE / 1024 / 1024));
             }
         }
 

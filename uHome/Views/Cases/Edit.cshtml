@@ -123,20 +123,9 @@
 
                 FileUpLoaded: function (up, file, info) {
                     var response = $.parseJSON(info.response);
-
-                    if (response.success) {
-                        $("#attachments").append(response.attachmentRow);
-                        $('#UpdatedAt').text(response.updatedAt);
-                        $('#' + file.id + ' > span#result').html('<i style="color: Green;" class="glyphicon glyphicon-ok"></i>');
-                    }
-                    else {
-                        $('#' + file.id + ' > span#result').html('<i style="color: Red;" class="glyphicon glyphicon-remove" title="' + response.error + '"></i>');
-                    }
-
-                },
-
-                Error: function (up, err) {
-                    alert(err.code + ": " + err.message);
+                    $("#attachments").append(response.attachmentRow);
+                    $('#UpdatedAt').text(response.updatedAt);
+                    $('#' + file.id + ' > span#result').html('<i style="color: Green;" class="glyphicon glyphicon-ok"></i>');
                 }
             }
         });
