@@ -49,7 +49,10 @@ namespace uHome.Models
 
             if (this.StorageSize + size > MAX_STORAGE_SIZE)
             {
-                return null; // Can not upload this file but might be able to upload smaller ones
+                throw new Exception(string.Format(
+                    Resources.Resources.UploadedFailed,
+                    Path.GetFileName(file.FileName),
+                    MAX_STORAGE_SIZE / 1024 / 1024)); // Can not upload this file but might be able to upload smaller ones
             }
             else
             {

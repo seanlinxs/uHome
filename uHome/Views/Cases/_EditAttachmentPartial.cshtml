@@ -10,7 +10,7 @@
             new { id = Model.ID },
             new AjaxOptions
             {
-                Confirm = string.Format("Are you sure you want ot delete {0}?", Model.Name),
+                Confirm = string.Format("Are you sure you want to delete {0}?", Model.Name),
                 OnBegin = "showSpinner",
                 OnComplete = "hideSpinner",
                 OnSuccess = "onAttachmentDeleteSuccess",

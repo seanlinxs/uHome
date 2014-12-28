@@ -159,27 +159,18 @@ namespace uHome.Controllers
             }
 
             var file = Request.Files[0];
-            var fileName = Path.GetFileName(file.FileName);
-
             var attachment = @case.AddFile(file);
 
-            if (attachment != null)
-            {
-                @case.UpdatedAt = System.DateTime.Now;
-                Database.Entry(@case).State = EntityState.Modified;
-                await Database.SaveChangesAsync();
+            @case.UpdatedAt = System.DateTime.Now;
+            Database.Entry(@case).State = EntityState.Modified;
+            await Database.SaveChangesAsync();
 
-                // Build an ajax response data for uploadify
-                return Json(new
-                {
-                    updatedAt = @case.UpdatedAt.ToString(),
-                    attachmentRow = this.RenderPartialViewToString("_EditAttachmentPartial", new AttachmentViewModel(attachment))
-                });
-            }
-            else // Exceed maximum storage size of case, cannot add more file
+            // Build an ajax response data for uploadify
+            return Json(new
             {
-                throw new Exception(string.Format(Resources.Resources.UploadedFailed, fileName, Case.MAX_STORAGE_SIZE / 1024 / 1024));
-            }
+                updatedAt = @case.UpdatedAt.ToString(),
+                attachmentRow = this.RenderPartialViewToString("_EditAttachmentPartial", new AttachmentViewModel(attachment))
+            });
         }
 
         // POST: Cases/AddFiles/5
@@ -187,7 +178,7 @@ namespace uHome.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         // This is a fallback to upload files if browser does not support HTML 5
         [HttpPost]
-        public async Task<ActionResult> AddFiles(int? id, [Bind(Include = "UploadFiles")] EditCaseViewModel model)
+        public async Task<ActionResult> AddFiles(int? id, ICollection<HttpPostedFileBase> UploadFiles)
         {
             Case @case = await Database.Cases.FindAsync(id);
 
@@ -196,28 +187,19 @@ namespace uHome.Controllers
                 throw new Exception(Resources.Resources.PermissionDenied);
             }
 
-            var file = Request.Files[0];
-            var fileName = Path.GetFileName(file.FileName);
-
-            var attachment = @case.AddFile(file);
-
-            if (attachment != null)
+            if (UploadFiles != null)
             {
-                @case.UpdatedAt = System.DateTime.Now;
-                Database.Entry(@case).State = EntityState.Modified;
-                await Database.SaveChangesAsync();
-
-                // Build an ajax response data for uploadify
-                return Json(new
+                foreach (var file in UploadFiles)
                 {
-                    updatedAt = @case.UpdatedAt.ToString(),
-                    attachmentRow = this.RenderPartialViewToString("_EditAttachmentPartial", new AttachmentViewModel(attachment))
-                });
+                    @case.AddFile(file);
+                }
             }
-            else // Exceed maximum storage size of case, cannot add more file
-            {
-                throw new Exception(string.Format(Resources.Resources.UploadedFailed, fileName, Case.MAX_STORAGE_SIZE / 1024 / 1024));
-            }
+
+            @case.UpdatedAt = System.DateTime.Now;
+            Database.Entry(@case).State = EntityState.Modified;
+            await Database.SaveChangesAsync();
+
+            return RedirectToAction("Edit", new { id = @case.ID });
         }
 
         // GET: Cases/AdminEdit/5
