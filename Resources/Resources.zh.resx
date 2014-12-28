@@ -273,4 +273,7 @@
   <data name="Assignee" xml:space="preserve">
     <value>承办人</value>
   </data>
+  <data name="PermissionDenied" xml:space="preserve">
+    <value>无权限访问</value>
+  </data>
 </root>

@@ -273,4 +273,7 @@
   <data name="Assignee" xml:space="preserve">
     <value>Handled By</value>
   </data>
+  <data name="PermissionDenied" xml:space="preserve">
+    <value>Permission Denied</value>
+  </data>
 </root>

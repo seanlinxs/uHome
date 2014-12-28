@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -52,8 +49,11 @@ namespace uHome.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl,
-                        RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", new
+                    {
+                        ReturnUrl = returnUrl,
+                        RememberMe = model.RememberMe
+                    });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -80,8 +80,12 @@ namespace uHome.Controllers
                 var code = await UserManager.GenerateTwoFactorTokenAsync(
                     user.Id, provider);
             }
-            return View(new VerifyCodeViewModel { Provider = provider,
-                ReturnUrl = returnUrl, RememberMe = rememberMe });
+            return View(new VerifyCodeViewModel
+            {
+                Provider = provider,
+                ReturnUrl = returnUrl,
+                RememberMe = rememberMe
+            });
         }
 
         //
@@ -133,7 +137,7 @@ namespace uHome.Controllers
         public ActionResult RegisterFreeAccount()
         {
             RegisterViewModel model = new RegisterViewModel("FreeAccount");
- 
+
             return View(model);
         }
 
@@ -174,7 +178,7 @@ namespace uHome.Controllers
                     UserManager.AddToRole(user.Id, model.RoleName);
 
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation
                     // and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -212,7 +216,7 @@ namespace uHome.Controllers
                 var accountIndexViewModel = new AccountIndexViewModel();
                 accountIndexViewModel.Id = user.Id;
                 accountIndexViewModel.UserName = user.UserName;
-                accountIndexViewModel.Email = user.Email;                
+                accountIndexViewModel.Email = user.Email;
                 accountIndexViewModel.Roles = string.Join(", ", UserManager.GetRoles(user.Id));
                 AccountIndexViewModels.Add(accountIndexViewModel);
             }
@@ -288,11 +292,8 @@ namespace uHome.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
-            if (userId == null || code == null)
-            {
-                return View("Error");
-            }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
+
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
@@ -403,15 +404,16 @@ namespace uHome.Controllers
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
-            if (userId == null)
-            {
-                return View("Error");
-            }
             var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
             var factorOptions = userFactors.Select(purpose =>
                 new SelectListItem { Text = purpose, Value = purpose }).ToList();
-            return View(new SendCodeViewModel {
-                Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
+
+            return View(new SendCodeViewModel
+            {
+                Providers = factorOptions,
+                ReturnUrl = returnUrl,
+                RememberMe = rememberMe
+            });
         }
 
         //
@@ -431,9 +433,12 @@ namespace uHome.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction("VerifyCode", new {
-                Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl,
-                RememberMe = model.RememberMe });
+            return RedirectToAction("VerifyCode", new
+            {
+                Provider = model.SelectedProvider,
+                ReturnUrl = model.ReturnUrl,
+                RememberMe = model.RememberMe
+            });
         }
 
         //
@@ -530,29 +535,12 @@ namespace uHome.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Disable(string id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
             ApplicationUser account = await UserManager.FindByIdAsync(id);
 
-            if (account == null)
-            {
-                return HttpNotFound();
-            }
+            //TODO: Disable account
+            await Database.SaveChangesAsync();
 
-            try
-            {
-                //Database.Users.Remove(account);
-                await Database.SaveChangesAsync();
-
-                return Json(new { success = true, Id = account.Id });
-            }
-            catch (Exception e)
-            {
-                return Json(new { success = false, error = e.Message });
-            }
+            return Json(new { success = true, Id = account.Id });
         }
 
         #region Helpers

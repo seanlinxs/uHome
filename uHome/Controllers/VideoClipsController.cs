@@ -30,17 +30,7 @@ namespace uHome.Controllers
         [ResourceAuthorize(UhomeResources.VideoClipActions.Edit, UhomeResources.VideoClip)]
         public async Task<ActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
             VideoClip videoClip = await Database.VideoClips.FindAsync(id);
-
-            if (videoClip == null)
-            {
-                return HttpNotFound();
-            }
 
             return View(videoClip);
         }
@@ -77,20 +67,9 @@ namespace uHome.Controllers
         [ResourceAuthorize(UhomeResources.VideoClipActions.Edit, UhomeResources.VideoClip)]
         public async Task<ActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
             VideoClip videoClip = await Database.VideoClips.FindAsync(id);
-            
-            if (videoClip == null)
+            VideoClipViewModel videoClipViewModel = new VideoClipViewModel
             {
-                return HttpNotFound();
-            }
-
-
-            VideoClipViewModel videoClipViewModel = new VideoClipViewModel {
                 Id = videoClip.ID,
                 Name = videoClip.Name,
                 Description = videoClip.Description,
@@ -111,17 +90,12 @@ namespace uHome.Controllers
             if (ModelState.IsValid)
             {
                 VideoClip videoClip = await Database.VideoClips.FindAsync(model.Id);
-
-                if (videoClip == null)
-                {
-                    return HttpNotFound();
-                }
-
                 Database.Entry(videoClip).State = EntityState.Modified;
                 videoClip.Name = model.Name;
                 videoClip.Description = model.Description;
                 videoClip.Path = model.Path;
                 await Database.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
 
@@ -132,17 +106,7 @@ namespace uHome.Controllers
         [ResourceAuthorize(UhomeResources.VideoClipActions.Edit, UhomeResources.VideoClip)]
         public async Task<ActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
             VideoClip videoClip = await Database.VideoClips.FindAsync(id);
-            
-            if (videoClip == null)
-            {
-                return HttpNotFound();
-            }
 
             return View(videoClip);
         }
@@ -156,6 +120,7 @@ namespace uHome.Controllers
             VideoClip videoClip = await Database.VideoClips.FindAsync(id);
             Database.VideoClips.Remove(videoClip);
             await Database.SaveChangesAsync();
+
             return RedirectToAction("Index");
         }
 

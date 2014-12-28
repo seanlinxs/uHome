@@ -18,21 +18,11 @@ namespace uHome
         // GET: Attachments/Download/5
         public async Task<ActionResult> Download(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
             Attachment attachment = await Database.Attachments.FindAsync(id);
-
-            if (attachment == null)
-            {
-                return HttpNotFound();
-            }
 
             if (!HttpContext.CheckAccess(UhomeResources.Actions.View, UhomeResources.Case, attachment.CaseID.ToString()))
             {
-                return new HttpUnauthorizedResult();
+                throw new Exception(Resources.Resources.PermissionDenied);
             }
 
             return File(attachment.Path, MimeMapping.GetMimeMapping(attachment.Name), attachment.Name);
@@ -43,34 +33,22 @@ namespace uHome
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            
             Attachment attachment = await Database.Attachments.FindAsync(id);
-            
-            if (attachment == null)
+
+            if (!HttpContext.CheckAccess(UhomeResources.Actions.View, UhomeResources.Case, attachment.CaseID.ToString()))
             {
-                return HttpNotFound();
+                throw new Exception(Resources.Resources.PermissionDenied);
             }
 
             Case @case = await Database.Cases.FindAsync(attachment.CaseID);
             @case.UpdatedAt = System.DateTime.Now;
 
-            try
-            {
-                @case.DelAttachment(attachment);
-                Database.Attachments.Remove(attachment);
-                Database.Entry(@case).State = EntityState.Modified;
-                await Database.SaveChangesAsync();
+            @case.DelAttachment(attachment);
+            Database.Attachments.Remove(attachment);
+            Database.Entry(@case).State = EntityState.Modified;
+            await Database.SaveChangesAsync();
 
-                return Json(new { success = true, id = id, updatedAt = @case.UpdatedAt.ToString() });
-            }
-            catch (Exception e)
-            {
-                return Json(new { success = false, error = e.Message});
-            }
+            return Json(new { success = true, id = id, updatedAt = @case.UpdatedAt.ToString() });
         }
 
         protected override void Dispose(bool disposing)

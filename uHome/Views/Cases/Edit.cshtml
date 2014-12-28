@@ -37,6 +37,28 @@
                         {
                             Html.RenderPartial("_EditAttachmentPartial", attachment);
                         }
+                        <div class="row">
+                            <div class="col-md-1">
+                                @using (Html.BeginForm("AddFiles", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    Html.AntiForgeryToken();
+                                    
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.UploadFiles, htmlAttributes: new { @class = "control-label" })
+                                        <div>
+                                            @Html.TextBoxFor(model => model.UploadFiles, new { type = "file", multiple = "true" })
+                                            @Html.ValidationMessageFor(model => model.UploadFiles, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <div>
+                                            <input type="submit" value="Upload" class="btn btn-default" />
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

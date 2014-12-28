@@ -94,6 +94,8 @@ namespace uHome.Models
     }
     public class EditCaseViewModel : BaseEditCaseViewModel
     {
+        public ICollection<HttpPostedFileBase> UploadFiles { get; set; }
+
         public EditCaseViewModel(Case @case) : base(@case)
         {
             StateAction = State == CaseState.CLOSED ? "Reopen" : "Close";

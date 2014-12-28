@@ -40,17 +40,7 @@ namespace uHome.Controllers
         [ResourceAuthorize(UhomeResources.Actions.View, UhomeResources.DownloadItem)]
         public async Task<ActionResult> Download(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
             DownloadItem downloadItem = await Database.DownloadItems.FindAsync(id);
-
-            if (downloadItem == null)
-            {
-                return HttpNotFound();
-            }
 
             return File(downloadItem.Path, MimeMapping.GetMimeMapping(downloadItem.FileName), downloadItem.FileName);
         }
@@ -82,7 +72,7 @@ namespace uHome.Controllers
                 downloadItem.Size = model.FileData.InputStream.Length;
                 Database.DownloadItems.Add(downloadItem);
                 await Database.SaveChangesAsync();
-                
+
                 return RedirectToAction("List");
             }
 
@@ -95,29 +85,12 @@ namespace uHome.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            
             DownloadItem downloadItem = await Database.DownloadItems.FindAsync(id);
-            
-            if (downloadItem == null)
-            {
-                return HttpNotFound();
-            }
 
-            try
-            {
-                Database.DownloadItems.Remove(downloadItem);
-                await Database.SaveChangesAsync();
+            Database.DownloadItems.Remove(downloadItem);
+            await Database.SaveChangesAsync();
 
-                return Json(new { success = true, Id = downloadItem.ID });
-            }
-            catch (Exception e)
-            {
-                return Json(new { success = false, error = e.Message });
-            }
+            return Json(new { success = true, Id = downloadItem.ID });
         }
 
         protected override void Dispose(bool disposing)
