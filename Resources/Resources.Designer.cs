@@ -268,6 +268,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not save {0}, total file size must be less than {1}MB.
+        /// </summary>
+        public static string ExceedStorageSize {
+            get {
+                return ResourceManager.GetString("ExceedStorageSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Extension is not allowed.
         /// </summary>
         public static string ExtensionNotAllowed {
@@ -277,7 +286,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File is too big.
+        ///   Looks up a localized string similar to Could not save {0}, single file size must be less than {1}MB.
         /// </summary>
         public static string FileTooBig {
             get {
@@ -498,15 +507,6 @@ namespace Resources {
         public static string UploadedBy {
             get {
                 return ResourceManager.GetString("UploadedBy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Could not save {0}, total file size must be less than {1}MB.
-        /// </summary>
-        public static string UploadedFailed {
-            get {
-                return ResourceManager.GetString("UploadedFailed", resourceCulture);
             }
         }
         

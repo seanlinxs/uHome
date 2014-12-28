@@ -246,7 +246,7 @@
   <data name="NEW" xml:space="preserve">
     <value>NEW</value>
   </data>
-  <data name="UploadedFailed" xml:space="preserve">
+  <data name="ExceedStorageSize" xml:space="preserve">
     <value>Could not save {0}, total file size must be less than {1}MB</value>
   </data>
   <data name="DownloadItem" xml:space="preserve">
@@ -259,7 +259,7 @@
     <value>Extension is not allowed</value>
   </data>
   <data name="FileTooBig" xml:space="preserve">
-    <value>File is too big</value>
+    <value>Could not save {0}, single file size must be less than {1}MB</value>
   </data>
   <data name="CaseExpiredMessage" xml:space="preserve">
     <value>{0} has no update for {1} days and been closed by system</value>

@@ -14,7 +14,8 @@ namespace uHome.Models
 
     public class Case
     {
-        public static long MAX_STORAGE_SIZE = 10 * 1024 * 1024; // Allow maximum 50MB attachments
+        public static long MAX_FILE_SIZE = 10 * 1024 * 1024;
+        public static long MAX_STORAGE_SIZE = 10 * 1024 * 1024;
 
         public int ID { get; set; }
 
@@ -47,29 +48,34 @@ namespace uHome.Models
             this.Attachments = this.Attachments ?? new List<Attachment>();
             var size = file.InputStream.Length;
 
+            if (size > 10 * 1024 * 1024)
+            {
+                throw new Exception(string.Format(
+                    Resources.Resources.FileTooBig,
+                    Path.GetFileName(file.FileName),
+                    MAX_FILE_SIZE / 1024 / 1024));
+            }
+
             if (this.StorageSize + size > MAX_STORAGE_SIZE)
             {
                 throw new Exception(string.Format(
-                    Resources.Resources.UploadedFailed,
+                    Resources.Resources.ExceedStorageSize,
                     Path.GetFileName(file.FileName),
-                    MAX_STORAGE_SIZE / 1024 / 1024)); // Can not upload this file but might be able to upload smaller ones
+                    MAX_STORAGE_SIZE / 1024 / 1024));
             }
-            else
-            {
-                var path = string.Format("{0}Uploads/{1}", AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
-                file.SaveAs(path);
-                Attachment attachment = new Attachment();
-                attachment.Case = this;
-                attachment.Name = Path.GetFileName(file.FileName);
-                attachment.UploadAt = System.DateTime.Now;
-                attachment.Path = path;
-                attachment.Size = size;
-                this.Attachments.Add(attachment);
-                this.StorageSize += size;
-                
-                return attachment;
-            }
+            
+            var path = string.Format("{0}Uploads/{1}", AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
+            file.SaveAs(path);
+            Attachment attachment = new Attachment();
+            attachment.Case = this;
+            attachment.Name = Path.GetFileName(file.FileName);
+            attachment.UploadAt = System.DateTime.Now;
+            attachment.Path = path;
+            attachment.Size = size;
+            this.Attachments.Add(attachment);
+            this.StorageSize += size;
 
+            return attachment;
         }
 
         public void DelAttachment(Attachment attachment)

@@ -246,7 +246,7 @@
   <data name="NEW" xml:space="preserve">
     <value>新的</value>
   </data>
-  <data name="UploadedFailed" xml:space="preserve">
+  <data name="ExceedStorageSize" xml:space="preserve">
     <value>无法保存文件{0}，文件总和必须小于{1}MB</value>
   </data>
   <data name="DownloadItem" xml:space="preserve">
@@ -259,7 +259,7 @@
     <value>文件类型不被允许</value>
   </data>
   <data name="FileTooBig" xml:space="preserve">
-    <value>文件尺寸太大</value>
+    <value>无法保存文件{0}，单个文件必须小于{1}MB</value>
   </data>
   <data name="CaseExpiredMessage" xml:space="preserve">
     <value>{0} 超过{1}天未更新，已经被系统自动关闭</value>
