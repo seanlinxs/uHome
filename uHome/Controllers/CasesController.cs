@@ -149,7 +149,8 @@ namespace uHome.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public async Task<ActionResult> AddFile(int? id)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddFile(int? id, HttpPostedFileBase file)
         {
             Case @case = await Database.Cases.FindAsync(id);
 
@@ -158,7 +159,6 @@ namespace uHome.Controllers
                 throw new Exception(Resources.Resources.PermissionDenied);
             }
 
-            var file = Request.Files[0];
             var attachment = @case.AddFile(file);
 
             @case.UpdatedAt = System.DateTime.Now;
@@ -169,7 +169,7 @@ namespace uHome.Controllers
             return Json(new
             {
                 updatedAt = @case.UpdatedAt.ToString(),
-                attachmentRow = this.RenderPartialViewToString("_EditAttachmentPartial", new AttachmentViewModel(attachment))
+                newAttachmentRow = this.RenderPartialViewToString("_EditAttachmentPartial", new AttachmentViewModel(attachment))
             });
         }
 
@@ -178,6 +178,7 @@ namespace uHome.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         // This is a fallback to upload files if browser does not support HTML 5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddFiles(int? id, ICollection<HttpPostedFileBase> UploadFiles)
         {
             Case @case = await Database.Cases.FindAsync(id);

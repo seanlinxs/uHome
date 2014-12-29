@@ -20,9 +20,13 @@ function GetAntiForgeryToken() {
 
 $.ajaxPrefilter(function (options, localOptions, jqXHR) {
     var token, tokenQuery;
+
+    $('#notification').text("");
+    $('#notification').hide();
+
     if (options.type.toLowerCase() != 'get') {
         token = GetAntiForgeryToken();
-        if (options.data.indexOf(token.name) === -1) {
+        if (typeof(options.data) === 'string' && options.data.indexOf(token.name) === -1) {
             tokenQuery = token.name + '=' + token.value;
             options.data = options.data ? (options.data + '&' + tokenQuery)
                 : tokenQuery;
@@ -31,8 +35,7 @@ $.ajaxPrefilter(function (options, localOptions, jqXHR) {
 });
 
 $(document).ajaxError(
-    function(event, response, settings, exception) {
-    console.log("ajaxError called");
-    $('#notification').text(exception + ": " + response.responseText);
-    $('#notification').show();
+    function (event, response, settings, exception) {
+        $('#notification').text(exception + ": " + response.responseText);
+        $('#notification').show();
 });

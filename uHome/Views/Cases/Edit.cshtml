@@ -37,28 +37,28 @@
                         {
                             Html.RenderPartial("_EditAttachmentPartial", attachment);
                         }
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="container">
                         <div class="row">
-                            <div class="col-md-1">
-                                @using (Html.BeginForm("AddFiles", null, new { id = Model.ID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                {
-                                    Html.AntiForgeryToken();
-                                    
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.UploadFiles, htmlAttributes: new { @class = "control-label" })
-                                        <div>
-                                            @Html.TextBoxFor(model => model.UploadFiles, new { type = "file", multiple = "true" })
-                                            @Html.ValidationMessageFor(model => model.UploadFiles, "", new { @class = "text-danger" })
-                                        </div>
+                            @using (Html.BeginForm("AddFiles", null, new { id = Model.ID }, FormMethod.Post, new { id = "AddFilesForm", enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.UploadFiles, htmlAttributes: new { @class = "control-label" })
+                                    <div>
+                                        @Html.TextBoxFor(model => model.UploadFiles, new { type = "file", multiple = "true" })
                                     </div>
-                                    
-                                    <div class="form-group">
-                                        <div>
-                                            <input type="submit" value="Upload" class="btn btn-default" />
-                                        </div>
+                                </div>
+                                <div id="upload-btn" class="form-group">
+                                    <div>
+                                        <input type="submit" value="Upload" class="btn btn-default" />
                                     </div>
-                                }
-                            </div>
+                                </div>
+                            }
                         </div>
+                    </div>
+                    <div id="file-list" class="container">
                     </div>
                 </div>
             </div>
@@ -110,58 +110,93 @@
                 <div class="panel-heading">@Html.LabelFor(model => model.Assignee)</div>
                 <div class="panel-body">@Html.DisplayFor(model => model.Assignee)</div>
             </div>
-            <div id="plupload_container" class="panel panel-default">
-                <div class="panel-heading"><a id="pickfiles" href="javascript:;" class="btn btn-primary">@Resources.UploadAttachments</a></div>
-                <div class="panel-body">
-                    <span id="filelist"></span>
-                </div>
-            </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/plupload")
-
     <script type="text/javascript">
-        var uploader = new plupload.Uploader({
-            runtimes: 'html5, html4',
-            browse_button: 'pickfiles',
-            container: $('#plupload_container')[0],
-            url: "@Url.Action("AddFile", "Cases", new { id = Model.ID })",
+        if (window.FormData) {
+            $('#upload-btn').hide();
+        }
 
-            filters: {
-                max_file_size: '10mb',
-            },
+        var count = 0;
 
-            init: {
-                PostInit: function () {
-                    $('#filelist').html('');
-                },
+        $('#UploadFiles').on('ajax', function () {
+            var $this = $(this);
 
-                UploadProgress: function (up, file) {
-                    $('#' + file.id + ' > b#percent').html(file.percent + "%");
-                },
-
-                FileUpLoaded: function (up, file, info) {
-                    var response = $.parseJSON(info.response);
-                    $("#attachments").append(response.attachmentRow);
-                    $('#UpdatedAt').text(response.updatedAt);
-                    $('#' + file.id + ' > span#result').html('<i style="color: Green;" class="glyphicon glyphicon-ok"></i>');
-                }
+            if (typeof this.files[count] === 'undefined')
+            {
+                count = 0;
+                return false;
             }
-        });
 
-        uploader.init();
+            var formData = new FormData();
+            formData.append('file', this.files[count]);
+            formData.append('__RequestVerificationToken', $("input[type='hidden'][name$='RequestVerificationToken']")[0].value);
+            $('#file-list').append(newFileListItem(this.files[count]));
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddFile", "Cases", new { id = Model.ID })",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    $('#attachments').append(response.newAttachmentRow);
+                    $('#UpdatedAt').text(response.updatedAt);
+                    count++;
+                    $this.trigger('ajax');
+                },
+                xhr: function () {
+                    myXhr = $.ajaxSettings.xhr();
+                    if (myXhr.upload) {
+                        myXhr.upload.param = count;
+                        myXhr.upload.addEventListener('progress', showProgress, false);
+                    } else {
+                        console.log("Upload progress is not supported");
+                    }
 
-        uploader.bind("FilesAdded", function (up, files) {
-            plupload.each(files, function (file) {
-                $('#filelist').append('<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b id="percent">0%</b> <span id="result"></span></div>');
+                    return myXhr;
+                }
             });
-
-            up.refresh();
-            up.start();
         });
+
+        $('#UploadFiles').change(function () {
+            $('#file-list').empty();
+            $(this).trigger('ajax');
+        });
+
+        function newFileListItem(file) {
+            var name = file.name;
+            var size = file.size;
+
+            if (size > 1024 * 1024)
+            {
+                size = "(" + Math.floor(size / 1024 / 1024) + "MB)";
+            }
+            else if (size > 1024)
+            {
+                size = "(" + Math.floor(size / 1024) + "KB)";
+            }
+
+            var item = "";
+
+            item = item + "<div class=\"row\"><div class=\"col-md-8\">" +
+                name + " " + size + "</div><div class=\"col-md-4\"><div class=\"progress\">" +
+                "<div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%;\">" +
+                "</div></div></div></div>";
+
+            return item;
+        }
+
+        function showProgress(e) {
+            var i = e.target.param;
+            if (e.lengthComputable) {
+                var percentComplete = Math.floor((e.loaded * 100 / e.total));
+                $('.progress-bar')[i].setAttribute("aria-valuenow", percentComplete);
+                $('.progress-bar')[i].setAttribute("style", "width: " + percentComplete + "%;");
+            }
+        };
 
         function onAttachmentDeleteSuccess(response) {
             if (response.success) {
