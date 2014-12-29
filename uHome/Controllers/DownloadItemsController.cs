@@ -90,7 +90,7 @@ namespace uHome.Controllers
             Database.DownloadItems.Remove(downloadItem);
             await Database.SaveChangesAsync();
 
-            return Json(new { success = true, Id = downloadItem.ID });
+            return Json(new { Id = downloadItem.ID });
         }
 
         protected override void Dispose(bool disposing)

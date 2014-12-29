@@ -201,29 +201,15 @@
         };
 
         function onAttachmentDeleteSuccess(response) {
-            if (response.success) {
-                var id = "#attachment_" + response.id;
-                $(id).remove();
-                $('#UpdatedAt').text(response.updatedAt);
-            }
-            else {
-                alert(response.error);
-            }
-        }
-
-        function onDownloadItemDeleteFailure(response) {
-            alert("500: Internel Error, please report to administrator");
+            var id = "#attachment_" + response.id;
+            $(id).remove();
+            $('#UpdatedAt').text(response.updatedAt);
         }
 
         function onCaseChangeStateSuccess(response) {
-            if (response.success) {
-                $('#UpdatedAt').text(response.updatedAt);
-                $('#State').text(response.state);
-                $('#ChangeStateLink').replaceWith(response.actionLink);
-            }
-            else {
-                alert(response.error);
-            }
+            $('#UpdatedAt').text(response.updatedAt);
+            $('#State').text(response.state);
+            $('#ChangeStateLink').replaceWith(response.actionLink);
         }
 
         $('#new-comment').click(function () {

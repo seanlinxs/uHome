@@ -46,11 +46,10 @@
                 new { id = item.ID },
                 new AjaxOptions
                 {
-                    Confirm = string.Format("Are you sure you want ot delete {0}?", item.Name),
+                    Confirm = string.Format("Are you sure you want to delete {0}?", item.Name),
                     OnBegin = "showSpinner",
                     OnComplete = "hideSpinner",
                     OnSuccess = "onDownloadItemDeleteSuccess",
-                    OnFailure = "onDownloadItemDeleteFailure",
                     HttpMethod = "DELETE"
                 },
                 new { @class = "btn btn-danger" }
@@ -64,16 +63,7 @@
 @section Scripts {
     <script type="text/javascript">
         function onDownloadItemDeleteSuccess(response) {
-            if (response.success) {
-                $('#DownloadItem_' + response.Id).remove();
-            }
-            else {
-                alert(response.error);
-            }
-        }
-
-        function onDownloadItemDeleteFailure(response) {
-            alert("500: Internel Error, please report to administrator");
+            $('#DownloadItem_' + response.Id).remove();
         }
     </script>
 }

@@ -253,7 +253,6 @@ namespace uHome.Controllers
 
             return Json(new
             {
-                success = true,
                 updatedAt = @case.UpdatedAt.ToString(),
                 state = @case.State.ToString(),
                 actionLink = this.RenderPartialViewToString("_ChangeStateLinkPartial", new EditCaseViewModel(@case))
@@ -277,7 +276,6 @@ namespace uHome.Controllers
 
             return Json(new
             {
-                success = true,
                 updatedAt = @case.UpdatedAt.ToString(),
                 state = @case.State.ToString(),
                 actionLink = this.RenderPartialViewToString("_ChangeStateLinkPartial", new EditCaseViewModel(@case))
@@ -339,7 +337,6 @@ namespace uHome.Controllers
 
             return Json(new
             {
-                success = true,
                 updatedAt = @case.UpdatedAt.ToString(),
                 state = @case.State.ToString(),
                 actionLink = this.RenderPartialViewToString("_ChangeStateLinkPartial", new StaffEditCaseViewModel(@case))
@@ -364,7 +361,6 @@ namespace uHome.Controllers
 
             return Json(new
             {
-                success = true,
                 updatedAt = @case.UpdatedAt.ToString(),
                 state = @case.State.ToString(),
                 actionLink = this.RenderPartialViewToString("_ChangeStateLinkPartial", new StaffEditCaseViewModel(@case))

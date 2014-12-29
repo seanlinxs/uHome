@@ -48,7 +48,7 @@ namespace uHome
             Database.Entry(@case).State = EntityState.Modified;
             await Database.SaveChangesAsync();
 
-            return Json(new { success = true, id = id, updatedAt = @case.UpdatedAt.ToString() });
+            return Json(new { id = id, updatedAt = @case.UpdatedAt.ToString() });
         }
 
         protected override void Dispose(bool disposing)

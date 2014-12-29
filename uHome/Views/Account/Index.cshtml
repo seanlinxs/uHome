@@ -42,11 +42,9 @@
                 new { id = item.Id },
                 new AjaxOptions
                 {
-                    Confirm = string.Format("Are you sure you want ot delete {0}?", item.UserName),
                     OnBegin = "showSpinner",
                     OnComplete = "hideSpinner",
-                    OnSuccess = "onAccountDeleteSuccess",
-                    OnFailure = "onAccountDeleteFailure",
+                    OnSuccess = "onAccountDisableSuccess",
                     HttpMethod = "POST"
                 },
                 new { @class = "btn btn-danger" }
@@ -59,17 +57,8 @@
 
 @section Scripts {
     <script type="text/javascript">
-        function onAccountDeleteSuccess(response) {
-            if (response.success) {
-                $('#Account_' + response.Id).remove();
-            }
-            else {
-                alert(response.error);
-            }
-        }
-
-        function onAccountDeleteFailure(response) {
-            alert("500: Internel Error, please report to administrator");
+        function onAccountDisableSuccess(response) {
+            $('#Account_' + response.Id).remove();
         }
     </script>
 }

@@ -540,7 +540,7 @@ namespace uHome.Controllers
             //TODO: Disable account
             await Database.SaveChangesAsync();
 
-            return Json(new { success = true, Id = account.Id });
+            return Json(new { Id = account.Id });
         }
 
         #region Helpers
