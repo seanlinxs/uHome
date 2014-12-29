@@ -122,12 +122,12 @@
 
         var count = 0;
 
+        // listen on 'ajax' event which is trigger
         $('#UploadFiles').on('ajax', function () {
             var $this = $(this);
 
             if (typeof this.files[count] === 'undefined')
             {
-                count = 0;
                 return false;
             }
 
@@ -162,6 +162,8 @@
         });
 
         $('#UploadFiles').change(function () {
+            // reinitialize everything
+            count = 0;
             $('#file-list').empty();
             $(this).trigger('ajax');
         });
