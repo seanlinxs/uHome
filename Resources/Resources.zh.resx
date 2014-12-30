@@ -276,4 +276,10 @@
   <data name="PermissionDenied" xml:space="preserve">
     <value>无权限访问</value>
   </data>
+  <data name="CaseCreatedMessage" xml:space="preserve">
+    <value>{0} 于 {1} 提交了一件新案子，请点击{2}查看详情</value>
+  </data>
+  <data name="CaseCreatedSubject" xml:space="preserve">
+    <value>{0} 提交了一件案子</value>
+  </data>
 </root>

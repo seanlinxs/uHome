@@ -142,6 +142,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A new case has been created by {0} at {1}. Please click {2} to see the details.
+        /// </summary>
+        public static string CaseCreatedMessage {
+            get {
+                return ResourceManager.GetString("CaseCreatedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} created a new case.
+        /// </summary>
+        public static string CaseCreatedSubject {
+            get {
+                return ResourceManager.GetString("CaseCreatedSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} has no update for {1} days and been closed by system.
         /// </summary>
         public static string CaseExpiredMessage {

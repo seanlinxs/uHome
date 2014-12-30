@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using uHome.Extensions;
 using System.IO;
 using Newtonsoft.Json;
+using uHome.Services;
+using System.Configuration;
 
 namespace uHome.Controllers
 {
@@ -96,18 +98,23 @@ namespace uHome.Controllers
                     CreatedBy = CurrentUser,
                     State = CaseState.NEW,
                     OldState = CaseState.CLOSED,
-                    //CaseAssignment = new CaseAssignment
-                    //{
-                    //    // Default assign to system admin or manager
-                    //    Assignee = await UserManager.FindByNameAsync("Administrator"),
-                    //    AssignmentDate = now
-                    //}
                 };
 
                 Database.Cases.Add(@case);
                 await Database.SaveChangesAsync();
                 @case.Title = string.Format("CASE-{0}: {1}", @case.ID, @case.Title);
                 await Database.SaveChangesAsync();
+
+                // successfully create a new case, send a message to manager
+                var managers = UserService.FindUsersByRoleName("manager").ToList();
+                string From = ConfigurationManager.AppSettings["MailSentFrom"];
+                string To = string.Join(",", managers.Select(m => m.Email));
+                string Subject = string.Format(Resources.Resources.CaseCreatedSubject, @case.CreatedBy.UserName);
+                string Message = string.Format(Resources.Resources.CaseCreatedMessage,
+                    @case.CreatedBy.UserName,
+                    @case.CreatedAt,
+                    Url.Action("Edit", "Cases", new { id = @case.ID }, this.Request.Url.Scheme));
+                await MessageService.SendMail(From, To, Subject, Message);
 
                 return RedirectToAction("Edit", new { id = @case.ID });
             }
