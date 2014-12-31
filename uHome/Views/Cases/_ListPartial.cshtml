@@ -1,4 +1,6 @@
-﻿<ul class="case-columns">
+﻿@model IEnumerable<uHome.Models.CaseGroupViewModel>
+
+<ul class="case-columns">
     @foreach (var caseGroup in Model)
     {
         <li class="case-column">
@@ -10,6 +12,11 @@
                 {
                     <div class="case-container">
                         <div class="case-title">
+                            @if (caseItem.Assignee != "Unassigned")
+                            {
+                                <span class="alert-info glyphicon glyphicon-user" title="@Resources.Assignee: @caseItem.Assignee">
+                                </span>
+                            }
                             @Html.ActionLink((string)caseItem.Title, "Edit", new { id = caseItem.ID })
                         </div>
                         <div class="case-description" title="@caseItem.Description">@caseItem.Description</div>
