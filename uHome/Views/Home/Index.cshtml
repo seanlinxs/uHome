@@ -2,24 +2,116 @@
     ViewBag.Title = Resources.HomePage;
 }
 
-<div class="jumbotron">
-    <p class="lead">@Resources.uHomeOverview</p>
-    <p>@Html.ActionLink(Resources.LearnMore, "About", "Home")</p>
-</div>
-
 <div class="row">
-    <div class="col-md-4">
-        <div id="event_slider_container" style="position: relative; top: 0px; left: 0px; width: 800px; height: 320px;">
+    <div>
+        <div id="event_slider_container" style="position: relative; top: 0px; left: 0px; width: 1200px; height: 400px;">
             <!-- Slides Container -->
-            <div u="slides" style="position: absolute; overflow: hidden; left: 0px; top: 0px; width: 800px; height: 320px;">
-                <div><img u="image" src="https://uhome.blob.core.windows.net/cdn/event1.png" /></div>
-                <div><img u="image" src="https://uhome.blob.core.windows.net/cdn/event2.png" /></div>
-                <div><img u="image" src="https://uhome.blob.core.windows.net/cdn/event3.png" /></div>
+            <div u="slides" style="position: absolute; overflow: hidden; left: 0px; top: 0px; width: 1200px; height: 400px;">
+                <div><img u="image" src="~/Content/Images/slide1.PNG" /></div>
+                <div><img u="image" src="~/Content/Images/slide2.PNG" /></div>
+                <div><img u="image" src="~/Content/Images/slide3.PNG" /></div>
             </div>
+            <!-- Arrow Navigator Skin Begin -->
+            <style>
+                    /* jssor slider arrow navigator skin 05 css */
+                    /*
+                .jssora05l              (normal)
+                .jssora05r              (normal)
+                .jssora05l:hover        (normal mouseover)
+                .jssora05r:hover        (normal mouseover)
+                .jssora05ldn            (mousedown)
+                .jssora05rdn            (mousedown)
+                */
+                    .jssora05l, .jssora05r, .jssora05ldn, .jssora05rdn {
+                        position: absolute;
+                        cursor: pointer;
+                        display: block;
+                        background: url(/Content/Images/a17.png) no-repeat;
+                        overflow: hidden;
+                    }
+
+                    .jssora05l {
+                        background-position: -10px -40px;
+                    }
+
+                    .jssora05r {
+                        background-position: -70px -40px;
+                    }
+
+                    .jssora05l:hover {
+                        background-position: -130px -40px;
+                    }
+
+                    .jssora05r:hover {
+                        background-position: -190px -40px;
+                    }
+
+                    .jssora05ldn {
+                        background-position: -250px -40px;
+                    }
+
+                    .jssora05rdn {
+                        background-position: -310px -40px;
+                    }
+            </style>
+            <!-- Arrow Left -->
+            <span u="arrowleft" class="jssora05l" style="width: 40px; height: 40px; top: 192px; left: 8px;">
+            </span>
+            <!-- Arrow Right -->
+            <span u="arrowright" class="jssora05r" style="width: 40px; height: 40px; top: 192px; right: 8px">
+            </span>
+            <!-- Arrow Navigator Skin End -->
+            <!-- Bullet Navigator Skin Begin -->
+            <!-- jssor slider bullet navigator skin 09 -->
+            <style>
+                    /*
+                .jssorb09 div           (normal)
+                .jssorb09 div:hover     (normal mouseover)
+                .jssorb09 .av           (active)
+                .jssorb09 .av:hover     (active mouseover)
+                .jssorb09 .dn           (mousedown)
+                */
+                    .jssorb09 div, .jssorb09 div:hover, .jssorb09 .av {
+                        filter: alpha(opacity=70);
+                        opacity: .7;
+                        overflow: hidden;
+                        cursor: pointer;
+                        border: #fff 1px solid;
+                    }
+
+                    .jssorb09 div {
+                        background-color: #d3d3d3;
+                    }
+
+                        .jssorb09 div:hover, .jssorb09 .av:hover {
+                            background-color: gray;
+                        }
+
+                    .jssorb09 .av {
+                        background-color: #000;
+                    }
+
+                    .jssorb09 .dn, .jssorb09 .dn:hover {
+                        background-color: #a9a9a9;
+                    }
+            </style>
+            <!-- bullet navigator container -->
+            <div u="navigator" class="jssorb09" style="position: absolute; bottom: 16px; right: 10px;">
+                <!-- bullet navigator item prototype -->
+                <div u="prototype" style="POSITION: absolute; WIDTH: 12px; HEIGHT: 12px;"></div>
+            </div>
+            <!-- Bullet Navigator Skin End -->
         </div>
     </div>
-    <div class="col-md-3" style="float: right; right: 56px;">
-        <iframe width="320" height="320" src="//www.youtube.com/embed/VMW3shSbeeo" frameborder="0"></iframe>
+</div>
+<div class="row">
+    <hr />
+    <div>
+        <iframe width="230" height="230" src="//www.youtube.com/embed/VMW3shSbeeo" frameborder="0"></iframe>
+        <iframe width="230" height="230" src="//www.youtube.com/embed/VMW3shSbeeo" frameborder="0"></iframe>
+        <iframe width="230" height="230" src="//www.youtube.com/embed/VMW3shSbeeo" frameborder="0"></iframe>
+        <iframe width="230" height="230" src="//www.youtube.com/embed/VMW3shSbeeo" frameborder="0"></iframe>
+        <iframe width="230" height="230" src="//www.youtube.com/embed/VMW3shSbeeo" frameborder="0"></iframe>
    </div>
 </div>
 
@@ -27,8 +119,37 @@
     @Scripts.Render("~/bundles/jssor")
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
-            var options = { $AutoPlay: true };
+            var options = {
+                $AutoPlay: true,
+                $BulletNavigatorOptions: {
+                    $Class: $JssorBulletNavigator$,
+                    $ChanceToShow: 2,
+                    $AutoCenter: 1,
+                    $SpacingX: 6
+                },
+                $ArrowNavigatorOptions: {
+                    $Class: $JssorArrowNavigator$,
+                    $ChanceToShow: 2
+                }
+            };
             var event_slider = new $JssorSlider$('event_slider_container', options);
+            //responsive code begin
+            //you can remove responsive code if you don't want the slider scales while window resizes
+            function ScaleSlider() {
+                var parentWidth = $('#event_slider_container').parent().width();
+                if (parentWidth) {
+                    event_slider.$ScaleWidth(parentWidth);
+                }
+                else
+                    window.setTimeout(ScaleSlider, 30);
+            }
+
+            ScaleSlider();
+
+            $(window).bind("load", ScaleSlider);
+            $(window).bind("resize", ScaleSlider);
+            $(window).bind("orientationchange", ScaleSlider);
+            //responsive code end
         });
     </script>
 }
