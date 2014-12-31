@@ -66,14 +66,9 @@
 
     <script>
         function onCaseChangeStateSuccess(response) {
-            if (response.success) {
-                $('#UpdatedAt').text(response.updatedAt);
-                $('#State').text(response.state);
-                $('#ChangeStateLink').replaceWith(response.actionLink);
-            }
-            else {
-                alert(response.error);
-            }
+            $('#UpdatedAt').text(response.updatedAt);
+            $('#State').text(response.state);
+            $('#ChangeStateLink').replaceWith(response.actionLink);
         }
     </script>
 }
