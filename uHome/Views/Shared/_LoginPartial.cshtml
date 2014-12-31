@@ -2,27 +2,28 @@
 
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                @if (ViewBag.EmailConfirmed)
-                {
-                    <a href="/Manage">@User.Identity.GetUserName()</a>
-                }
-                else
-                {
-                    <a href="/Manage">
-                        <span class="glyphicon glyphicon-exclamation-sign" title="@Resources.CheckEmailToConfirm"></span>
-                        @User.Identity.GetUserName()
-                    </a>
-                }
-            </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">@Resources.LogOff</a></li>
-        </ul>
-    }
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            @if (ViewBag.EmailConfirmed)
+            {
+                <a href="/Manage">@User.Identity.GetUserName()</a>
+            }
+            else
+            {
+                <a href="/Manage">
+                    <span class="glyphicon glyphicon-exclamation-sign" title="@Resources.CheckEmailToConfirm"></span>
+                    @User.Identity.GetUserName()
+                </a>
+            }
+        </li>
+        <li>
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+            {
+                @Html.AntiForgeryToken()
+            }
+            <a href="javascript:document.getElementById('logoutForm').submit()">@Resources.LogOff</a>
+        </li>
+    </ul>
 }
 else
 {

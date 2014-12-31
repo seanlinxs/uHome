@@ -1,32 +1,5 @@
 ﻿@{
     ViewBag.Title = Resources.HomePage;
-    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
-}
-
-@helper selected(string c, string culture)
-{
-    if (c == culture)
-    {
-        @:checked="checked"
-    }
-}
-
-@using (Html.BeginForm("SetCulture", "Home"))
-{
-    <fieldset>
-        <div class="row">
-            <div class="col-md-4" style="float:right">
-                <div class="controls">
-                    <label for="zh-cn">
-                        <input name="culture" id="zh-cn" value="zh-cn" type="radio" @selected("zh-cn", culture) /> 中文
-                    </label>
-                    <label for="en-au">
-                        <input name="culture" id="en-au" value="en-au" type="radio" @selected("en-au", culture) /> English
-                    </label>
-                </div>
-            </div>
-        </div>
-    </fieldset>
 }
 
 <div class="jumbotron">
@@ -51,19 +24,11 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jssor")
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
             var options = { $AutoPlay: true };
             var event_slider = new $JssorSlider$('event_slider_container', options);
         });
-
-        (function ($) {
-            $("input[type = 'radio']").click(function () {
-                $(this).parents("form").submit(); // post form
-            });
-
-        })(jQuery);
     </script>
 }

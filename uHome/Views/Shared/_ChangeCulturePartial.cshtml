@@ -1,0 +1,31 @@
+﻿@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+}
+
+@helper selected(string c, string culture)
+{
+    if (c == culture)
+    {
+        @:checked="checked"
+    }
+}
+
+<div class="row">
+    <div class="col-md-2 pull-right">
+        @using (Html.BeginForm("SetCulture", "Home", FormMethod.Post, new { id = "ChangeCultureForm" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group pull-right">
+                <small>
+                    <label for="zh-cn">
+                        <input name="culture" id="zh-cn" value="zh-cn" type="radio" @selected("zh-cn", culture) onclick="javascript: document.getElementById('ChangeCultureForm').submit();" />中文
+                    </label>
+                    <label for="en-au">
+                        <input name="culture" id="en-au" value="en-au" type="radio" @selected("en-au", culture) onclick="javascript: document.getElementById('ChangeCultureForm').submit();" />English
+                    </label>
+                </small>
+            </div>
+        }
+    </div>
+</div>
