@@ -44,8 +44,8 @@ namespace uHome.Controllers
             }
 
             Response.Cookies.Add(cookie);
-            
-            return RedirectToAction("Index");
+
+            return Redirect(Request.UrlReferrer.ToString());
         } 
     }
 }
