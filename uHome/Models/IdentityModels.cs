@@ -68,6 +68,8 @@ namespace uHome.Models
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<DownloadItem> DownloadItems { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Enrollment> Enrollments { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
