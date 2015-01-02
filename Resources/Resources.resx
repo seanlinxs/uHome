@@ -282,4 +282,7 @@
   <data name="CaseCreatedSubject" xml:space="preserve">
     <value>{0} created a new case</value>
   </data>
+  <data name="Event" xml:space="preserve">
+    <value>Special Event</value>
+  </data>
 </root>

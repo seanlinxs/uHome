@@ -282,4 +282,7 @@
   <data name="CaseCreatedSubject" xml:space="preserve">
     <value>{0} 提交了一件案子</value>
   </data>
+  <data name="Event" xml:space="preserve">
+    <value>精彩活动</value>
+  </data>
 </root>

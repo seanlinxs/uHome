@@ -46,16 +46,18 @@ namespace uHome.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,Description,OpenAt,Address,Poster")] Event @event)
+        public ActionResult Create([Bind(Include = "ID,Title,Description,OpenAt,Address,Poster")] CreateEventViewModel model)
         {
             if (ModelState.IsValid)
             {
-                db.Events.Add(@event);
+                Event e = Event.CreateEvent(model);
+                db.Events.Add(e);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
-            return View(@event);
+            return View(model);
         }
 
         // GET: Events/Edit/5

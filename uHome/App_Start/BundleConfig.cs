@@ -17,12 +17,17 @@ namespace uHome
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include("~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include("~/Scripts/bootstrap.js",
-                "~/Scripts/respond.js"));
+                "~/Scripts/respond.js",
+                "~/Scripts/moment.js",
+                "~/Scripts/bootstrap-datetimepicker.js"));
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/bootstrap.css",
                 "~/Content/site.css"));
             bundles.Add(new ScriptBundle("~/bundles/jssor").Include("~/Scripts/jssor.*"));
             bundles.Add(new ScriptBundle("~/bundles/site").Include("~/Scripts/site.js"));
             bundles.Add(new ScriptBundle("~/bundles/jeditable").Include("~/Scripts/jquery.jeditable.js"));
+            bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(
+                "~/Scripts/moment.js",
+                "~/Scripts/bootstrap-datetimepicker.js"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862

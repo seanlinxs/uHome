@@ -7,7 +7,7 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -34,8 +34,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.OpenAt, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.OpenAt, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.OpenAt, "", new { @class = "text-danger" })
+                <div class="input-group date" id="openatdatetimepicker">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    @Html.TextBoxFor(model => model.OpenAt, new { @class = "form-control" })
+                </div>
             </div>
         </div>
 
@@ -50,7 +54,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Poster, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Poster, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBoxFor(model => model.Poster, new { type = "file" })
                 @Html.ValidationMessageFor(model => model.Poster, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -66,3 +70,14 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/datetimepicker")
+
+    <script type="text/javascript">
+        $(function () {
+            $('#openatdatetimepicker').datetimepicker();
+        });
+    </script>
+}
+
