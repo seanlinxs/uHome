@@ -283,6 +283,7 @@
     <Compile Include="Models\DownloadItemViewModels.cs" />
     <Compile Include="Models\Enrollment.cs" />
     <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\EventViewModels.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InterestMessage.cs" />
