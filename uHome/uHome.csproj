@@ -419,11 +419,12 @@
     <Content Include="Views\Shared\_MemberLinksPartial.cshtml" />
     <Content Include="Views\Shared\_AnonymousLinksPartial.cshtml" />
     <Content Include="Views\Shared\_ChangeCulturePartial.cshtml" />
+    <Content Include="Views\Events\Create.cshtml" />
+    <Content Include="Views\Events\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
-    <Folder Include="Views\Events\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
