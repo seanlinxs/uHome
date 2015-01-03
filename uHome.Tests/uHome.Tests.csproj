@@ -137,6 +137,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Authorization\AuthorizationTest.cs" />
+    <Compile Include="Authorization\EventAuthorization.cs" />
     <Compile Include="Authorization\UserAuthorizationTest.cs" />
     <Compile Include="Authorization\CaseAuthorizationTest.cs" />
     <Compile Include="Authorization\DownloadItemAuthorization.cs" />

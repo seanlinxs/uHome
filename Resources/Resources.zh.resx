@@ -285,4 +285,7 @@
   <data name="Event" xml:space="preserve">
     <value>精彩活动</value>
   </data>
+  <data name="ResourceAdmin" xml:space="preserve">
+    <value>资源管理</value>
+  </data>
 </root>

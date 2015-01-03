@@ -79,7 +79,7 @@ namespace uHome.Controllers
             return View(model);
         }
 
-        // POST: DownloadItems/Delete/5
+        // DELETE: DownloadItems/Delete/5
         [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.DownloadItem)]
         [HttpDelete]
         [ValidateAntiForgeryToken]

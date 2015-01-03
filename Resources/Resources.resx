@@ -285,4 +285,7 @@
   <data name="Event" xml:space="preserve">
     <value>Special Event</value>
   </data>
+  <data name="ResourceAdmin" xml:space="preserve">
+    <value>Resources</value>
+  </data>
 </root>

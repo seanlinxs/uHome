@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Thinktecture.IdentityModel.Mvc;
+using uHome.Authorization;
 using uHome.Models;
 
 namespace uHome.Controllers
@@ -16,6 +18,13 @@ namespace uHome.Controllers
 
         // GET: Events
         public ActionResult Index()
+        {
+            return View(db.Events.ToList());
+        }
+
+        // GET: Events
+        [ResourceAuthorize(UhomeResources.EventActions.Edit, UhomeResources.Event)]
+        public ActionResult List()
         {
             return View(db.Events.ToList());
         }
@@ -36,6 +45,7 @@ namespace uHome.Controllers
         }
 
         // GET: Events/Create
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Event)]
         public ActionResult Create()
         {
             return View();
@@ -44,9 +54,10 @@ namespace uHome.Controllers
         // POST: Events/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Event)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,Description,OpenAt,Address,Poster")] CreateEventViewModel model)
+        public ActionResult Create([Bind(Include = "Title,Description,OpenAt,Address,Poster")] CreateEventViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -91,30 +102,17 @@ namespace uHome.Controllers
             return View(@event);
         }
 
-        // GET: Events/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Event @event = db.Events.Find(id);
-            if (@event == null)
-            {
-                return HttpNotFound();
-            }
-            return View(@event);
-        }
-
-        // POST: Events/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // DELETE: Events/Delete/5
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Event)]
+        [HttpDelete]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             Event @event = db.Events.Find(id);
             db.Events.Remove(@event);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return Json(new { Id = @event.ID });
         }
 
         protected override void Dispose(bool disposing)

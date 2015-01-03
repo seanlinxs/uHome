@@ -11,6 +11,7 @@ namespace uHome.Authorization
         public const string Case = "Case";
         public const string User = "User";
         public const string DownloadItem = "DownloadItem";
+        public const string Event = "Event";
 
         public class Actions
         {
@@ -33,6 +34,10 @@ namespace uHome.Authorization
         }
 
         public class DownloadItemActions : Actions
+        {
+        }
+
+        public class EventActions : Actions
         {
         }
     }

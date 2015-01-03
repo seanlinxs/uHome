@@ -36,6 +36,11 @@ namespace uHome.Authorization
                 return CheckAccessDownloadItemAsync(ctx);
             }
 
+            if (resource == UhomeResources.Event)
+            {
+                return CheckAccessEventAsync(ctx);
+            }
+
             return Nok();
         }
 
@@ -170,5 +175,28 @@ namespace uHome.Authorization
 
             return Nok();
         }
+
+        public Task<bool> CheckAccessEventAsync(ResourceAuthorizationContext ctx)
+        {
+            var user = ctx.Principal.Identity;
+            var action = ctx.Action.First().Value;
+
+            // Anyone can view event, even public user
+            if (action == UhomeResources.EventActions.View)
+            {
+                return Ok();
+            }
+
+            if (action == UhomeResources.EventActions.Edit)
+            {
+                if (ctx.Principal.IsInRole("Admin"))
+                {
+                    return Ok();
+                }
+            }
+
+            return Nok();
+        }
+
     }
 }

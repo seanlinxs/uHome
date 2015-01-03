@@ -1,0 +1,77 @@
+﻿@model IEnumerable<uHome.Models.Event>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OpenAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Poster)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr id="Event_@item.ID">
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OpenAt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Poster)
+        </td>
+        <td>
+            @Ajax.RawActionLink(
+                 "<span class=\"glyphicon glyphicon-trash\"></span> Delete",
+                 "Delete",
+                 "Events",
+                 new { id = item.ID },
+                 new AjaxOptions
+                 {
+                     Confirm = string.Format("Are you sure you want to delete {0}?", item.Title),
+                     OnBegin = "showSpinner",
+                     OnComplete = "hideSpinner",
+                     OnSuccess = "onEventDeleteSuccess",
+                     HttpMethod = "DELETE"
+                 },
+                 new { @class = "btn btn-danger" }
+            )
+        </td>
+    </tr>
+}
+
+</table>
+
+@section Scripts {
+    <script type="text/javascript">
+        function onEventDeleteSuccess(response) {
+            $('#Event_' + response.Id).remove();
+        }
+    </script>
+}
