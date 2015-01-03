@@ -28,6 +28,7 @@ namespace uHome
             bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(
                 "~/Scripts/moment.js",
                 "~/Scripts/bootstrap-datetimepicker.js"));
+            bundles.Add(new StyleBundle("~/Content/datetimepickercss").Include("~/Content/bootstrap-datetimepicker.css"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
