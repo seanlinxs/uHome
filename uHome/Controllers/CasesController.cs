@@ -116,11 +116,12 @@ namespace uHome.Controllers
                 var managers = UserService.FindUsersByRoleName("manager").ToList();
                 string From = ConfigurationManager.AppSettings["MailSentFrom"];
                 string To = string.Join(",", managers.Select(m => m.Email));
-                string Subject = string.Format(Resources.Resources.CaseCreatedSubject, @case.CreatedBy.UserName);
+                string Subject = string.Format(Resources.Resources.CaseCreatedSubject, @case.CreatedBy.UserName, @case.Title);
+                string linkUrl = Url.Action("Edit", "Cases", new { id = @case.ID }, this.Request.Url.Scheme);
                 string Message = string.Format(Resources.Resources.CaseCreatedMessage,
                     @case.CreatedBy.UserName,
                     @case.CreatedAt,
-                    Url.Action("Edit", "Cases", new { id = @case.ID }, this.Request.Url.Scheme));
+                    "<a href='" + linkUrl + "'>" + linkUrl + "</a>");
                 await MessageService.SendMail(From, To, Subject, Message);
 
                 return RedirectToAction("Edit", new { id = @case.ID });

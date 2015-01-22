@@ -280,7 +280,7 @@
     <value>A new case has been created by {0} at {1}. Please click {2} to see the details</value>
   </data>
   <data name="CaseCreatedSubject" xml:space="preserve">
-    <value>{0} created a new case</value>
+    <value>{0} created a new case: {1}</value>
   </data>
   <data name="Event" xml:space="preserve">
     <value>Special Event</value>
