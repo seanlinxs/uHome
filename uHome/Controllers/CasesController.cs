@@ -230,9 +230,10 @@ namespace uHome.Controllers
 
             foreach (var a in AssigneeCadidates)
             {
-                int total = Database.CaseAssignments.Where(ca => ca.ApplicationUserId == a.Id).Count();
+                int @new = Database.Cases.Where(c => c.State == CaseState.NEW).Where(c => c.CaseAssignment.ApplicationUserId == a.Id).Count();
                 int active = Database.Cases.Where(c => c.State == CaseState.ACTIVE).Where(c => c.CaseAssignment.ApplicationUserId == a.Id).Count();
-                AssigneeList.Add(a.Id, string.Format("{0} ({1}/{2})", a.UserName, total, active));
+                int closed = Database.Cases.Where(c => c.State == CaseState.CLOSED).Where(c => c.CaseAssignment.ApplicationUserId == a.Id).Count();
+                AssigneeList.Add(a.Id, string.Format("{0} ({1}/{2}/{3})", a.UserName, @new, active, closed));
             }
 
             if (@case.CaseAssignment == null)
