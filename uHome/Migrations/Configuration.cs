@@ -16,7 +16,7 @@ namespace uHome.Migrations
 
         protected override void Seed(uHome.Models.ApplicationDbContext context)
         {
-            ApplicationDbInitializer.InitializeIdentityForEF(context);
+            new ApplicationDbInitializer().PopulateDatabase(context);
         }
     }
 }

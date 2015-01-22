@@ -265,57 +265,116 @@ namespace uHome.Models
     // public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     public class ApplicationDbInitializer : CreateDatabaseIfNotExists<ApplicationDbContext>
     {
+        private ApplicationRoleManager roleManager;
+        private ApplicationUserManager userManager;
+        private ApplicationDbContext context;
+
         protected override void Seed(ApplicationDbContext context)
         {
-            InitializeIdentityForEF(context);
+            roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(context));
+            userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+            this.context = context;
+            InitializeIdentityForEF();
             base.Seed(context);
         }
 
-        public static void InitializeIdentityForEF(ApplicationDbContext db)
+        public void PopulateDatabase(ApplicationDbContext context)
         {
-            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
-            var roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(db));
-            const string email = "uhome_test@outlook.com";
-            const string name = "Administrator";
-            const string password = "Pass.123";
+            Seed(context);
+        }
 
+        private void InitializeIdentityForEF()
+        {
+            
             // Create system predefined roles
-            ApplicationRole[] roles = 
+            createRole("Admin", "Global access");
+            createRole("Manager", "Internal manager, can manage staff and cases");
+            createRole("Staff", "Internal staff, can process cases");
+            createRole("FreeAccount", "Free account");
+            createRole("SilverAccount", "Silver account");
+            createRole("GoldAccount", "Gold account");
+
+            // Create system predefined users
+            createUser("Administrator", "uhome.superuser@outlook.com", "Pass.123", "Admin");
+            createUser("Manager", "uhome.manager@outlook.com", "Pass.123", "Manager");
+            createUser("Staff", "uhome.staff@outlook.com", "Pass.123", "Staff");
+
+            // Create test membership acounts
+            var gu = createUser("Golden", "uhome.golden@outlook.com", "Pass.123", "GoldAccount");
+            var su = createUser("Silver", "uhome.silver@outlook.com", "Pass.123", "SilverAccount");
+            var fu = createUser("Free", "uhome.free@outlook.com", "Pass.123", "FreeAccount");
+
+            // Create some cases
+            var users = new ApplicationUser[3]
             {
-                new ApplicationRole("Admin", "Global access"),
-                new ApplicationRole("Manager", "Internal manager, can manage staff and cases"),
-                new ApplicationRole("Staff", "Internal staff, can process cases"),
-                new ApplicationRole("FreeAccount", "Free account"),
-                new ApplicationRole("SilverAccount", "Silver account"),
-                new ApplicationRole("GoldAccount", "Gold account")
+                gu, su, fu
             };
 
-            foreach (var r in roles)
-            {
-                var role = roleManager.FindByName(r.Name);
-                
-                if (role == null)
-                {
-                    roleManager.Create(r);
-                }
-            }
+            var random = new Random();
 
+            for (int i = 0; i < 150; i++)
+            {
+                createCase("Title #" + i, "This is description #" + i, users[random.Next(users.Length)]);
+            }
+        }
+
+        private void createRole(string roleName, string roleDescription)
+        {
+            if (roleManager.FindByName(roleName) == null)
+            {
+                roleManager.Create(new ApplicationRole(roleName, roleDescription));
+            }
+        }
+
+        private ApplicationUser createUser(string fullName, string email, string password, string roleName)
+        {
             var user = userManager.FindByEmail(email);
-            
+
             if (user == null)
             {
-                user = new ApplicationUser { UserName = name, Email = email, EmailConfirmed = true };
-                var result = userManager.Create(user, password);
-                result = userManager.SetLockoutEnabled(user.Id, false);
+                user = new ApplicationUser()
+                {
+                    UserName = fullName,
+                    Email = email,
+                    EmailConfirmed = true
+                };
+                userManager.Create(user, password);
+                userManager.SetLockoutEnabled(user.Id, false);
             }
 
-            // Add user admin to Role Admin if not already added
             var rolesForUser = userManager.GetRoles(user.Id);
-            
-            if (!rolesForUser.Contains("Admin"))
+
+            if (!rolesForUser.Contains(roleName))
             {
-                var result = userManager.AddToRole(user.Id, "Admin");
+                userManager.AddToRole(user.Id, roleName);
             }
+
+            return user;
+        }
+
+        private void createCase(string title, string description, ApplicationUser user)
+        {
+            var now = System.DateTime.Now;
+            var account = userManager.GetRoles(user.Id).Single(); // Membership account only has one role
+            var accountAbbreviation = account.Substring(0, 1);
+            var random = new Random();
+            var cultureCode = new string[] {"E", "C"}[random.Next(2)];
+            var @case = new Case()
+            {
+                Title = title,
+                Description = description,
+                CreatedAt = now,
+                UpdatedAt = now,
+                CreatedBy = user,
+                State = (CaseState)random.Next(Enum.GetValues(typeof(CaseState)).Length),
+                OldState = CaseState.CLOSED,
+            };
+
+            context.Cases.Add(@case);
+            context.SaveChanges();
+            @case.Title = string.Format("CASE-{0}-{1}-{2,5:00000}: {3}",
+                accountAbbreviation.ToUpper(), cultureCode, @case.ID, @case.Title);
+            context.SaveChanges();
         }
     }
 }
