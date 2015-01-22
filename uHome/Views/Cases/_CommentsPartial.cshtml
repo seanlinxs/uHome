@@ -1,0 +1,59 @@
+﻿@model uHome.Models.BaseEditCaseViewModel
+
+<div class="panel panel-default">
+    <div class="panel-heading">@Html.LabelFor(model => model.Comments)</div>
+    <div class="panel-body">
+        <div class="container" id="comments">
+            @foreach (var comment in Model.Comments)
+            {
+                Html.RenderPartial("_EditCommentPartial", comment);
+            }
+        </div>
+    </div>
+</div>
+<div id="new-comment-btnbox">
+    <span class="btn btn-primary" id="new-comment">Comment</span>
+</div>
+<div id="new-comment-edtbox" class="in-place-modal">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-10">
+                <textarea class="form-control text-box multi-line" rows="3" id="Comment" name="Comment"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <span class="btn btn-default" id="add-comment">Add Comment</span>
+                <span class="btn btn-default" id="cancel-add-comment">Cancel</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+        $('#new-comment').click(function () {
+            $('#new-comment-edtbox').show();
+            $('#Comment').focus();
+        });
+
+        $('#add-comment').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddComment", "Cases", new { id = Model.ID })",
+                data: {
+                    value: $('#Comment').val()
+                },
+                success: function (response) {
+                    $('#comments').append(response.newCommentRow);
+                    $('#Comment').val("");
+                    $('#new-comment-edtbox').hide();
+                }
+            });
+        });
+
+        $('#cancel-add-comment').click(function () {
+            $('#Comment').val("");
+            $('#new-comment-edtbox').hide();
+        });
+</script>
+
