@@ -106,7 +106,7 @@ namespace uHome.Models
     {
         public StaffEditCaseViewModel(Case @case) : base(@case)
         {
-            StateAction = State == CaseState.ASSIGNED ? "Start" : "Stop";
+            StateAction = State == CaseState.NEW ? "Start" : "Stop";
         }
     }
 }

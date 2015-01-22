@@ -25,14 +25,14 @@ namespace uHome.Controllers
         {
             var caseGroups = new List<CaseGroupViewModel>();
 
-            foreach (CaseState s in new CaseState[] { CaseState.NEW, CaseState.ASSIGNED, CaseState.ACTIVE, CaseState.CLOSED })
+            foreach (CaseState s in Enum.GetValues(typeof(CaseState)))
             {
                 var cases = Database.Cases
                     .Where(c => c.ApplicationUserId == CurrentUser.Id)
-                    .Where(c => c.State == s)
+                    .Where(c => c.State == (CaseState)s)
                     .ToList();
                 var models = cases.Select(c => new CaseListViewModel(c));
-                caseGroups.Add(new CaseGroupViewModel(s, models));
+                caseGroups.Add(new CaseGroupViewModel((CaseState)s, models));
             }
 
             return View(caseGroups);
@@ -44,11 +44,11 @@ namespace uHome.Controllers
         {
             var caseGroups = new List<CaseGroupViewModel>();
 
-            foreach (CaseState s in new CaseState[] { CaseState.NEW, CaseState.ASSIGNED, CaseState.ACTIVE })
+            foreach (CaseState s in Enum.GetValues(typeof(CaseState)))
             {
-                var cases = Database.Cases.Where(c => c.State == s).ToList();
+                var cases = Database.Cases.Where(c => c.State == (CaseState)s).ToList();
                 var models = cases.Select(c => new CaseListViewModel(c));
-                caseGroups.Add(new CaseGroupViewModel(s, models));
+                caseGroups.Add(new CaseGroupViewModel((CaseState)s, models));
             }
 
             return View(caseGroups);
@@ -60,14 +60,14 @@ namespace uHome.Controllers
         {
             var caseGroups = new List<CaseGroupViewModel>();
 
-            foreach (CaseState s in new CaseState[] { CaseState.ASSIGNED, CaseState.ACTIVE, CaseState.CLOSED })
+            foreach (CaseState s in Enum.GetValues(typeof(CaseState)))
             {
                 var cases = Database.Cases
                     .Where(c => c.CaseAssignment.ApplicationUserId == CurrentUser.Id)
-                    .Where(c => c.State == s)
+                    .Where(c => c.State == (CaseState)s)
                     .ToList();
                 var models = cases.Select(c => new CaseListViewModel(c));
-                caseGroups.Add(new CaseGroupViewModel(s, models));
+                caseGroups.Add(new CaseGroupViewModel((CaseState)s, models));
             }
 
             return View(caseGroups);
@@ -326,7 +326,6 @@ namespace uHome.Controllers
 
                 @case.CaseAssignment.ApplicationUserId = user_id;
                 @case.CaseAssignment.AssignmentDate = System.DateTime.Now;
-                @case.State = CaseState.ASSIGNED;
                 @case.UpdatedAt = System.DateTime.Now;
                 await Database.SaveChangesAsync();
 
@@ -370,7 +369,7 @@ namespace uHome.Controllers
             }
 
             @case.OldState = @case.State;
-            @case.State = CaseState.ASSIGNED;
+            @case.State = CaseState.NEW;
             @case.UpdatedAt = System.DateTime.Now;
             await Database.SaveChangesAsync();
 
