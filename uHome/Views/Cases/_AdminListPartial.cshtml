@@ -10,6 +10,11 @@
                 {
                     <div class="case-container">
                         <div class="case-title">
+                            @if (caseItem.Assignee != "Unassigned")
+                            {
+                                <span class="alert-info glyphicon glyphicon-user" title="@Resources.Assignee: @caseItem.Assignee">
+                                </span>
+                            }
                             @Html.ActionLink((string)caseItem.Title, "AdminEdit", new { id = caseItem.ID })
                         </div>
                         <div class="case-description" title="@caseItem.Description">@caseItem.Description</div>
