@@ -13,6 +13,7 @@ using System.IO;
 using Newtonsoft.Json;
 using uHome.Services;
 using System.Configuration;
+using System.Threading;
 
 namespace uHome.Controllers
 {
@@ -102,7 +103,13 @@ namespace uHome.Controllers
 
                 Database.Cases.Add(@case);
                 await Database.SaveChangesAsync();
-                @case.Title = string.Format("CASE-{0}: {1}", @case.ID, @case.Title);
+                string roleName = (await UserManager.GetRolesAsync(CurrentUser.Id)).Single();
+                string cultureName = Thread.CurrentThread.CurrentCulture.Name;
+                @case.Title = string.Format("CASE-{0}-{1}-{2,5:00000}: {3}",
+                    roleName.Substring(0, 1).ToUpper(),
+                    cultureName.Substring(0, 1).ToUpper(),
+                    @case.ID,
+                    @case.Title);
                 await Database.SaveChangesAsync();
 
                 // successfully create a new case, send a message to manager

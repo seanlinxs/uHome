@@ -358,7 +358,7 @@ namespace uHome.Models
             var account = userManager.GetRoles(user.Id).Single(); // Membership account only has one role
             var accountAbbreviation = account.Substring(0, 1);
             var random = new Random();
-            var cultureCode = new string[] {"E", "C"}[random.Next(2)];
+            var cultureCode = new string[] {"E", "Z"}[random.Next(2)];
             var @case = new Case()
             {
                 Title = title,
