@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using uHome.Services;
 using System.Configuration;
 using System.Threading;
+using uHome.Helpers;
 
 namespace uHome.Controllers
 {
@@ -104,10 +105,9 @@ namespace uHome.Controllers
                 Database.Cases.Add(@case);
                 await Database.SaveChangesAsync();
                 string roleName = (await UserManager.GetRolesAsync(CurrentUser.Id)).Single();
-                string cultureName = Thread.CurrentThread.CurrentCulture.Name;
                 @case.Title = string.Format("CASE-{0}-{1}-{2,5:00000}: {3}",
                     roleName.Substring(0, 1).ToUpper(),
-                    cultureName.Substring(0, 1).ToUpper(),
+                    CultureHelper.GetCurrentCountryCode(),
                     @case.ID,
                     @case.Title);
                 await Database.SaveChangesAsync();

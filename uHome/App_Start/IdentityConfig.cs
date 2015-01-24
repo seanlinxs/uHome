@@ -312,7 +312,7 @@ namespace uHome.Models
 
             var random = new Random();
 
-            for (int i = 0; i < 150; i++)
+            for (int i = 0; i < 50; i++)
             {
                 createCase("Title #" + i, "This is description #" + i, users[random.Next(users.Length)]);
             }
@@ -358,7 +358,7 @@ namespace uHome.Models
             var account = userManager.GetRoles(user.Id).Single(); // Membership account only has one role
             var accountAbbreviation = account.Substring(0, 1);
             var random = new Random();
-            var cultureCode = new string[] {"E", "Z"}[random.Next(2)];
+            var cultureCode = new string[] {"AU", "CN"}[random.Next(2)];
             var @case = new Case()
             {
                 Title = title,

@@ -93,6 +93,16 @@ namespace uHome.Helpers
             return Thread.CurrentThread.CurrentCulture.Name;
         }
 
+        public static string GetCurrentLanguageCode()
+        {
+            return GetCurrentCulture().Substring(0, 2); // first part of colture: en-AU: en
+        }
+
+        public static string GetCurrentCountryCode()
+        {
+            return GetCurrentCulture().Substring(3, 2); // second part of culture: en-AU: AU
+        }
+
         public static string GetCurrentNeutralCulture()
         {
             return GetNeutralCulture(Thread.CurrentThread.CurrentCulture.Name);
