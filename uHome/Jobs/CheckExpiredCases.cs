@@ -58,7 +58,7 @@ namespace uHome.Jobs
                     string To = string.Join(",", recipients);
                     string Subject = string.Format(Resources.Resources.CaseExpiredSubject, c.Title);
                     string Message = string.Format(Resources.Resources.CaseExpiredMessage, c.Title, validDays);
-                    MessageService.SendMail(From, To, Subject, Message);
+                    MessageService.SendMailAsync(From, To, Subject, Message);
                 }
             }
         }

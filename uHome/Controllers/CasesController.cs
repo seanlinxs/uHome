@@ -122,7 +122,7 @@ namespace uHome.Controllers
                     @case.CreatedBy.UserName,
                     @case.CreatedAt,
                     "<a href='" + linkUrl + "'>" + linkUrl + "</a>");
-                await MessageService.SendMail(From, To, Subject, Message);
+                MessageService.SendMailAsync(From, To, Subject, Message);
 
                 return RedirectToAction("Edit", new { id = @case.ID });
             }

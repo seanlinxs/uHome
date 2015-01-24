@@ -23,14 +23,13 @@ namespace uHome.Models
     {
         public Task SendAsync(IdentityMessage message)
         {
-            var result = MessageService.SendMail(
+            MessageService.SendMailAsync(
                 ConfigurationManager.AppSettings["MailSentFrom"],
                 message.Destination,
                 message.Subject,
                 message.Body
                 );
-
-            return result;
+            return Task.FromResult(0);
         }
     }
 
