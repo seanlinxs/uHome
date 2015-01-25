@@ -14,8 +14,11 @@ namespace uHome.Models
         public string Title { get; set; }
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+        [LocalizedRequired]
         public string OpenAt { get; set; }
+        [LocalizedRequired]
         public string Address { get; set; }
+        [LocalizedRequired]
         public HttpPostedFileBase Poster { get; set; }
     }
 }

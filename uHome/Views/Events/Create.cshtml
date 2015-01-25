@@ -44,6 +44,7 @@
                     </span>
                     @Html.TextBoxFor(model => model.OpenAt, new { @class = "form-control" })
                 </div>
+                @Html.ValidationMessageFor(model => model.OpenAt, "", new { @class = "text-danger" })
             </div>
         </div>
 

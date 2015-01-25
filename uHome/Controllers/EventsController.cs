@@ -63,7 +63,7 @@ namespace uHome.Controllers
                 Database.Events.Add(e);
                 Database.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
             else
                 return View(model);
