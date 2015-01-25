@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<uHome.Models.ListDownloadItemViewModel>
 
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "Download Items";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.RawActionLink(
+    "<span class=\"glyphicon glyphicon-plus\"></span> Add",
+    "Create", null, null, new { @class = "btn btn-success" })
 </p>
 
 @Html.AntiForgeryToken()

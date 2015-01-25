@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<uHome.Models.VideoClip>
 
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "Video Clips";
 }
 
-<h2>List</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+    @Html.RawActionLink(
+    "<span class=\"glyphicon glyphicon-plus\"></span> Add",
+    "Create", null, null, new { @class = "btn btn-success" })
 </p>
 
 <table class="table table-bordered table-hover">
