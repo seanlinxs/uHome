@@ -307,6 +307,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\a17.png" />
     <Content Include="Content\Images\ajax-loader.gif" />
+    <Content Include="Content\Images\indicator.gif" />
     <Content Include="Content\Images\slide1.PNG" />
     <Content Include="Content\Images\slide2.PNG" />
     <Content Include="Content\Images\slide3.PNG" />

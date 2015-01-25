@@ -46,7 +46,14 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">@Html.LabelFor(model => model.Assignee)</div>
-                <div class="panel-body" id="assignee">@Html.DisplayFor(model => model.Assignee)</div>
+                <div class="panel-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-1 glyphicon glyphicon-pencil text-success"></div>
+                            <div class="col-md-2" id="assignee">@Html.DisplayFor(model => model.Assignee)</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -61,8 +68,9 @@
             type: 'select',
             id: 'element_id',
             name: 'user_id',
-            submit: 'OK',
-            tooltip: 'Click to edit'
+            submit: 'Save',
+            tooltip: 'Click to edit',
+            indicator: '<img src="~Content/Images/indicator.gif">'
         });
     </script>
 }
