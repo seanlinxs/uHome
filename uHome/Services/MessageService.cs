@@ -22,16 +22,8 @@ namespace uHome.Services
             var credentialUserName = ConfigurationManager.AppSettings["MailAccount"];
             var pwd = ConfigurationManager.AppSettings["MailPassword"];
 
-            // Configure the client:
-            SmtpClient client = new SmtpClient(ConfigurationManager.AppSettings["MailServer"]);
-            client.Port = 587;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-
             // Create the credentials:
             NetworkCredential credentials = new NetworkCredential(credentialUserName, pwd);
-            client.EnableSsl = true;
-            client.Credentials = credentials;
 
             // Create the message:
             var mail = new MailMessage(From, To);
@@ -39,25 +31,37 @@ namespace uHome.Services
             // Send html message body instead of plain text
             mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(Message, null, MediaTypeNames.Text.Html));
 
-            // Send:
-            const int MAX_RETRY = 5;
-            int retry = 0;
-
-            while (retry < MAX_RETRY)
+            // Configure the client:
+            using (SmtpClient client = new SmtpClient(ConfigurationManager.AppSettings["MailServer"]))
             {
-                try
+                client.Port = 587;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+
+                client.EnableSsl = true;
+                client.Credentials = credentials;
+
+                // Send:
+                const int MAX_RETRY = 5;
+                int retry = 0;
+
+                while (retry < MAX_RETRY)
                 {
-                    retry += 1;
-                    client.Send(mail);
-                    break;
-                }
-                catch (Exception e)
-                {
-                    logger.Debug(e.Message);
-                    Thread.Sleep(1000);
-                    continue;
+                    try
+                    {
+                        retry += 1;
+                        client.Send(mail);
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Debug(e.Message);
+                        Thread.Sleep(1000);
+                        continue;
+                    }
                 }
             }
+
         }
 
         public static void SendMailAsync(string From, string To, string Subject, string Message)
