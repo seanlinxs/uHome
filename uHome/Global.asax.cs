@@ -27,13 +27,17 @@ namespace uHome
 
         void Application_Error(object sender, EventArgs e)
         {
-            Exception ex = Server.GetLastError();
-            Response.TrySkipIisCustomErrors = true;
-            Response.StatusCode = 500; // Capture our own exceptions and mark as internal server error
-            Response.Clear();
-            Response.ContentType = MediaTypeNames.Text.Plain;
-            Response.Write(ex.Message);
-            Response.End();
+            // Only wrap exception for ajax request, use default machenism for non-ajax request
+            if (new HttpRequestWrapper(Request).IsAjaxRequest())
+            {
+                Exception ex = Server.GetLastError();
+                Response.TrySkipIisCustomErrors = true;
+                Response.StatusCode = 500; // Capture our own exceptions and mark as internal server error
+                Response.Clear();
+                Response.ContentType = MediaTypeNames.Text.Plain;
+                Response.Write(ex.Message);
+                Response.End();
+            }
         }
     }
 }
