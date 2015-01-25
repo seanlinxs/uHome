@@ -6,6 +6,7 @@ using uHome.Helpers;
 using uHome.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System.Globalization;
 
 namespace uHome.Controllers
 {
@@ -69,9 +70,12 @@ namespace uHome.Controllers
             // Validate culture name
             cultureName = CultureHelper.GetImplementedCulture(cultureName); // This is safe
 
-            // Modify current thread's cultures           
-            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(cultureName);
-            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+            // Modify current thread's cultures
+            CultureInfo culture = new CultureInfo(cultureName);
+            culture.DateTimeFormat.ShortDatePattern = "ddd, dd MMM yyyy";
+            culture.DateTimeFormat.LongTimePattern = "HH':'mm':'ss";
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
 
             return base.BeginExecuteCore(callback, state);
         }
