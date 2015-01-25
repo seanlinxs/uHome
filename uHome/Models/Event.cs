@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 
 namespace uHome.Models
@@ -16,21 +17,21 @@ namespace uHome.Models
 
         public virtual ICollection<Enrollment> Enrollments { get; set; }
 
-        public static Event CreateEvent(CreateEventViewModel model)
+        public Event() { }
+
+        public Event(CreateEventViewModel model)
         {
-            Event e = new Event();
-            e.Title = model.Title;
-            e.Description = model.Description;
-            e.OpenAt = model.OpenAt;
-            e.Address = model.Address;
-            e.Enrollments = new List<Enrollment>();
+            Title = model.Title;
+            Description = model.Description;
+            OpenAt = DateTime.Parse(model.OpenAt);
+            Address = model.Address;
+            Enrollments = new List<Enrollment>();
             
             // Poster
-            var path = string.Format("{0}Uploads/{1}", AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
+            var path = string.Format("{0}Uploads/{1}",
+                AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
             model.Poster.SaveAs(path);
-            e.Poster = path;
-
-            return e;
+            Poster = path;
         }
     }
 }

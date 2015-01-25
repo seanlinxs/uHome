@@ -14,7 +14,7 @@ namespace uHome.Models
         public string Title { get; set; }
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
-        public DateTime OpenAt { get; set; }
+        public string OpenAt { get; set; }
         public string Address { get; set; }
         public HttpPostedFileBase Poster { get; set; }
     }

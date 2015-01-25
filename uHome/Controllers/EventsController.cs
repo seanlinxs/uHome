@@ -14,19 +14,17 @@ namespace uHome.Controllers
 {
     public class EventsController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: Events
         public ActionResult Index()
         {
-            return View(db.Events.ToList());
+            return View(Database.Events.ToList());
         }
 
         // GET: Events
         [ResourceAuthorize(UhomeResources.EventActions.Edit, UhomeResources.Event)]
         public ActionResult List()
         {
-            return View(db.Events.ToList());
+            return View(Database.Events.ToList());
         }
 
         // GET: Events/Details/5
@@ -36,7 +34,7 @@ namespace uHome.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Events.Find(id);
+            Event @event = Database.Events.Find(id);
             if (@event == null)
             {
                 return HttpNotFound();
@@ -61,14 +59,14 @@ namespace uHome.Controllers
         {
             if (ModelState.IsValid)
             {
-                Event e = Event.CreateEvent(model);
-                db.Events.Add(e);
-                db.SaveChanges();
+                Event e = new Event(model);
+                Database.Events.Add(e);
+                Database.SaveChanges();
 
                 return RedirectToAction("Index");
             }
-
-            return View(model);
+            else
+                return View(model);
         }
 
         // GET: Events/Edit/5
@@ -78,7 +76,7 @@ namespace uHome.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Events.Find(id);
+            Event @event = Database.Events.Find(id);
             if (@event == null)
             {
                 return HttpNotFound();
@@ -95,8 +93,8 @@ namespace uHome.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(@event).State = EntityState.Modified;
-                db.SaveChanges();
+                Database.Entry(@event).State = EntityState.Modified;
+                Database.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(@event);
@@ -108,9 +106,9 @@ namespace uHome.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
-            Event @event = db.Events.Find(id);
-            db.Events.Remove(@event);
-            db.SaveChanges();
+            Event @event = Database.Events.Find(id);
+            Database.Events.Remove(@event);
+            Database.SaveChanges();
 
             return Json(new { Id = @event.ID });
         }
@@ -119,7 +117,7 @@ namespace uHome.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Database.Dispose();
             }
             base.Dispose(disposing);
         }
