@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web;
+using System.Web.Hosting;
 
 namespace uHome.Models
 {
@@ -28,8 +29,8 @@ namespace uHome.Models
             Enrollments = new List<Enrollment>();
             
             // Poster
-            var path = string.Format("{0}Uploads/{1}",
-                AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
+            var path = string.Format("{0}/{1}.png",
+                HostingEnvironment.MapPath("~/Content/Images/Events"), Guid.NewGuid().ToString());
             model.Poster.SaveAs(path);
             Poster = path;
         }

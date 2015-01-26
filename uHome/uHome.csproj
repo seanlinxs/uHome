@@ -286,6 +286,7 @@
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\EventViewModels.cs" />
     <Compile Include="Models\Feedback.cs" />
+    <Compile Include="Models\HomeViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InterestMessage.cs" />
     <Compile Include="Models\Interest.cs" />
@@ -482,6 +483,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Images\Events\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>

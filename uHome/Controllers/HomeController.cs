@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using uHome.Helpers;
+using uHome.Models;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
 
 namespace uHome.Controllers
 {
@@ -9,7 +14,11 @@ namespace uHome.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            IEnumerable<EventViewModel> events = Database.Events.ToList().Select(e => new EventViewModel(e));
+            IEnumerable<VideoClip> videoClips = Database.VideoClips.ToList();
+            HomeIndexViewModel model = new HomeIndexViewModel(events, videoClips);
+
+            return View(model);
         }
 
         public ActionResult About()

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model uHome.Models.HomeIndexViewModel
+
+@{
     ViewBag.Title = Resources.HomePage;
 }
 
@@ -7,9 +9,10 @@
         <div id="event_slider_container" style="position: relative; top: 0px; left: 0px; width: 1200px; height: 400px;">
             <!-- Slides Container -->
             <div u="slides" style="position: absolute; overflow: hidden; left: 0px; top: 0px; width: 1200px; height: 400px;">
-                <div><img u="image" src="~/Content/Images/slide1.PNG" /></div>
-                <div><img u="image" src="~/Content/Images/slide2.PNG" /></div>
-                <div><img u="image" src="~/Content/Images/slide3.PNG" /></div>
+                @foreach (var item in Model.Events)
+                {
+                    <div><img src="@item.PosterUrl" /></div>
+                }
             </div>
             <!-- Arrow Navigator Skin Begin -->
             <style>

@@ -59,7 +59,11 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Poster, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Poster, new { type = "file" })
+                @Html.TextBoxFor(model => model.Poster, new { type = "file", accept = "image/*" })
+                <div class="alert alert-info">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    Please upload one of .png, .jpg, .jpeg, .gif with size of 1200 * 400px
+                </div>
                 @Html.ValidationMessageFor(model => model.Poster, "", new { @class = "text-danger" })
             </div>
         </div>
