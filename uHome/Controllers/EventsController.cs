@@ -30,16 +30,8 @@ namespace uHome.Controllers
         // GET: Events/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Event @event = Database.Events.Find(id);
-            if (@event == null)
-            {
-                return HttpNotFound();
-            }
-            return View(@event);
+            Event e = Database.Events.Find(id);
+            return View(new EventViewModel(e));
         }
 
         // GET: Events/Create
