@@ -37,6 +37,17 @@ namespace uHome.Controllers
             return View(model);
         }
 
+        // GET: Events/AdminDetails/5
+        [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Event)]
+        public ActionResult AdminDetails(int? id)
+        {
+            Event e = Database.Events.Find(id);
+            EventViewModel model = new EventViewModel(e);
+            model.Enrollments = e.Enrollments.Select(x => new ListEnrollmentViewModel(x));
+
+            return View(model);
+        }
+
         // GET: Events/Create
         [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Event)]
         public ActionResult Create()

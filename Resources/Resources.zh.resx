@@ -288,4 +288,7 @@
   <data name="ResourceAdmin" xml:space="preserve">
     <value>资源管理</value>
   </data>
+  <data name="Joined" xml:space="preserve">
+    <value>位朋友已经报名参加此活动</value>
+  </data>
 </root>

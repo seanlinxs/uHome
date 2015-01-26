@@ -288,4 +288,7 @@
   <data name="ResourceAdmin" xml:space="preserve">
     <value>Resources</value>
   </data>
+  <data name="Joined" xml:space="preserve">
+    <value>people already joined this event</value>
+  </data>
 </root>

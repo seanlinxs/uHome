@@ -484,6 +484,8 @@
     <Content Include="Views\Events\Details.cshtml" />
     <Content Include="Views\Events\Join.cshtml" />
     <Content Include="Views\Events\_Enrollments.cshtml" />
+    <Content Include="Views\Events\AdminDetails.cshtml" />
+    <Content Include="Views\Events\_AdminEnrollments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

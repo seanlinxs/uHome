@@ -367,6 +367,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to people already joined this event.
+        /// </summary>
+        public static string Joined {
+            get {
+                return ResourceManager.GetString("Joined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Learn More.
         /// </summary>
         public static string LearnMore {

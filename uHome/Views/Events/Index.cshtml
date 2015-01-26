@@ -9,9 +9,6 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.PosterUrl)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
@@ -28,9 +25,6 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            <img src="@item.PosterUrl" style="width: 150px; height: 50px;" />
-        </td>
         <td>
             @Html.ActionLink(item.Title, "Details", new { id = item.ID }, null)
         </td>

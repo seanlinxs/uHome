@@ -34,10 +34,7 @@
 @foreach (var item in Model) {
     <tr id="Event_@item.ID">
         <td>
-            <img src="@item.PosterUrl" style="width: 150px; height: 50px;" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @Html.ActionLink(item.Title, "AdminDetails", new { id = item.ID }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
