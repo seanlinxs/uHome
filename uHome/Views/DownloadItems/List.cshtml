@@ -42,7 +42,7 @@
         </td>
         <td>
             @Ajax.RawActionLink(
-                "<span class=\"glyphicon glyphicon-trash\"></span> Delete",
+                "<span class=\"glyphicon glyphicon-trash\"></span>",
                 "Delete",
                 "DownloadItems",
                 new { id = item.ID },
@@ -54,7 +54,7 @@
                     OnSuccess = "onDownloadItemDeleteSuccess",
                     HttpMethod = "DELETE"
                 },
-                new { @class = "btn btn-danger" }
+                null
             )
         </td>
     </tr>
