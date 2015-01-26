@@ -1,4 +1,4 @@
-﻿@model IEnumerable<uHome.Models.Event>
+﻿@model IEnumerable<uHome.Models.EventViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -9,7 +9,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Poster)
+            @Html.DisplayNameFor(model => model.PosterUrl)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Title)
@@ -29,7 +29,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Poster)
+            <img src="@item.PosterUrl" style="width: 150px; height: 50px;" />
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Title)

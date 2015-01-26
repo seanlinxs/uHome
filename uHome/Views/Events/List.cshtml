@@ -1,4 +1,4 @@
-﻿@model IEnumerable<uHome.Models.Event>
+﻿@model IEnumerable<uHome.Models.EventViewModel>
 
 @{
     ViewBag.Title = "Special Events";
@@ -14,6 +14,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.PosterUrl)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
@@ -25,14 +28,14 @@
         <th>
             @Html.DisplayNameFor(model => model.Address)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Poster)
-        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr id="Event_@item.ID">
+        <td>
+            <img src="@item.PosterUrl" style="width: 150px; height: 50px;" />
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
@@ -44,9 +47,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Poster)
         </td>
         <td>
             @Ajax.RawActionLink(

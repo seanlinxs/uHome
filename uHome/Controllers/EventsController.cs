@@ -17,14 +17,14 @@ namespace uHome.Controllers
         // GET: Events
         public ActionResult Index()
         {
-            return View(Database.Events.ToList());
+            return View(Database.Events.ToList().Select(e => new EventViewModel(e)));
         }
 
         // GET: Events
         [ResourceAuthorize(UhomeResources.EventActions.Edit, UhomeResources.Event)]
         public ActionResult List()
         {
-            return View(Database.Events.ToList());
+            return View(Database.Events.ToList().Select(e => new EventViewModel(e)));
         }
 
         // GET: Events/Details/5

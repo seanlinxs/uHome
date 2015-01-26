@@ -25,6 +25,7 @@ namespace uHome.Models
 
     public class EventViewModel
     {
+        public int ID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime OpenAt { get; set; }
@@ -35,6 +36,7 @@ namespace uHome.Models
 
         public EventViewModel(Event @event)
         {
+            ID = @event.ID;
             Title = @event.Title;
             Description = @event.Description;
             OpenAt = @event.OpenAt;
