@@ -31,17 +31,18 @@ namespace uHome.Models
         public DateTime OpenAt { get; set; }
         public string Address { get; set; }
         public string PosterUrl { get; set; }
+        public IEnumerable<ListEnrollmentViewModel> Enrollments { get; set; }
 
         public EventViewModel() { }
 
-        public EventViewModel(Event @event)
+        public EventViewModel(Event e)
         {
-            ID = @event.ID;
-            Title = @event.Title;
-            Description = @event.Description;
-            OpenAt = @event.OpenAt;
-            Address = @event.Address;
-            PosterUrl = string.Format("/Content/Images/Events/{0}", Path.GetFileName(@event.Poster));
+            ID = e.ID;
+            Title = e.Title;
+            Description = e.Description;
+            OpenAt = e.OpenAt;
+            Address = e.Address;
+            PosterUrl = string.Format("/Content/Images/Events/{0}", Path.GetFileName(e.Poster));
         }
     }
 }

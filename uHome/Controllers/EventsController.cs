@@ -31,7 +31,10 @@ namespace uHome.Controllers
         public ActionResult Details(int? id)
         {
             Event e = Database.Events.Find(id);
-            return View(new EventViewModel(e));
+            EventViewModel model = new EventViewModel(e);
+            model.Enrollments = e.Enrollments.Select(x => new ListEnrollmentViewModel(x));
+
+            return View(model);
         }
 
         // GET: Events/Create
@@ -87,7 +90,7 @@ namespace uHome.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Join(int id,
-            [Bind(Include = "Email, Number, FullName, Couuntry, State, Address")]CreateEnrollmentViewModel model)
+            [Bind(Include = "Email, Number, FullName, Country, State, City, Address")]CreateEnrollmentViewModel model)
         {
             Event e = Database.Events.Find(id);
 

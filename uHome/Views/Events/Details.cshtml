@@ -44,6 +44,9 @@
 
     </dl>
 </div>
+
+@{ Html.RenderPartial("_Enrollments", Model.Enrollments); }
+
 <p>
     @Html.ActionLink("Join", "Join", new { id = Model.ID }, new { @class = "btn btn-primary" })
     @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
