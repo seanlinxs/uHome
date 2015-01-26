@@ -43,6 +43,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.Address)
         </td>
+        <td>
+            @Html.ActionLink("Join", "Join", new { id = item.ID }, new { @class = "btn btn-primary" })
+        </td>
     </tr>
 }
 

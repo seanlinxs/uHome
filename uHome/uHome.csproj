@@ -283,6 +283,7 @@
     <Compile Include="Models\DownloadItem.cs" />
     <Compile Include="Models\DownloadItemViewModels.cs" />
     <Compile Include="Models\Enrollment.cs" />
+    <Compile Include="Models\EnrollmentViewModels.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\EventViewModels.cs" />
     <Compile Include="Models\Feedback.cs" />
@@ -481,6 +482,7 @@
     <Content Include="Views\Events\List.cshtml" />
     <Content Include="Views\Cases\_CommentsPartial.cshtml" />
     <Content Include="Views\Events\Details.cshtml" />
+    <Content Include="Views\Events\Join.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

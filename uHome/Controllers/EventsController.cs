@@ -61,37 +61,6 @@ namespace uHome.Controllers
                 return View(model);
         }
 
-        // GET: Events/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Event @event = Database.Events.Find(id);
-            if (@event == null)
-            {
-                return HttpNotFound();
-            }
-            return View(@event);
-        }
-
-        // POST: Events/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Title,Description,OpenAt,Address,Poster")] Event @event)
-        {
-            if (ModelState.IsValid)
-            {
-                Database.Entry(@event).State = EntityState.Modified;
-                Database.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(@event);
-        }
-
         // DELETE: Events/Delete/5
         [ResourceAuthorize(UhomeResources.Actions.Edit, UhomeResources.Event)]
         [HttpDelete]
@@ -103,6 +72,35 @@ namespace uHome.Controllers
             Database.SaveChanges();
 
             return Json(new { Id = @event.ID });
+        }
+
+        // GET: Events/Join/5
+        public ActionResult Join(int id)
+        {
+            Event e = Database.Events.Find(id);
+            ViewBag.Event = e;
+
+            return View();
+        }
+
+        // POST: Events/Join/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Join(int id,
+            [Bind(Include = "Email, Number, FullName, Couuntry, State, Address")]CreateEnrollmentViewModel model)
+        {
+            Event e = Database.Events.Find(id);
+
+            if (ModelState.IsValid)
+            {
+                Enrollment enrollment = new Enrollment(model);
+                e.AddEnrollment(enrollment);
+                Database.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
         }
 
         protected override void Dispose(bool disposing)

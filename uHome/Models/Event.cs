@@ -34,5 +34,16 @@ namespace uHome.Models
             model.Poster.SaveAs(path);
             Poster = path;
         }
+
+        public void AddEnrollment(Enrollment enrollment)
+        {
+            if (Enrollments == null)
+            {
+                Enrollments = new List<Enrollment>();
+            }
+
+            enrollment.Event = this;
+            Enrollments.Add(enrollment);
+        }
     }
 }

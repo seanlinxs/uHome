@@ -8,6 +8,20 @@ namespace uHome.Models
 {
     public class Enrollment
     {
+        public Enrollment() { }
+
+        public Enrollment(CreateEnrollmentViewModel model)
+        {
+            Email = model.Email;
+            Number = model.Number;
+            FullName = model.FullName;
+            Country = model.Country;
+            State = model.State;
+            City = model.City;
+            Address = model.Address;
+            EnrollAt = System.DateTime.Now;
+        }
+
         public int ID { get; set; }
         public string Email { get; set; }
         public string Number { get; set; }
