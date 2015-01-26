@@ -14,9 +14,6 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.PosterUrl)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
@@ -47,7 +44,7 @@
         </td>
         <td>
             @Ajax.RawActionLink(
-                 "<span class=\"glyphicon glyphicon-trash\"></span> Delete",
+                 "<span class=\"glyphicon glyphicon-trash\"></span>",
                  "Delete",
                  "Events",
                  new { id = item.ID },
@@ -59,7 +56,7 @@
                      OnSuccess = "onEventDeleteSuccess",
                      HttpMethod = "DELETE"
                  },
-                 new { @class = "btn btn-danger" }
+                 null
             )
         </td>
     </tr>
