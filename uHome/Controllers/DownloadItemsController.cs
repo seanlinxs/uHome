@@ -11,6 +11,7 @@ using uHome.Models;
 using System.IO;
 using uHome.Authorization;
 using Thinktecture.IdentityModel.Mvc;
+using System.Data.Entity.Infrastructure;
 
 namespace uHome.Controllers
 {
@@ -62,18 +63,25 @@ namespace uHome.Controllers
         {
             if (ModelState.IsValid)
             {
-                DownloadItem downloadItem = new DownloadItem();
-                downloadItem.Name = model.Name;
-                downloadItem.Description = model.Description;
-                var path = string.Format("{0}Uploads/{1}", AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
-                model.FileData.SaveAs(path);
-                downloadItem.Path = path;
-                downloadItem.FileName = Path.GetFileName(model.FileData.FileName);
-                downloadItem.Size = model.FileData.InputStream.Length;
-                Database.DownloadItems.Add(downloadItem);
-                await Database.SaveChangesAsync();
+                try
+                {
+                    DownloadItem downloadItem = new DownloadItem();
+                    downloadItem.Name = model.Name;
+                    downloadItem.Description = model.Description;
+                    var path = string.Format("{0}Uploads/{1}", AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
+                    model.FileData.SaveAs(path);
+                    downloadItem.Path = path;
+                    downloadItem.FileName = Path.GetFileName(model.FileData.FileName);
+                    downloadItem.Size = model.FileData.InputStream.Length;
+                    Database.DownloadItems.Add(downloadItem);
+                    await Database.SaveChangesAsync();
 
-                return RedirectToAction("List");
+                    return RedirectToAction("List");
+                }
+                catch(DbUpdateException)
+                {
+                    ModelState.AddModelError("Name", Resources.Resources.MustBeUnique);
+                }
             }
 
             return View(model);

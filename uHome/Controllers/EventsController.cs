@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -107,11 +108,18 @@ namespace uHome.Controllers
 
             if (ModelState.IsValid)
             {
-                Enrollment enrollment = new Enrollment(model);
-                e.AddEnrollment(enrollment);
-                Database.SaveChanges();
+                try
+                {
+                    Enrollment enrollment = new Enrollment(model);
+                    e.AddEnrollment(enrollment);
+                    Database.SaveChanges();
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch(DbUpdateException)
+                {
+                    ModelState.AddModelError("Email", Resources.Resources.MustBeUnique);
+                }
             }
 
             return View(model);
