@@ -23,7 +23,6 @@ namespace uHome.Models
         }
 
         public int ID { get; set; }
-        [Key]
         public string Email { get; set; }
         public string Number { get; set; }
         public string FullName { get; set; }
