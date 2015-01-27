@@ -154,7 +154,10 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+
+# Local files and directories
 /packages
 /Packages.dgml
 /uHome/Uploads
 /uHome/logs
+/uHome/Content/Images/Events
