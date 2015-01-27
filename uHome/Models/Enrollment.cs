@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -23,6 +24,8 @@ namespace uHome.Models
         }
 
         public int ID { get; set; }
+        [Index(IsUnique = true)]
+        [MaxLength(200)]
         public string Email { get; set; }
         public string Number { get; set; }
         public string FullName { get; set; }

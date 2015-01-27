@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using uHome.Annotations;
 
 namespace uHome.Models
 {
     public class CreateEnrollmentViewModel
     {
+        [LocalizedRequired]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources),
+            ErrorMessageResourceName = "InvalidEmail",
+            ErrorMessage = null)]
+        [Display(Name = "Email", ResourceType = typeof(Resources.Resources))]
         public string Email { get; set; }
         public string Number { get; set; }
         public string FullName { get; set; }
