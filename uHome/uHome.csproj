@@ -192,6 +192,8 @@
   <ItemGroup>
     <Compile Include="Annotations\LocalizedRequiredAttribute.cs" />
     <Compile Include="Annotations\LocalizedStringLengthAttribute.cs" />
+    <Compile Include="Annotations\LocalizedValidateFileAttribute.cs" />
+    <Compile Include="Annotations\LocalizedUniqueAttribute.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
