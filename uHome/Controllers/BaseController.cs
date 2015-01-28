@@ -72,8 +72,18 @@ namespace uHome.Controllers
 
             // Modify current thread's cultures
             CultureInfo culture = new CultureInfo(cultureName);
-            culture.DateTimeFormat.ShortDatePattern = "ddd, dd MMM yyyy";
-            culture.DateTimeFormat.LongTimePattern = "HH':'mm':'ss";
+            
+            if (cultureName.StartsWith("zh"))
+            {
+                culture.DateTimeFormat.ShortDatePattern = "yyyy'年'M'月'd'日' dddd";
+                culture.DateTimeFormat.LongTimePattern = "tt h:mm";
+            }
+            else
+            {
+                culture.DateTimeFormat.ShortDatePattern = "dddd, d MMMM yyyy";
+                culture.DateTimeFormat.LongTimePattern = "h:mm tt";
+            }
+            
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
 
